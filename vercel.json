@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "entrada.html", "use": "@vercel/static" },
+    { "src": "**/*", "use": "@vercel/static" }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/entrada.html",
+      "permanent": false
+    }
+  ]
+}

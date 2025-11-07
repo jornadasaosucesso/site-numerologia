@@ -1,0 +1,720 @@
+﻿
+DEPLOY REGISTRADO EM 19/10/2025 11:01:03
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.3.0
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     316,54 MB
+Duracao:     00:00:21
+URL:         https://site-numerologia-im0h0lefv-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 19/10/2025 11:04:50
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.3.0
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     316,55 MB
+Duracao:     00:00:19
+URL:         https://site-numerologia-drtmmy9gf-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 20/10/2025 12:12:36
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     319,55 MB
+Duracao:     00:00:29
+URL:         https://site-numerologia-2uyr3nfpb-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 12:58:54
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     648,18 MB
+Duracao:     00:02:53
+URL:         URL não identificada
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 13:05:13
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     648,17 MB
+Duracao:     00:00:46
+URL:         URL não identificada
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 13:15:18
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     648,17 MB
+Duracao:     00:00:45
+URL:         URL não identificada
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 13:16:04
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     648,17 MB
+Duracao:     00:02:18
+URL:         URL não identificada
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 13:18:22
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     648,18 MB
+Duracao:     00:00:46
+URL:         URL não identificada
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 13:24:34
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     179,87 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-r8g5u3uic-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 13:26:49
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     179,87 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-coeq97fl2-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 13:28:45
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     179,87 MB
+Duracao:     00:00:16
+URL:         https://site-numerologia-5s70ss6jf-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 13:40:59
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     179,87 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-nypx3z643-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 23/10/2025 20:01:52
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,38 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-gcexdrfkh-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 24/10/2025 13:52:20
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,42 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-os11i691z-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 24/10/2025 18:01:45
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,43 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-hrfbyly16-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 24/10/2025 19:27:29
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,43 MB
+Duracao:     00:00:17
+URL:         https://site-numerologia-18mihrzem-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 24/10/2025 19:36:40
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,43 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-kz6l7xkti-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 24/10/2025 19:55:26
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,43 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-gcctaeecw-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 08:22:58
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,46 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-j9t7bfqbs-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 09:04:33
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,46 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-81lkqp30g-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 11:13:52
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-1o2fdwlyd-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 11:15:43
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:21
+URL:         https://site-numerologia-nf3fse1da-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 12:55:43
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:25
+URL:         https://site-numerologia-3hs9j0r95-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 13:18:04
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:43
+URL:         https://site-numerologia-g8vsx04if-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 13:22:50
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-4icgs9s02-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 13:32:54
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:03
+URL:         URL não identificada
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 13:34:41
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-n191lfm5f-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 13:38:15
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:14
+URL:         https://site-numerologia-mnr1dvo7b-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 13:40:09
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-nwkvwzfxi-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 25/10/2025 15:20:40
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:17
+URL:         https://site-numerologia-6jcc14cr8-jorge-jotas-projects.vercel.app
+============================================================
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 08:21:17
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-o50wpxqem-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 09:15:52
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-43qr34og9-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 09:22:56
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:16
+URL:         https://site-numerologia-o775d9nax-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 09:32:06
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-y2aluythw-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 10:27:02
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,50 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-avdu85kwi-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 10:32:33
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,50 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-hfwdmm95e-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 11:02:48
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,50 MB
+Duracao:     00:00:14
+URL:         https://site-numerologia-6l3oguqwg-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 11:04:42
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,50 MB
+Duracao:     00:00:15
+URL:         https://site-numerologia-9rmb9mu5i-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 11:18:36
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,49 MB
+Duracao:     00:00:14
+URL:         https://site-numerologia-n0q12lkfc-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 26/10/2025 20:18:28
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,48 MB
+Duracao:     00:00:21
+URL:         https://site-numerologia-47c13bxff-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 27/10/2025 17:33:45
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,58 MB
+Duracao:     00:00:16
+URL:         https://site-numerologia-ij9oedleu-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 28/10/2025 11:15:56
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,65 MB
+Duracao:     00:00:21
+URL:         https://site-numerologia-dg3ca4nc7-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 30/10/2025 07:08:55
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,75 MB
+Duracao:     00:00:21
+URL:         https://site-numerologia-hvzuish3v-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 30/10/2025 08:36:24
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,75 MB
+Duracao:     00:00:18
+URL:         https://site-numerologia-hu32pu8jn-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 30/10/2025 13:36:43
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,75 MB
+Duracao:     00:03:29
+URL:         https://site-numerologia-bfr884ika-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 30/10/2025 13:40:14
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     110,75 MB
+Duracao:     00:01:07
+URL:         https://site-numerologia-huix8wlf2-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 03/11/2025 17:03:39
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     228,28 MB
+Duracao:     00:00:19
+URL:         URL nÃ£o identificada
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 03/11/2025 17:08:14
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     122,48 MB
+Duracao:     00:06:19
+URL:         https://site-numerologia-i6hpwvaop-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 05/11/2025 18:52:34
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     127,11 MB
+Duracao:     00:00:31
+URL:         https://site-numerologia-7nysaxl5l-jorge-jotas-projects.vercel.app
+============================================================
+
+
+============================================================
+DEPLOY REGISTRADO EM 07/11/2025 07:56:07
+------------------------------------------------------------
+Usuario:     Jorge
+Maquina:     DESKTOP-U9BCS6E
+Sistema:     Microsoft Windows 10 Pro
+Node.js:     v22.11.0
+Vercel CLI:  48.4.1
+Projeto:     SITE-NUMEROLOGIA
+Tamanho:     136,45 MB
+Duracao:     00:00:21
+URL:         https://site-numerologia-4hfsx5u7p-jorge-jotas-projects.vercel.app
+============================================================
+
+

@@ -1,0 +1,5 @@
+Mensagem-chave,Elemento,Chakra,Animal,Cor,Arcano sombra,Arcano luz,Frase de ativação
+
+<p><strong>Mensagem-chave:</strong> ${arcanoInfo["Mensagem-chave"]}</p>
+<p><strong>Elemento:</strong> ${arcanoInfo.Elemento}</p>
+<!-- e assim por diante -->

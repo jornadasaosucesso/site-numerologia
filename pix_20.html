@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Envio de Comprovante PIX</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      color: #333;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #444;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="file"],
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #0055aa;
+    }
+
+    #preview {
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    #preview img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    #resposta {
+      margin-top: 20px;
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    .ok { color: green; }
+    .erro { color: red; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>📸 Enviar Comprovante PIX</h1>
+
+    <input type="text" id="txidEsperado" placeholder="TXID esperado (ex: JORGFV9G4U)" />
+    <input type="number" id="valorEsperado" placeholder="Valor esperado (ex: 0.50)" step="0.01" />
+    <input type="file" id="inputComprovante" accept="image/*,application/pdf" />
+
+    <div id="preview">
+      <p>Pré-visualização:</p>
+      <img id="imgPreview" src="#" alt="Preview do comprovante" />
+    </div>
+
+    <button id="btnEnviar">Enviar para validação</button>
+
+    <div id="resposta"></div>
+  </div>
+
+  <script>
+    const API_BASE = "http://localhost:8000";
+
+    const inputFile = document.getElementById("inputComprovante");
+    const btnEnviar = document.getElementById("btnEnviar");
+    const resposta = document.getElementById("resposta");
+    const preview = document.getElementById("preview");
+    const imgPreview = document.getElementById("imgPreview");
+
+    // Exibe preview da imagem
+    inputFile.addEventListener("change", () => {
+      const file = inputFile.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          imgPreview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.style.display = "none";
+      }
+    });
+
+    // Envia o comprovante
+    btnEnviar.addEventListener("click", async () => {
+      const file = inputFile.files[0];
+      const txidEsperado = document.getElementById("txidEsperado").value.trim();
+      const valorEsperado = document.getElementById("valorEsperado").value.trim();
+
+      if (!file) return alert("Selecione um comprovante primeiro!");
+      if (!txidEsperado || !valorEsperado) return alert("Preencha TXID e Valor!");
+
+      resposta.innerHTML = "⏳ Enviando comprovante...";
+
+      try {
+        const formData = new FormData();
+        formData.append("comprovante", file);
+        formData.append("txidEsperado", txidEsperado);
+        formData.append("valorEsperado", valorEsperado);
+
+        const res = await fetch(`${API_BASE}/api/validar_comprovante`, {
+          method: "POST",
+          body: formData
+        });
+
+        if (!res.ok) {
+          const txt = await res.text();
+          resposta.innerHTML = `❌ Erro no servidor: ${res.status}<br>${txt}`;
+          return;
+        }
+
+        const data = await res.json();
+        console.log("📄 Resposta do servidor:", data);
+
+        resposta.innerHTML = `
+          <b>Nome do arquivo:</b> ${data.nomeArquivo}<br>
+          <b>Tamanho:</b> ${(data.tamanho / 1024).toFixed(1)} KB<br>
+          <b>Mimetype:</b> ${data.mimetype}<br><br>
+          <b>TXID:</b> ${data.txid}<br>
+          <b>Valor:</b> ${data.valor}<br>
+          <b>Data/Hora:</b> ${data.dataHora}<br><br>
+          <b>Validação:</b><br>
+          ✅ TXID: ${data.valido.txid}<br>
+          ✅ Valor: ${data.valido.valor}
+        `;
+
+      } catch (err) {
+        console.error(err);
+        resposta.innerHTML = `<span class="erro">❌ Erro inesperado: ${err.message}</span>`;
+      }
+    });
+  </script>
+</body>
+</html>

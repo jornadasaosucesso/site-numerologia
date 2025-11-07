@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jornada dos Dias</title>
+  <style>
+    @media print {
+      body {
+        margin: 10;
+        padding: 0;
+      }
+
+      .pagina {
+        width: 210mm;
+        height: 297mm;
+        padding: 25mm;
+        box-sizing: border-box;
+        page-break-after: always;
+        font-family: "Georgia", serif;
+        font-size: 18pt;
+        line-height: 2.6;
+        color: #000;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 20pt;
+        color: #2c3e50;
+        margin-bottom: 10mm;
+      }
+
+      h2 {
+        font-size: 18pt;
+        color: #444;
+        margin-top: 12pt;
+        margin-bottom: 6pt;
+      }
+
+      p {
+        text-align: justify;
+        margin-bottom: 10pt;
+      }
+    }
+  </style>
+</head>
+<body id="conteudo"></body>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script>
+  Papa.parse("dados/dia_natal.csv", {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete(results) {
+      const dados = results.data;
+      const container = document.getElementById("conteudo");
+
+      dados.forEach((linha) => {
+        const pagina = document.createElement("div");
+        pagina.className = "pagina";
+
+        pagina.innerHTML = `
+          <h1>Dia ${linha.numero} — Perfil Numerológico</h1>
+
+          <h2>✦ Perfil</h2>
+          <p>${linha.perfil.replace(/<br\s*\/?>/gi, "</p><p>")}</p>
+
+          <h2>✦ Natureza</h2>
+          <p>${linha.natureza.replace(/<br\s*\/?>/gi, "</p><p>")}</p>
+
+          <h2>✦ Impulsos</h2>
+          <p>${linha.impulsos.replace(/<br\s*\/?>/gi, "</p><p>")}</p>
+        `;
+
+        container.appendChild(pagina);
+      });
+    },
+    error(err) {
+      console.error("Erro ao carregar CSV:", err);
+    }
+  });
+</script>
+</html>

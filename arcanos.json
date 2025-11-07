@@ -1,0 +1,202 @@
+[
+  {
+    "Arcano": 1,
+    "Nome": "Iniciador",
+    "Significado": "Representa o impulso criativo, liderança e pioneirismo.",
+    "Habilidades": [
+      "Autonomia: age com independência e confiança",
+      "Coragem: enfrenta desafios com ousadia",
+      "Visão: enxerga possibilidades antes dos outros",
+      "Iniciativa: transforma ideias em ação"
+    ],
+    "Dons": "Você é aquele que abre caminhos. Tem a força de começar projetos, inspirar pessoas e liderar com autenticidade.",
+    "Barreiras": [
+      "Impaciência: dificuldade em esperar o tempo natural das coisas",
+      "Autoritarismo: tendência a impor ideias sem ouvir",
+      "Dificuldade em ouvir: resistência a opiniões alheias"
+    ],
+    "Potenciais": [
+      "Desenvolver liderança empática",
+      "Canalizar energia para causas construtivas",
+      "Aprender a delegar com confiança"
+    ]
+  },
+  {
+    "Arcano": 2,
+    "Nome": "Sensitivo",
+    "Significado": "Simboliza empatia, receptividade e conexão emocional.",
+    "Habilidades": [
+      "Escuta ativa: acolhe sem julgamento",
+      "Intuição: percebe o invisível",
+      "Diplomacia: suaviza conflitos com elegância",
+      "Acolhimento: cria ambientes seguros"
+    ],
+    "Dons": "Você sente o mundo com profundidade. Tem o dom de compreender o que não é dito, de criar pontes afetivas e de suavizar ambientes com sua presença.",
+    "Barreiras": [
+      "Dependência emocional: dificuldade em se manter firme sozinho",
+      "Falta de limites: absorve demais dos outros",
+      "Sensibilidade excessiva: se sobrecarrega com o ambiente"
+    ],
+    "Potenciais": [
+      "Aprender a se proteger energeticamente",
+      "Transformar sensibilidade em força",
+      "Cultivar autonomia afetiva"
+    ]
+  },
+  {
+    "Arcano": 3,
+    "Nome": "Comunicador",
+    "Significado": "Expressão, criatividade e sociabilidade.",
+    "Habilidades": [
+      "Oratória: fala com clareza e impacto",
+      "Escrita: traduz sentimentos em palavras",
+      "Humor: traz leveza aos ambientes",
+      "Improviso: se adapta com criatividade"
+    ],
+    "Dons": "Você é a voz que inspira. Tem facilidade para se comunicar, encantar e transmitir ideias com leveza e entusiasmo.",
+    "Barreiras": [
+      "Superficialidade: evita profundidade emocional",
+      "Dispersão: dificuldade em manter foco",
+      "Necessidade de aprovação: busca validação externa"
+    ],
+    "Potenciais": [
+      "Usar a comunicação como ferramenta de cura",
+      "Desenvolver profundidade emocional",
+      "Cultivar escuta ativa"
+    ]
+  },
+  {
+    "Arcano": 4,
+    "Nome": "Construtor",
+    "Significado": "Estrutura, disciplina e estabilidade.",
+    "Habilidades": [
+      "Organização: cria ordem e método",
+      "Planejamento: antecipa e estrutura ações",
+      "Persistência: mantém o foco mesmo com obstáculos",
+      "Responsabilidade: assume compromissos com seriedade"
+    ],
+    "Dons": "Você é a base sólida. Tem talento para construir, organizar e manter o que é duradouro.",
+    "Barreiras": [
+      "Rigidez: resistência à mudança",
+      "Controle excessivo: dificuldade em confiar",
+      "Dificuldade em improvisar: apego ao plano"
+    ],
+    "Potenciais": [
+      "Aprender a flexibilizar",
+      "Confiar no fluxo da vida",
+      "Equilibrar trabalho com prazer"
+    ]
+  },
+  {
+    "Arcano": 5,
+    "Nome": "Explorador",
+    "Significado": "Liberdade, aventura e movimento.",
+    "Habilidades": [
+      "Curiosidade: busca o novo com entusiasmo",
+      "Adaptabilidade: se molda a diferentes contextos",
+      "Inovação: pensa fora da caixa",
+      "Entusiasmo: contagia com energia"
+    ],
+    "Dons": "Você é o vento que transforma. Tem sede de experiências, ama descobrir o novo e inspira os outros a saírem da zona de conforto.",
+    "Barreiras": [
+      "Impulsividade: age sem pensar nas consequências",
+      "Instabilidade: dificuldade em manter rotinas",
+      "Resistência a limites: rejeita estruturas"
+    ],
+    "Potenciais": [
+      "Cultivar foco sem perder a liberdade",
+      "Transformar inquietude em criatividade",
+      "Aprender a permanecer"
+    ]
+  },
+  {
+    "Arcano": 6,
+    "Nome": "Harmonizador",
+    "Significado": "Afeto, responsabilidade e senso de justiça.",
+    "Habilidades": [
+      "Cuidado: oferece suporte emocional e proteção afetiva",
+      "Empatia: sente o outro com profundidade e sem julgamento",
+      "Mediação: pacifica conflitos e promove harmonia",
+      "Equilíbrio emocional: mantém serenidade em ambientes turbulentos"
+    ],
+    "Dons": "Você é o elo que une. Tem o dom de nutrir relações, promover harmonia e agir com ética e sensibilidade.",
+    "Barreiras": [
+      "Perfeccionismo: autocobrança excessiva e dificuldade em aceitar imperfeições",
+      "Condescendência: cede demais por medo de desagradar",
+      "Padrões morais rígidos: visão inflexível sobre certo e errado",
+      "Amar com imposição: transforma cuidado em controle"
+    ],
+    "Potenciais": [
+      "Acolher sem absorver",
+      "Equilibrar amor com liberdade",
+      "Transformar dor em cura",
+      "Ser referência de paz"
+    ]
+  },
+  {
+    "Arcano": 7,
+    "Nome": "Místico",
+    "Significado": "Sabedoria interior, introspecção e espiritualidade.",
+    "Habilidades": [
+      "Intuição: acessa verdades sutis",
+      "Análise profunda: enxerga além da superfície",
+      "Conexão espiritual: sente o invisível",
+      "Discernimento: separa o essencial do supérfluo"
+    ],
+    "Dons": "Você é o guardião do mistério. Tem facilidade para acessar dimensões sutis, compreender o invisível e buscar verdades profundas.",
+    "Barreiras": [
+      "Isolamento: tendência a se fechar",
+      "Desconfiança: dificuldade em se abrir",
+      "Espiritualismo excessivo: fuga da realidade"
+    ],
+    "Potenciais": [
+      "Integrar espiritualidade com vida prática",
+      "Confiar nas pessoas",
+      "Compartilhar sua sabedoria"
+    ]
+  },
+  {
+    "Arcano": 8,
+    "Nome": "Realizador",
+    "Significado": "Poder pessoal, materialização e liderança prática.",
+    "Habilidades": [
+      "Gestão: organiza recursos com eficiência",
+      "Foco: mantém direção com firmeza",
+      "Ambição: busca crescimento com coragem",
+      "Eficiência: transforma ideias em resultados"
+    ],
+    "Dons": "Você é a força que concretiza. Tem talento para transformar ideias em resultados, liderar com firmeza e construir prosperidade.",
+    "Barreiras": [
+      "Rigidez: dificuldade em lidar com imprevistos",
+      "Apego ao controle: resistência à entrega",
+      "Dificuldade com vulnerabilidade: evita mostrar fragilidade"
+    ],
+    "Potenciais": [
+      "Desenvolver sensibilidade",
+      "Equilibrar poder com compaixão",
+      "Usar recursos para servir ao coletivo"
+    ]
+  },
+  {
+    "Arcano": 9,
+    "Nome": "Humanitário",
+    "Significado": "Amor universal, compaixão e serviço.",
+    "Habilidades": [
+      "Generosidade: oferece sem esperar retorno",
+      "Visão ampla: enxerga o coletivo",
+      "Altruísmo: age pelo bem comum",
+      "Inspiração: motiva com exemplo"
+    ],
+    "Dons": "Você é o coração coletivo. Tem vocação para servir, curar e transformar o mundo com empatia e sabedoria.",
+    "Barreiras": [
+      "Autoanulação: esquece de si ao cuidar dos outros",
+      "Idealismo excessivo: espera perfeição do mundo",
+      "Dificuldade em receber: resiste ao acolhimento"
+    ],
+    "Potenciais": [
+      "Aprender a se incluir no cuidado",
+      "Transformar dor em propósito",
+      "Liderar com amor"
+    ]
+  }
+]

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amostra Numerológica</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <style>
+    body {
+      background: radial-gradient(circle at center, #000, #0a0a0a);
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      color: #000;
+    }
+
+    .caixa {
+      background: linear-gradient(to bottom, #fff, #fdfdfd);
+      border: 2px solid #ffd700;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 750px;
+      width: 100%;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      max-height: 85vh;
+      gap: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 42px;
+      font-weight: bold;
+      color: #0074d9;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0, 116, 217, 0.3);
+    }
+
+    p.frase {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 16px;
+    }
+
+    .bloco, .bloco-eu-sou {
+      background: linear-gradient(145deg, #fff8e1, #fff3b0);
+      border: 2px solid #ffd700;
+      border-radius: 18px;
+      padding: 25px 30px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+      text-align: left;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.7s forwards;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .bloco:hover, .bloco-eu-sou:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+    }
+
+    .bloco-eu-sou {
+      background: linear-gradient(145deg, #fff5cc, #ffe066);
+      border: 3px solid #ffcc00;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+      animation-delay: 0.1s;
+    }
+
+    .bloco h4, .bloco-eu-sou h4 {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0074d9;
+      margin: 0 0 12px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .valor {
+      font-size: 28px;
+      font-weight: bolder;
+      color: #d35400;
+      display: inline-block;
+    }
+
+    .descricao {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #222;
+      text-align: left;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    button {
+      align-self: center;
+      background: linear-gradient(90deg, #0044cc, #0074d9);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 32px;
+      cursor: pointer;
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 116, 217, 0.6);
+    }
+
+    .caixa::-webkit-scrollbar { width: 8px; }
+    .caixa::-webkit-scrollbar-thumb {
+      background: #ffd700;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="caixa">
+    <h2 id="titulo">Carregando...</h2>
+    <p class="frase">Aguarde, preparando sua leitura numerológica...</p>
+    <div id="conteudo">Carregando amostra...</div>
+    <button id="btnVoltar">Voltar</button>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const nome = localStorage.getItem("nome");
+      const data = localStorage.getItem("data_nascimento");
+      const titulo = document.getElementById("titulo");
+      const conteudo = document.getElementById("conteudo");
+      const btnVoltar = document.getElementById("btnVoltar");
+
+      titulo.textContent = nome && data ? `${nome} - ${data}` : "Sua Amostra Numerológica";
+
+      function reduzir(n) {
+        if (!Number.isFinite(n)) return 0;
+        while (n > 9 && ![11, 22].includes(n)) {
+          n = String(n).split("").reduce((acc, d) => acc + parseInt(d||0,10), 0);
+        }
+        return n;
+      }
+
+      function destacarResumoComAlerta(texto, maxChars=150) {
+        if(!texto) return "";
+        let resumo = texto.replace(/<br>/g,' ').slice(0, maxChars);
+        if(texto.length > maxChars) resumo += " ...";
+        const alerta = `<span style="font-size:18px; color:#c0392b; font-weight:bold;">
+          🚨📣📅 Fique atento! Conteúdo completo disponível no site a partir de 22/11/2025.
+        </span>`;
+        return `<span>${resumo}</span><br><br>${alerta}`;
+      }
+
+      async function carregarAmostra() {
+        try {
+          const responseDia = await fetch("./dados/dia_natal.csv");
+          const csvDiaText = await responseDia.text();
+          const parsedDia = Papa.parse(csvDiaText, { header:true, skipEmptyLines:true });
+          const dia = parseInt((data||"").split("/")[0],10);
+          const diaData = parsedDia.data.find(r => parseInt(r.numero)===dia);
+
+          const responseRes = await fetch("./dados/resultado_numerologia.csv");
+          const csvResText = await responseRes.text();
+          const parsedRes = Papa.parse(csvResText, { header:true, skipEmptyLines:true });
+          const resData = parsedRes.data;
+
+          const campos = [
+            { id:"eu_sou", titulo:"EU SOU", valor:dia, descricao: diaData ? `${diaData.perfil}${diaData.natureza}<br>${diaData.impulsos}` : "Informação não encontrada." },
+            { id:"aprendizado", titulo:"APRENDIZADO", valor:8, descricao: resData.find(r=>reduzir(parseInt(r.numero))===8)?.aprendizado || "Informação não encontrada." },
+            { id:"dons", titulo:"DONS", valor:5, descricao: resData.find(r=>reduzir(parseInt(r.numero))===5)?.dons_potencial || "Informação não encontrada." },
+            { id:"desafio_abertura", titulo:"DESAFIO ABERTURA", valor:4, descricao: resData.find(r=>reduzir(parseInt(r.numero))===4)?.Abertura_emocional || "Informação não encontrada." },
+            { id:"desafio_liberdade", titulo:"DESAFIO LIBERDADE", valor:6, descricao: resData.find(r=>reduzir(parseInt(r.numero))===6)?.Liberdade || "Informação não encontrada." },
+            { id:"desafio_entrega", titulo:"DESAFIO ENTREGA", valor:7, descricao: resData.find(r=>reduzir(parseInt(r.numero))===7)?.desafio_principal || "Informação não encontrada." },
+            { id:"desafio_sabedoria", titulo:"DESAFIO SABEDORIA", valor:9, descricao: resData.find(r=>reduzir(parseInt(r.numero))===9)?.Sabedoria_doadora || "Informação não encontrada." },
+            { id:"potencia", titulo:"POTÊNCIA", valor:3, descricao: resData.find(r=>reduzir(parseInt(r.numero))===3)?.Harmonia || "Informação não encontrada." },
+            { id:"alma", titulo:"ALMA", valor:2, descricao: resData.find(r=>reduzir(parseInt(r.numero))===2)?.alma || "Informação não encontrada." },
+            { id:"aparencia", titulo:"APARÊNCIA", valor:1, descricao: resData.find(r=>reduzir(parseInt(r.numero))===1)?.aparencia || "Informação não encontrada." },
+            { id:"missao", titulo:"MISSÃO", valor:8, descricao: resData.find(r=>reduzir(parseInt(r.numero))===8)?.missao || "Informação não encontrada." },
+            { id:"compromisso", titulo:"COMPROMISSO", valor:5, descricao: resData.find(r=>reduzir(parseInt(r.numero))===5)?.compromisso || "Informação não encontrada." }
+          ];
+
+          let blocosHTML = [];
+          campos.forEach(c => {
+            let maxChars = c.id==="eu_sou" ? 500 : 150;
+            const valorExibir = c.id === "eu_sou" ? c.valor : "XX";
+            blocosHTML.push(`
+              <div class="${c.id==="eu_sou"?"bloco-eu-sou":"bloco"}">
+              <h4>${c.titulo} <span class="valor">${valorExibir}</span></h4>
+              <div class="descricao">${destacarResumoComAlerta(c.descricao, maxChars)}</div>
+            </div>
+
+
+
+            `);
+          });
+
+          conteudo.innerHTML = blocosHTML.join("");
+        } catch(err) {
+          conteudo.innerHTML = `⚠️ Erro ao carregar: ${err.message}`;
+        }
+      }
+
+      carregarAmostra();
+      btnVoltar.addEventListener("click", ()=> window.location.href="transicao.html");
+    });
+  </script>
+</body>
+</html>

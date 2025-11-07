@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento via Pix</title>
+  <style>
+    body {
+      background: radial-gradient(circle at center, #000, #111);
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    h2 {
+      color: gold;
+      margin-bottom: 8px;
+    }
+
+    #qrcode {
+      margin: 20px 0;
+      background: #fff;
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    }
+
+    #pixCode {
+      background: #111;
+      border: 1px solid gold;
+      color: #fff;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      padding: 10px;
+      font-size: 0.9em;
+    }
+
+    button {
+      margin-top: 18px;
+      background: linear-gradient(90deg, #ffd700, #ffae42);
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 24px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 220, 100, 0.8);
+    }
+  </style>
+</head>
+<body>
+
+  <p style="color:bold; font-size: 1.6em; margin-bottom: 12px;">
+    ESTAMOS EM FASE DE TESTES! 
+  </p>
+  <p style="color: bold; font-size: 1.6em; margin-bottom: 12px;">
+    ⚠️ O SITE ESTARÁ ONLINE NO DIA 22/11/2025 ⚠️
+  </p>
+
+  <h2>💰 Clique no botão "PIX PAGO" para dar sequência ao site e gere seu acesso completo </h2>
+
+  <p>Escaneie o QR Code abaixo ou copie o código PIX para pagamento.</p>
+
+  <div id="qrcode"></div>
+  <textarea id="pixCode" readonly></textarea>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 18px;">
+    <button id="copyBtn">Copiar Código</button>
+    <button id="btnVoltar">Voltar</button>
+    <button id="btnPixPago">PIX PAGO</button>
+  </div>
+  <div id="mensagemPix" style="margin-top:15px; font-size:1em;"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <script>
+    const nome = localStorage.getItem("nome");
+    const data = localStorage.getItem("data_nascimento");
+    const identificador = btoa(nome + data).slice(0, 12);
+
+    // 🔹 Aqui definimos os dados básicos do PIX estático (valor fixo R$1,00)
+    const chavePix = "chavepix@jornadasaosucesso.com.br"; // <- Substituir pela chave real
+    const valor = "35.00";
+    const nomeDestinatario = "jorgebarbosaviana";
+    const cidade = "CAMPOGRANDE";
+    const mensagem = `Consulta Numerológica - ${identificador}`;
+
+    // Geração do código PIX (formato BR Code simplificado)
+    const brcode = `
+00020126360014BR.GOV.BCB.PIX0114${chavePix}
+520400005303986540435.005802BR5920${nomeDestinatario}
+6009${cidade}62190515${identificador}6304`;
+
+    // Exibe QR e código
+    QRCode.toCanvas(document.getElementById('qrcode'), brcode, { width: 230 });
+    document.getElementById('pixCode').value = brcode.trim();
+
+    // Copiar
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      navigator.clipboard.writeText(brcode.trim());
+      alert('Código PIX copiado com sucesso!');
+    });
+
+    // Voltar
+    document.getElementById('btnVoltar').addEventListener('click', () => {
+      window.location.href = "transicao.html";
+    });
+
+  document.getElementById("btnPixPago").addEventListener("click", () => {
+    const mensagem = document.getElementById("mensagemPix");
+    mensagem.textContent = "⏳ AGUARDE 10 SEGUNDOS ⏳";
+
+    // Salva o acesso autorizado
+    sessionStorage.setItem("acessoAutorizado", "true");
+
+    // Espera 2.5 segundos antes de iniciar a contagem regressiva
+    setTimeout(() => {
+      let tempo = 5;
+      mensagem.textContent = `⏱️ Redirecionando em ${tempo} segundos...`;
+
+      const intervalo = setInterval(() => {
+        tempo--;
+        mensagem.textContent = `⏱️ Redirecionando em ${tempo} segundos...`;
+
+        if (tempo <= 0) {
+          clearInterval(intervalo);
+          window.location.href = "resultado.html";
+        }
+      }, 1000);
+    }, 2500);
+  });
+  </script>
+</body>
+</html>

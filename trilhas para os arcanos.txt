@@ -1,0 +1,10 @@
+Arcano,Nome,Estilo Sugerido,Nome do Arquivo MP3,Sites para Buscar
+1,Iniciador,"Sons épicos suaves, batida crescente","iniciador.mp3","https://pixabay.com/pt/music/search/epic/"
+2,Sensitivo,"Piano suave, sons de água, ambiência emocional","sensitivo.mp3","https://pixabay.com/pt/music/search/meditation/"
+3,Comunicador,"Cordas leves, flauta, ritmo fluido","comunicador.mp3","https://www.fiftysounds.com/pt/musica-sem-direitos-autorais/trilha-sonora.html"
+4,Construtor,"Marimba, batida constante, estrutura harmônica","construtor.mp3","https://freemusicarchive.org/genre/Instrumental/"
+5,Explorador,"Percussão tribal, flautas andinas","explorador.mp3","https://pixabay.com/pt/music/search/tribal/"
+6,Harmonizador,"Violão acústico, sons de natureza","harmonizador.mp3","https://www.bensound.com/free-music-for-videos"
+7,Místico,"Harpas, pads etéreos, sinos","mistico.mp3","https://snapmuse.com/pt/royalty-free-music-by-moods/mystical"
+8,Realizador,"Batidas firmes, sintetizadores","realizador.mp3","https://www.hooksounds.com/pt-br/royalty-free-music/mood/epic/"
+9,Humanitário,"Coral suave, piano emocional","humanitario.mp3","https://www.chosic.com/free-music/emotional/"

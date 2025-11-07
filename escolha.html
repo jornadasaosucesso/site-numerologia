@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Escolha seu Arcano</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        
+        /*  (Seu CSS permanece inalterado) ... */
+        body {
+            margin: 0;
+            background: radial-gradient(circle at center, #000, #0a0a0a);
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            cursor: default;
+        }
+
+        .tela-escolha {
+        text-align: center;
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 26px;
+        }
+
+        .linha {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: nowrap;
+        }
+
+        /* === Campos Místicos === */
+        input {
+        padding: 12px 18px;
+        font-size: 1.1em;
+        border-radius: 10px;
+        border: 1px solid rgba(212, 175, 55, 0.6);
+        text-align: center;
+        width: 230px;
+        background: radial-gradient(circle at top, rgba(255, 240, 200, 0.05), rgba(0, 0, 0, 0.5));
+        color: #fff;
+        outline: none;
+        box-shadow: inset 0 0 8px rgba(255, 215, 0, 0.2),
+                    0 0 10px rgba(255, 215, 0, 0.1);
+        transition: all 0.3s ease;
+        }
+
+        input:focus {
+        border-color: #ffcc70;
+        box-shadow: inset 0 0 10px rgba(255, 225, 100, 0.4),
+                    0 0 18px rgba(255, 225, 100, 0.6),
+                    0 0 28px rgba(255, 230, 120, 0.3);
+        background: radial-gradient(circle at top, rgba(255, 255, 200, 0.08), rgba(0, 0, 0, 0.6));
+        }
+
+        input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+        font-style: italic;
+        letter-spacing: 0.5px;
+        }
+
+        button {
+        padding: 12px 36px;
+        font-size: 1.2em;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #d4af37, #ffcc70);
+        color: #000;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 25px #ffcc70;
+        }
+
+        video {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 0 18px rgba(255, 215, 0, 0.35);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: #111;
+        }
+
+        video:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 28px rgba(255, 230, 100, 0.8);
+        filter: brightness(1.15);
+        }
+
+        @media (max-width: 600px) {
+        .linha {
+            flex-wrap: wrap;
+        }
+
+        input {
+            width: 90%;
+        }
+
+        video {
+            width: min(22vw, 160px);
+        }
+        }
+        /* Novo estilo para exibir mensagens de erro/sucesso */
+        #feedbackMensagem {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            min-height: 25px; /* Evita que a tela salte */
+        }
+    </style>
+</head>
+
+<body class="pagina-escolha">
+    <main class="tela-escolha">
+
+        <div class="linha">
+            <input 
+                type="text" 
+                id="data_nascimento" 
+                placeholder="DD/MM/AAAA" 
+                maxlength="10"
+                inputmode="numeric"
+            />
+            <input 
+                type="text" 
+                id="nome_individual" 
+                maxlength="60" 
+                placeholder="Seu nome" 
+            />
+        </div>
+
+        <div id="feedbackMensagem" style="color: #ffcc70;"></div>
+
+        <div class="linha">
+            <button id="btnCalcular">VER MEU ARCANO</button>
+            <button id="btnSair">SAIR</button>
+        </div>
+
+        <div class="linha">
+            <video autoplay muted loop playsinline src="imagens/arcanos/arca1.mp4"></video>
+            <video autoplay muted loop playsinline src="imagens/arcanos/arca2.mp4"></video>
+            <video autoplay muted loop playsinline src="imagens/arcanos/arca3.mp4"></video>
+        </div>
+        <div class="linha">
+            <video autoplay muted loop playsinline src="imagens/arcanos/arca4.mp4"></video>
+            <video autoplay muted loop playsinline src="imagens/arcanos/arca5.mp4"></video>
+            <video autoplay muted loop playsinline src="imagens/arcanos/arca6.mp4"></video>
+        </div>
+        <div class="linha">
+            <video autoplay muted loop playsinline src="imagens/arcanos/arca7.mp4"></video>
+            <video autoplay muted loop playsinline src="imagens/arcanos/arca8.mp4"></video>
+            <video autoplay muted loop playsinline src="imagens/arcanos/arca9.mp4"></video>
+        </div>
+
+    </main>
+
+    <script>
+        const htmlElement = document.documentElement;
+
+        function exibirMensagem(texto, cor = '#ffcc70') {
+            const el = document.getElementById('feedbackMensagem');
+            if(el) {
+                el.innerHTML = texto;
+                el.style.color = cor;
+            }
+        }
+
+        // === Fullscreen ===
+        // ... (Seu código Fullscreen permanece inalterado) ...
+        function enterFullscreen(element) {
+            if (element.requestFullscreen) element.requestFullscreen();
+            else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
+            else if (element.msRequestFullscreen) element.msRequestFullscreen();
+        }
+
+        function handleFirstInteraction() {
+            enterFullscreen(htmlElement);
+            document.removeEventListener('click', handleFirstInteraction);
+            document.removeEventListener('touchstart', handleFirstInteraction);
+        }
+
+        document.addEventListener('click', handleFirstInteraction);
+        document.addEventListener('touchstart', handleFirstInteraction);
+
+        // === Aplica máscara de data ===
+        if (typeof Inputmask !== "undefined") {
+            if (typeof $ !== 'undefined') { 
+                $("#data_nascimento").inputmask("99/99/9999");
+            } else {
+                Inputmask("99/99/9999").mask(document.getElementById("data_nascimento"));
+            }
+        } else {
+            console.error("Inputmask não foi carregado corretamente.");
+        }
+
+        // === Botão Calcular (Checagem no Backend) ===
+        document.getElementById('btnCalcular').addEventListener('click', async function () {
+            exibirMensagem('Checando acesso...'); 
+            const data = document.getElementById('data_nascimento').value.trim();
+            const nome = document.getElementById('nome_individual').value.trim();
+
+            if (!nome || !data) {
+                exibirMensagem('Preencha todos os campos!', '#c0392b');
+                return;
+            }
+
+            if (!/^\d{2}\/\d{2}\/\d{4}$/.test(data)) {
+                exibirMensagem('Data inválida. Use o formato DD/MM/AAAA.', '#c0392b');
+                return;
+            }
+
+            // --- GERAÇÃO DO ID ÚNICO (CHAVE DE ACESSO) ---
+            const dataFormatada = data.replace(/\D/g, ''); // DDMMYYYY
+            const nomePadronizado = nome
+                .toUpperCase() 
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
+                .replace(/[^A-Z\s]/g, '') 
+                .replace(/\s+/g, ' ') 
+                .trim(); 
+
+            // ... (dentro do 'click', após a base ser definida)
+
+            const base = `${nomePadronizado}|${dataFormatada}`;
+            const id_unico = CryptoJS.SHA1(base).toString();
+
+            console.log("🔑 ID único gerado para consulta:", id_unico);
+            console.log("🔒 Base usada:", base); // Debug de segurança
+
+            // --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO ---
+            const urlBackend = `http://localhost:8000/api/has_paid?id_unico=${id_unico}`;
+            const res = await fetch(urlBackend);
+                        
+try {
+                // --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO ---
+                const urlBackend = `http://localhost:8000/api/has_paid?id_unico=${id_unico}`;
+                const res = await fetch(urlBackend);
+
+                // Trata erros de rede ou status HTTP 4xx/5xx
+                if (!res.ok) {
+                    throw new Error(`Erro HTTP ${res.status}: Não foi possível conectar ao servidor.`);
+                }
+
+                const json = await res.json();
+                
+                // 2. Salva os dados de entrada no localStorage (PARA USO POSTERIOR)
+                localStorage.setItem('nome', nome);
+                localStorage.setItem('data_nascimento', data);
+
+                if (json.paid === true) {
+                    // ✅ SUCESSO! Pagamento encontrado e validado.
+                    exibirMensagem('✅ Acesso validado! Redirecionando...');
+                    // Navega para o resultado final
+                    setTimeout(() => {
+                        window.location.href = "resultado.html";
+                    }, 1000); 
+
+                } else {
+                    // ❌ Pagamento NÃO encontrado (paid: false)
+                    exibirMensagem('🛑 Pagamento não validado. Redirecionando para PIX.', '#c0392b');
+                    
+                    // Redireciona para a página de cobrança, enviando o ID ÚNICO e dados na URL
+                    setTimeout(() => {
+                        window.location.href = `transicao.html?id_unico=${id_unico}&nome=${encodeURIComponent(nome)}&data=${encodeURIComponent(data)}`;
+                    }, 2000);
+                }
+                
+            } catch (err) {
+                console.error('Erro geral na checagem de acesso:', err);
+                exibirMensagem('🚨 Erro ao verificar acesso. Verifique a conexão do servidor.', '#c0392b');
+            }
+            
+            // Limpa a mensagem após um tempo se não houve redirecionamento
+            setTimeout(() => { exibirMensagem(''); }, 5000);
+
+        });
+
+        // === Botão Sair ===
+        document.getElementById('btnSair').addEventListener('click', function () {
+            // Lógica para sair ou ir para uma página final
+            window.location.href = "fim.html";
+        });
+    </script>
+</body>
+</html>

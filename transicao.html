@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ambiente de Transição</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at center, #000000, #0d0d0d);
+      color: #f5f5f5;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .caixa {
+      background: rgba(30, 30, 30, 0.9);
+      border: 2px solid gold;
+      border-radius: 16px;
+      padding: 30px;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+      animation: fadeIn 1s ease;
+    }
+
+    h2 {
+      color: #ffd700;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2em;
+      line-height: 1.5em;
+      color: #ddd;
+    }
+
+    .botoes {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ffd700, #ffae42);
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 28px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 18px rgba(255, 200, 50, 0.7);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Estilo opcional para botão específico */
+    #btnSeguir {
+      background: linear-gradient(90deg, #a3ff9c, #56ff7a);
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="caixa">
+    <h2>✨ Bem-vindo(a) ao seu Mapa Numerológico ✨</h2>
+    <p id="mensagem"></p>
+
+    <div class="botoes">
+      <button id="btnQr">Gerar QR Code</button>
+      <button id="btnAmostra">Ver Amostra Simplificada</button>
+      <button id="btnVoltar">Voltar</button>
+    </div>
+  </div>
+
+  <script>
+    // --- NOVO BLOCO: CAPTURA DE PARÂMETROS DA URL E ATUALIZAÇÃO DO LOCALSTORAGE ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const idUnicoUrl = urlParams.get('id_unico');
+    const nomeUrl = urlParams.get('nome');
+    const dataUrl = urlParams.get('data');
+    
+    if (idUnicoUrl && nomeUrl && dataUrl) {
+        // Armazena o ID único e os dados (decodificados) da URL no localStorage
+        localStorage.setItem("id_unico", idUnicoUrl);
+        localStorage.setItem("nome", decodeURIComponent(nomeUrl)); 
+        localStorage.setItem("data_nascimento", decodeURIComponent(dataUrl));
+    }
+    // -----------------------------------------------------------------------------
+
+    // 🔹 Lê nome e data do localStorage (salvos na página anterior)
+ 
+    // Agora, a leitura do localStorage deve incluir o id_unico
+    const nome = localStorage.getItem("nome") || "";
+    const data = localStorage.getItem("data_nascimento") || "";
+    const id_unico_hash = localStorage.getItem("id_unico") || ""; 
+    
+
+    // ... (restante do seu script)
+    // NOTA: Revise a função do btnQr para garantir que ela usa id_unico_hash.
+ 
+    // 🔹 Mensagem personalizada
+    const mensagem = document.getElementById("mensagem");
+    mensagem.innerHTML = `
+       ${nome ? `<strong>${nome}</strong>,` : ""} você está entrando em um ambiente sagrado onde os números revelam segredos sobre sua jornada de vida.
+      <br><br>
+      💫 Caso deseje conhecer <strong>TODOS</strong> os aspectos do seu mapa completo,
+      gere o QR Code no valor de <strong>R$ 35,00</strong> e tenha acesso total.
+      <br><br>
+      Ou, se preferir, visualize uma <strong>amostra gratuita</strong> com uma leitura simplificada.
+    `;
+
+    // 🔹 Ações dos botões
+    document.getElementById("btnQr").addEventListener("click", () => {
+        
+        // **VERIFICAÇÃO DE SEGURANÇA**
+        if (!id_unico_hash) {
+            alert("Erro de identificação. Retornando para a tela inicial.");
+            window.location.href = "escolha.html";
+            return; // Impede o redirecionamento se o ID não for encontrado
+        }
+        
+        // Se o ID for válido, segue para a tela de PIX
+        window.location.href = `pix_15.html?id_unico=${encodeURIComponent(id_unico_hash)}&nome=${encodeURIComponent(nome)}&data=${encodeURIComponent(data)}`;
+
+    });
+
+    document.getElementById("btnAmostra").addEventListener("click", () => {
+        window.location.href = "amostra.html";
+    });
+
+    document.getElementById("btnVoltar").addEventListener("click", () => {
+        window.location.href = "escolha.html";
+    });
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Box de Texto</title>
+<style>
+  .text-box {
+    max-width: 720px;
+    margin: 20px auto;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    background: linear-gradient(180deg, #fff, #fbfbff);
+    border: 1px solid rgba(0,0,0,0.06);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    line-height: 1.55;
+    color: #222;
+    overflow: auto; /* se o texto for muito longo */
+    white-space: normal; /* tratamos as quebras via JS */
+  }
+
+  .text-box h2 { margin-top: 0; font-size: 1.15rem; }
+  .text-box p { margin: 0 0 0.9rem 0; }
+  .impulsos { padding-left: 0.5rem; margin-top: 0.4rem; }
+  .impulsos li { margin-bottom: 0.45rem; }
+  /* responsivo */
+  @media (max-width:600px){
+    .text-box { padding: 14px; margin: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<article class="text-box" id="box" aria-label="Descrição numerológica">
+  <!-- o conteúdo será preenchido via JS -->
+</article>
+
+<script>
+const raw = `Eu Sou 1
+✦ A pessoa nascida nesse dia é pioneira, original, criativa e independente. Possui uma natureza de liderança e está destinada ao sucesso, desde que viva de forma construtiva e consciente. Tem uma mente lógica e argumentativa, capaz de defender ideias com firmeza, mesmo quando seu conhecimento sobre o assunto é superficial.
+✦ Apesar de sua capacidade de iniciar projetos com entusiasmo, tende a adiar tarefas e buscar desculpas para não concluir o que começou. Esse comportamento pode comprometer seu progresso, por isso é essencial que aprenda a dividir metas em etapas menores e celebrar cada conquista como forma de manter o foco e a motivação.
+✦ Gosta de orientar os outros sobre como as coisas devem ser feitas, mas evita executá-las pessoalmente. Essa tendência a liderar sem agir pode gerar desconexão com os resultados. Para equilibrar esse traço, é importante que assuma responsabilidades práticas e inspire pelo exemplo, não apenas pela palavra.
+✦ Seu senso de independência é intenso. Embora seja competente, não lida bem com ordens ou conselhos, preferindo trabalhar por conta própria. Para crescer, precisa aprender a ouvir com abertura e reconhecer que boas ideias também vêm de outras pessoas. A escuta ativa e a colaboração equilibrada são caminhos para ampliar sua visão.
+✦ Tem propósitos definidos e ambiciona progresso constante. É prática, idealista, inventiva e, por vezes, obstinada. Encontra sucesso em atividades que exigem iniciativa, liderança e contato com o público. No entanto, quando relegada a posições secundárias, sente-se profundamente infeliz. Mesmo que não admita, fica exasperada com pessoas que considera inferiores ou que não compreendem sua forma de pensar. Exige respeito por aquilo que faz e pela sua visão.
+✦ Embora tenha sentimentos profundos, raramente os demonstra. Por isso, pode ser vista como fria ou pouco comunicativa. Dificilmente expressa afeto, mas deseja simpatia, elogios e encorajamento. Para evitar que essa repressão emocional afete sua saúde — especialmente o sistema nervoso e a pressão arterial — é fundamental que pratique a vulnerabilidade em ambientes seguros e desenvolva relações sinceras.
+✦ A iniciativa, ambição, foco e constância em melhorar o que possui são marcas de seu poder nato: o querer. Para alcançar o sucesso pleno, precisa unir esse impulso com reflexão, ponderação, tenacidade e persistência. Em outras palavras, precisa aprender a equilibrar poder e saber.
+
+🚀 Impulsos para o Sucesso
+- Procrastinação e adiamentos:  
+Deve estabelecer metas curtas, dividir tarefas em etapas e usar ferramentas de organização. Celebrar pequenas vitórias ajuda a manter o ritmo.
+- Resistência a ordens e conselhos:  
+É importante praticar a escuta ativa e aceitar que boas ideias também vêm dos outros. Trabalhar em ambientes com autonomia equilibrada favorece o crescimento.
+- Egocentrismo e foco excessivo nos próprios objetivos:  
+Participar de atividades coletivas e desenvolver empatia ajuda a ampliar a visão e evitar o isolamento.
+- Dificuldade em demonstrar sentimentos:  
+Expressar gratidão, praticar vulnerabilidade e cultivar relações sinceras são formas de equilibrar esse traço.
+- Frustrações que afetam a saúde:  
+Adotar práticas de autocuidado, como meditação, exercícios físicos e desabafo emocional, é essencial para manter o bem-estar.
+- Liderança sem ação prática:  
+Assumir tarefas operacionais e inspirar pelo exemplo fortalece a credibilidade e o respeito dos outros.`;
+
+function renderText(el, text){
+  // 1) separa por duplo newline em parágrafos maiores
+  const paragraphs = text.split(/\n\s*\n/);
+
+  // 2) para cada "parágrafo", substitui single newlines por <br>
+  const html = paragraphs.map(p => {
+    // detectar listas começando com "-" e criar <ul>
+    if (/^\s*-\s+/m.test(p)) {
+      // transformar linhas de lista em <li>
+      const items = p.split(/\n/).map(line => line.trim()).filter(Boolean);
+      const li = items.map(line => {
+        if (line.startsWith('- ')) return '<li>' + line.slice(2).trim() + '</li>';
+        return '<li>' + line + '</li>';
+      }).join('');
+      return `<ul class="impulsos">${li}</ul>`;
+    } else {
+      // títulos como "🚀 Impulsos para o Sucesso" podem ser <h3>
+      const firstLine = p.split('\n')[0].trim();
+      if (/^🚀/.test(firstLine)) {
+        // título + resto
+        const rest = p.split('\n').slice(1).join('\n');
+        const restHtml = rest ? rest.replace(/\n/g, '<br>') : '';
+        return `<h2>${firstLine}</h2><p>${restHtml}</p>`;
+      }
+      return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+    }
+  }).join('');
+
+  el.innerHTML = html;
+}
+
+const box = document.getElementById('box');
+renderText(box, raw);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel de Emojis do Copilot 🚀</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .categoria {
+      margin-bottom: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .categoria h2 {
+      margin-top: 0;
+      color: #444;
+    }
+    .emoji-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .emoji-item {
+      font-size: 1.8rem;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 8px;
+      background: #e6f0ff;
+      transition: background 0.3s;
+    }
+    .emoji-item:hover {
+      background: #cce0ff;
+    }
+    #copiado {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🚀 Painel de Emojis do Copilot</h1>
+
+  <div class="categoria">
+    <h2>🔧 Desenvolvimento & Tecnologia</h2>
+    <div class="emoji-list">
+      <div class="emoji-item">💻</div>
+      <div class="emoji-item">🧠</div>
+      <div class="emoji-item">🔒</div>
+      <div class="emoji-item">⚙️</div>
+      <div class="emoji-item">📦</div>
+      <div class="emoji-item">🧪</div>
+      <div class="emoji-item">🛠️</div>
+      <div class="emoji-item">🧰</div>
+    </div>
+  </div>
+
+  <div class="categoria">
+    <h2>🌐 Web & Conexão</h2>
+    <div class="emoji-list">
+      <div class="emoji-item">🌍</div>
+      <div class="emoji-item">🌐</div>
+      <div class="emoji-item">🔗</div>
+      <div class="emoji-item">📡</div>
+      <div class="emoji-item">🛰️</div>
+    </div>
+  </div>
+
+  <div class="categoria">
+    <h2>🚀 Motivação & Sucesso</h2>
+    <div class="emoji-list">
+      <div class="emoji-item">🚀</div>
+      <div class="emoji-item">🎯</div>
+      <div class="emoji-item">🥇</div>
+      <div class="emoji-item">🏆</div>
+      <div class="emoji-item">🔥</div>
+      <div class="emoji-item">💥</div>
+      <div class="emoji-item">✨</div>
+      <div class="emoji-item">🌟</div>
+    </div>
+  </div>
+
+  <div class="categoria">
+    <h2>📁 Organização & Projeto</h2>
+    <div class="emoji-list">
+        <div class="emoji-item">📁</div>
+        <div class="emoji-item">🗂️</div>
+        <div class="emoji-item">📝</div>
+        <div class="emoji-item">📋</div>
+    </div>
+   </div>
+
+   <div class="categoria">
+    <h2>🧭 Navegação & Fluxo</h2>
+    <div class="emoji-list">
+        <div class="emoji-item">🧭</div>
+        <div class="emoji-item">🛤️</div>
+        <div class="emoji-item">🗺️</div>
+    </div>
+   </div>
+
+   <div class="categoria">
+    <h2>💬 Comunicação & Interface</h2>
+    <div class="emoji-list">
+        <div class="emoji-item">💬</div>
+        <div class="emoji-item">🗨️</div>
+        <div class="emoji-item">📢</div>
+        <div class="emoji-item">📣</div>
+    </div>
+   </div>
+
+   <div class="categoria">
+    <h2>🕒 Tempo & Ciclos</h2>
+    <div class="emoji-list">
+        <div class="emoji-item">⏳</div>
+        <div class="emoji-item">🕒</div>
+        <div class="emoji-item">🗓️</div>
+    </div>
+   </div>
+
+   <div class="categoria">
+    <h2>🎨 Criatividade & Estilo</h2>
+    <div class="emoji-list">
+        <div class="emoji-item">🎨</div>
+        <div class="emoji-item">🖌️</div>
+        <div class="emoji-item">🧵</div>
+        <div class="emoji-item">🧶</div>
+        <div class="emoji-item">👗</div>
+        <div class="emoji-item">👓</div>
+    </div>
+   </div>
+
+   <div class="categoria">
+    <h2>🧘 Equilíbrio & Bem-estar</h2>
+    <div class="emoji-list">
+        <div class="emoji-item">🧘</div>
+        <div class="emoji-item">🌿</div>
+        <div class="emoji-item">🕊️</div>
+        <div class="emoji-item">💖</div>
+    </div>
+   </div>
+
+  <div id="copiado">Emoji copiado!</div>
+
+  <!-- Adicione este bloco ao seu escolha.html antes do <div id="copiado"> -->
+
+<div class="categoria">
+  <h2>🎃 Halloween & Mistério</h2>
+  <div class="emoji-list">
+    <div class="emoji-item">🎃</div>
+    <div class="emoji-item">👻</div>
+    <div class="emoji-item">🧙‍♀️</div>
+    <div class="emoji-item">🧛‍♂️</div>
+    <div class="emoji-item">🧟</div>
+    <div class="emoji-item">🕸️</div>
+    <div class="emoji-item">🕷️</div>
+    <div class="emoji-item">🦇</div>
+    <div class="emoji-item">🧹</div>
+    <div class="emoji-item">⚰️</div>
+    <div class="emoji-item">🪦</div>
+    <div class="emoji-item">☠️</div>
+    <div class="emoji-item">💀</div>
+    <div class="emoji-item">🩸</div>
+    <div class="emoji-item">🌕</div>
+    <div class="emoji-item">🌫️</div>
+    <div class="emoji-item">🔮</div>
+  </div>
+</div>
+
+<div class="categoria">
+  <h2>🪄 Magia & Fantasia</h2>
+  <div class="emoji-list">
+    <div class="emoji-item">🪄</div>
+    <div class="emoji-item">✨</div>
+    <div class="emoji-item">🔮</div>
+    <div class="emoji-item">🧙‍♂️</div>
+    <div class="emoji-item">🧙‍♀️</div>
+    <div class="emoji-item">🧛‍♂️</div>
+    <div class="emoji-item">🧟</div>
+    <div class="emoji-item">🧞</div>
+    <div class="emoji-item">🧚</div>
+    <div class="emoji-item">🌟</div>
+    <div class="emoji-item">💫</div>
+    <div class="emoji-item">🌌</div>
+    <div class="emoji-item">🕯️</div>
+    <div class="emoji-item">📜</div>
+    <div class="emoji-item">🏰</div>
+    <div class="emoji-item">🐉</div>
+    <div class="emoji-item">🦉</div>
+  </div>
+</div>
+
+  <script>
+    const emojis = document.querySelectorAll('.emoji-item');
+    const copiado = document.getElementById('copiado');
+
+    emojis.forEach(emoji => {
+      emoji.addEventListener('click', () => {
+        navigator.clipboard.writeText(emoji.textContent);
+        copiado.style.display = 'block';
+        setTimeout(() => {
+          copiado.style.display = 'none';
+        }, 1500);
+      });
+    });
+  </script>
+
+</body>
+</html>
+

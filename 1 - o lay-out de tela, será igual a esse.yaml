@@ -1,0 +1,9 @@
+1 - o lay-out de tela, será igual a esse desenho anexo
+2 - descrição da tela....
+2.1 a primeira linha, deverá ter 3 arcanos, o arca1.png, arca2.png,  arca3.png
+2.2 a segunda linha devera ter o arcano arca4 seguindo com a mascara do input data_nascimento, centralizado Conforme desenho, seguido do arca5
+2.3 a terceira linha devera ter a pálavra "DATA DO NASCIMENTO", abaixo do input data_nascimento
+2.4 a quarta linha devera ter o arca6 seguindo do input "nome_individual" com mascara para 40 caracteres, seguido do arca 7
+2.5 a quinta linha devera ter a palavra "NOME" logo abaixo do input "nome_individual"
+2.6 a sexta linha devera ter os arcanos arca8 e arca9 mais uma botão com o titulo "CALCULAR", este botão deverá jogar para um arquivo html, que será criado ainda
+é possivel fazermos isso?    

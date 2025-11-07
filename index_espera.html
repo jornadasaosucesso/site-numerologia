@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jornada da Alma</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container-inicial {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .capa {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* 🔹 Mostra o vídeo inteiro sem cortar */
+    }
+
+    .botao-explorar {
+      position: absolute;
+      bottom: 10%;
+      padding: 16px 34px;
+      font-size: 1.4em;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(90deg, #d4af37, #ffcc70);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: none;
+    }
+
+    .botao-explorar:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px #ffcc70;
+    }
+
+    .fade-out {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+  </style>
+</head>
+
+<body class="pagina-inicial">
+  <div class="container-inicial">
+    <video class="capa" autoplay muted loop playsinline>
+      <source src="imagens/capa-arcanos-2.mp4" type="video/mp4">
+      Seu navegador não suporta vídeos HTML5.
+    </video>
+    <button id="startBtn" class="botao-explorar">🔮 Começar Jornada</button>
+  </div>
+
+  <script>
+    
+    const startBtn = document.getElementById("startBtn");
+
+    // Mostra o botão após 3 segundos
+    setTimeout(() => {
+      startBtn.style.display = "block";
+    }, 3000);
+
+    // Efeito de fade e redirecionamento
+    startBtn.addEventListener("click", () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "/escolha.html";
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

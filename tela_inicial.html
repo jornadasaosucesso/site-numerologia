@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jornadas ao Sucesso — Entrada Bombástica</title>
+<style>
+  :root{
+    --bg:#04060a;
+    --gold:#ffd66b;
+    --gold-deep:#c18f00;
+    --blue:#0b66ff;
+    --glass: rgba(255,255,255,0.04);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body,#app{height:100%;width:100%;overflow:hidden;font-family:'Poppins',sans-serif;color:var(--gold);}
+  body{
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(255,220,120,0.02), transparent 6%),
+                linear-gradient(180deg,#020308 0%, var(--bg) 60%);
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* Stage */
+  .stage{
+    position:relative;
+    width:min(1100px,94vw);
+    height:min(640px,78vh);
+    display:grid;place-items:center;
+    perspective:1200px;
+    cursor:pointer;
+  }
+
+  /* Frame */
+  .frame{
+    position:relative;width:96%;height:92%;
+    border-radius:18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.14));
+    box-shadow: 0 40px 120px rgba(0,0,0,0.7), inset 0 2px 12px rgba(255,255,255,0.02);
+    overflow:hidden;transform-style:preserve-3d;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .frame::before{
+    content:'';position:absolute;inset:0;border-radius:18px;
+    padding:6px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,235,150,0.06) 20%, rgba(255,230,120,0.12) 40%, rgba(200,140,30,0.35) 60%, rgba(255,235,150,0.08) 85%, transparent 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    mix-blend-mode: screen;
+    z-index:8;
+    animation: sheen 6s linear infinite;
+  }
+  .frame::after{
+    content:'';position:absolute;inset:6px;border-radius:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.2));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), inset 0 -20px 40px rgba(0,0,0,0.4);
+    z-index:7;
+  }
+  @keyframes sheen{0%{transform:translateX(-120%) skewX(-8deg)}100%{transform:translateX(120%) skewX(-8deg)}}
+
+  /* Beams */
+  .beams{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:screen;opacity:0.85;
+    background: radial-gradient(800px 140px at 50% 50%, rgba(255,220,120,0.06), transparent 12%),
+                conic-gradient(from 200deg at 50% 50%, rgba(255,240,180,0.02), transparent 20%);
+  }
+  .beams::before{
+    content:'';position:absolute;inset:-40% -80% -40% -80%;
+    background: linear-gradient(90deg, rgba(255,230,120,0.0) 0%, rgba(255,225,110,0.08) 10%, rgba(255,210,90,0.14) 18%, rgba(255,240,180,0.02) 30%, transparent 50%);
+    filter: blur(24px);
+    transform-origin:center;
+    animation: beamsMove 12s linear infinite;
+  }
+  @keyframes beamsMove{0%{transform:translateZ(-300px) scale(0.98) rotate(0deg)}50%{transform:translateZ(-200px) scale(1.02) rotate(7deg)}100%{transform:translateZ(-300px) scale(0.98) rotate(0deg)}}
+
+  /* Inner content */
+  .inner{position:relative;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px;gap:12px;backdrop-filter:blur(4px) saturate(1.1);}
+  .hero{
+    font-weight:800;line-height:0.9;text-align:center;color:var(--blue);
+    text-shadow:0 6px 20px rgba(11,102,255,0.08),0 0 18px rgba(11,102,255,0.06);
+    font-size:clamp(50px,8vw,120px);
+    transform-origin:center center;
+    transition: transform 900ms cubic-bezier(.2,.9,.2,1);
+  }
+  .tag{font-size:clamp(12px,1.4vw,20px);color:rgba(255,255,255,0.85);font-weight:600;margin-top:6px;}
+
+  /* Corners */
+  .corner{position:absolute;width:120px;height:120px;z-index:9;pointer-events:none;opacity:0.9;filter:blur(12px);}
+  .corner.tl{left:-40px;top:-40px;background:radial-gradient(60px 60px at 10% 10%, rgba(255,220,120,0.95), rgba(255,200,60,0.12), transparent 55%);}
+  .corner.br{right:-40px;bottom:-40px;background:radial-gradient(60px 60px at 90% 90%, rgba(255,220,120,0.9), rgba(200,140,30,0.08), transparent 55%);}
+
+  /* Enter hint */
+  .enter-hint{
+    position:absolute;bottom:40px;font-size:18px;color:rgba(255,255,255,0.7);
+    text-shadow:0 0 6px rgba(0,0,0,0.5);animation:pulse 1.5s infinite alternate;z-index:10;
+  }
+  @keyframes pulse{0%{opacity:0.7;transform:translateY(0)}100%{opacity:1;transform:translateY(-6px)}}
+
+  /* Starfield */
+  .starfield{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .star{position:absolute;border-radius:50%;background:linear-gradient(180deg,#fff,#ffd);box-shadow:0 0 6px rgba(255,255,255,0.12)}
+
+  /* Fireworks */
+  #fireworks{position:absolute;inset:0;z-index:2;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="app" class="stage" role="main" aria-label="Jornadas ao Sucesso - landing" onclick="enterSite()">
+  <div class="starfield" id="starfield"></div>
+  <div class="frame">
+    <div class="beams"></div>
+    <div class="corner tl"></div>
+    <div class="corner br"></div>
+    <div class="inner">
+      <h1 class="hero">Jornadas<br>ao<br>Sucesso</h1>
+      <div class="tag">A cada passo, um novo rumo.</div>
+    </div>
+  </div>
+  <div class="enter-hint">Toque na imagem para entrar</div>
+</div>
+<canvas id="fireworks"></canvas>
+
+<script>
+// Stars
+const CONFIG = { stars: 110, reduceMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches };
+const starfield = document.getElementById('starfield');
+for(let i=0;i<CONFIG.stars;i++){
+  const s=document.createElement('div'); s.className='star';
+  const size = Math.random()*2.6+0.6; s.style.width=size+'px'; s.style.height=size+'px';
+  s.style.left=Math.random()*100+'%'; s.style.top=Math.random()*100+'%';
+  s.style.opacity=0.6+Math.random()*0.5; s.style.transform='translateZ(0)';
+  if(!CONFIG.reduceMotion){ const d=2+Math.random()*3; s.style.animation=`twinkle ${d}s infinite ease-in-out`; s.style.animationDelay=(Math.random()*3)+'s'; }
+  starfield.appendChild(s);
+}
+
+// Fireworks
+const canvas=document.getElementById('fireworks'),ctx=canvas.getContext('2d'); function resize(){canvas.width=innerWidth;canvas.height=innerHeight;} window.addEventListener('resize',resize); resize();
+const particles=[]; function random(a,b){return a+Math.random()*(b-a)}
+function spawnFirework(){ if(CONFIG.reduceMotion)return; const cx=random(innerWidth*0.25,innerWidth*0.75); const cy=random(innerHeight*0.12,innerHeight*0.5); const hue=random(40,60); const n=18+Math.floor(Math.random()*36);
+  for(let i=0;i<n;i++){ const ang=(Math.PI*2)*(i/n); particles.push({x:cx,y:cy,vx:Math.cos(ang)*random(1.4,5.3),vy:Math.sin(ang)*random(1.2,5.0),life:30+Math.random()*70,hue,size:1+Math.random()*2.2})}
+}
+setInterval(spawnFirework,2400);
+function tick(){ ctx.clearRect(0,0,canvas.width,canvas.height); for(let i=particles.length-1;i>=0;i--){ const p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.03; p.vx*=0.998; p.life-=1; ctx.beginPath(); ctx.globalAlpha=Math.max(p.life/100,0); ctx.fillStyle=`hsl(${p.hue},90%,60%)`; ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); if(p.life<=0) particles.splice(i,1);} requestAnimationFrame(tick);}
+tick();
+
+// Hero entrance
+const hero=document.querySelector('.hero');
+if(!CONFIG.reduceMotion){ hero.style.transform='translateZ(0) scale(1.08)'; setTimeout(()=>{ hero.style.transform='scale(1)'; },450);}
+
+// Enter site
+function enterSite(){ window.location.href='index.html'; }
+</script>
+</body>
+</html>

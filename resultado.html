@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resultado da Jornada</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+  <style>
+    body {
+      background: #ffffff;
+      color: #000;
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .container {
+      margin-top: 40px;
+      max-width: 1100px;
+      padding: 0 20px;
+    }
+
+    .titulo-principal {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #4b0082;
+      text-align: center;
+    }
+
+    .grade-resultados {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+      justify-items: center;
+      margin-bottom: 40px;
+    }
+
+    .botao-resultado {
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      padding: 12px;
+      width: 170px;
+      height: 110px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      transition: all 0.22s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .botao-resultado:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    .numero {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffb400;
+    }
+
+    .titulo {
+      font-size: 1rem;
+      color: #222;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .acoes {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .botao-acao {
+      background-color: #4b0082;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .botao-acao:hover {
+      background-color: #6a0dad;
+      transform: scale(1.03);
+    }
+
+    .modal-backdrop.show {
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(3px);
+    }
+
+    #modalResumo .modal-content {
+      background-color: #fefefe;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.25);
+      border: none;
+    }
+
+    #modalResumo .modal-title {
+      color: #ffb400;
+      font-weight: 700;
+      font-size: 22px;
+    }
+
+    #modalResumo .modal-body {
+      max-height: 70vh;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .conteudo-resumo {
+      color: #111;
+      font-size: 15px;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    @media (max-width: 600px) {
+      .botao-resultado { width: 140px; height: 100px; }
+      .acoes { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<main class="container">
+  <h1 class="titulo-principal">JORNADA AO SUCESSO</h1>
+
+  <div class="container">
+    <pre id="resultadoOCR" style="white-space: pre-wrap; background:#f4f4f4; padding:12px; border-radius:8px; color:#333; display:none;"></pre>
+  </div>
+  
+  <div class="grade-resultados">
+    <div class="botao-resultado"><span class="numero" id="eu_sou"></span><span class="titulo">EU SOU</span></div>
+    <div class="botao-resultado"><span class="numero" id="aprendizado"></span><span class="titulo">APRENDIZADO</span></div>
+    <div class="botao-resultado"><span class="numero" id="dons"></span><span class="titulo">DONS</span></div>
+    <div class="botao-resultado"><span class="numero" id="desafio_abertura"></span><span class="titulo">DESAFIO ABERTURA</span></div>
+    <div class="botao-resultado"><span class="numero" id="desafio_liberdade"></span><span class="titulo">DESAFIO LIBERDADE</span></div>
+    <div class="botao-resultado"><span class="numero" id="desafio_entrega"></span><span class="titulo">DESAFIO ENTREGA</span></div>
+    <div class="botao-resultado"><span class="numero" id="desafio_sabedoria"></span><span class="titulo">DESAFIO SABEDORIA</span></div>
+    <div class="botao-resultado"><span class="numero" id="potencia"></span><span class="titulo">POTÊNCIA</span></div>
+    <div class="botao-resultado"><span class="numero" id="alma"></span><span class="titulo">ALMA</span></div>
+    <div class="botao-resultado"><span class="numero" id="aparencia"></span><span class="titulo">APARÊNCIA</span></div>
+    <div class="botao-resultado"><span class="numero" id="missao"></span><span class="titulo">MISSÃO</span></div>
+    <div class="botao-resultado"><span class="numero" id="compromisso"></span><span class="titulo">COMPROMISSO</span></div>
+  </div>
+
+  <div class="acoes">
+    <button class="botao-acao" onclick="voltar()">⬅ Voltar</button>
+    <button class="botao-acao" onclick="verResumo()">📋 Ler Resumo</button>
+    <button class="botao-acao" onclick="gerarPDF()">📄 Gerar PDF</button>
+  </div>
+</main>
+
+<!-- Modal - controla o BOX QUE EMITE AS INFORMAÇÕES. -->  
+<div class="modal fade" id="modalResumo" tabindex="-1" aria-labelledby="modalResumoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:1100px; width:90%;">
+    <div class="modal-content" style="padding:30px;">
+      <div class="modal-header border-0">
+        <h4 class="modal-title w-100 text-center" id="modalResumoLabel" style="font-size:24px;">⭐ Jornadas ao Sucesso</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body" id="resumoTexto" style="max-height:75vh; overflow-y:auto; padding-right:15px; font-size:16px; line-height:1.7; color:#111;"></div>
+      <div class="modal-footer border-0 d-flex justify-content-center">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Área PDF (oculta) -->
+<div id="areaPDF" style="display:none;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+          
+  // resultado.html
+  // ...
+  // 1. Obtém os dados do usuário do LocalStorage
+  const nome = localStorage.getItem("nome");
+  const data = localStorage.getItem("data_nascimento");
+
+
+    // === 🔑 Função de geração e padronização do ID (mesma usada no PIX_15 e no backend) ===
+  function normalizarData(data) {
+    return data.replace(/\D/g, '');
+  }
+
+  function gerarIdUnico(nome, data) {
+    const nomeLimpo = nome.trim().toUpperCase();
+    const dataLimpa = normalizarData(data);
+    return CryptoJS.SHA1(`${nomeLimpo}|${dataLimpa}`).toString();
+  }
+
+  // Se quiser confirmar consistência, podemos gerar e comparar:
+  const idRecalculado = gerarIdUnico(nome, data);
+  console.log("🔎 ID recalculado localmente:", idRecalculado);
+
+
+  // === 🔍 Recupera o mesmo ID salvo nas etapas anteriores ===
+  let idUnicoSessao = localStorage.getItem("id_unico");
+
+  // Se não existir, recalcula e salva
+  if (!idUnicoSessao || idUnicoSessao === "null" || idUnicoSessao.length < 30) {
+    idUnicoSessao = gerarIdUnico(nome, data);
+    localStorage.setItem("id_unico", idUnicoSessao);
+  }
+
+  console.log("✅ ID único ativo na sessão:", idUnicoSessao);
+
+
+  // 🚨 DEBUG: Confirma o ID que será usado na consulta
+  console.log("DEBUG: ID que será usado na checagem:", idUnicoSessao);
+
+    // 2. Chama o backend para verificar o status do pagamento
+    async function verificarStatusPagamento(idParaChecagem) {
+        try {
+            // 🚨 DEBUG: Imprime o ID que está sendo usado no fetch
+            console.log("DEBUG: ID sendo usado no FETCH:", idUnicoSessao); 
+            
+            // Endpoint que verifica o status do pagamento pelo ID Único
+
+            const url_de_checagem = `http://localhost:8000/api/has_paid?id_unico=${idParaChecagem}`;
+            const response = await fetch(url_de_checagem, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            });
+            // Se o status for 404, o parse vai falhar, mas podemos inspecionar o status.
+            if (response.status === 404) {
+                console.error("404: Rota não encontrada no Backend. Confirme se o Node.js foi reiniciado e se check.js está correto.");
+                throw new Error("404 Not Found");
+            }
+            
+            const data = await response.json();
+            
+            // 🚨 DEBUG: Imprime a resposta completa do backend
+            console.log("DEBUG BACKEND DATA:", data); 
+
+            // 3. Lógica de Redirecionamento/Bloqueio
+            // CORRETO: Seu backend envia apenas 'paid' na rota /api/has_paid
+            if (data.paid === true) { 
+                console.log("✅ Pagamento Confirmado. Carregando resultados.");
+                // ... habilita o conteúdo
+            } else {
+                console.warn("❌ Pagamento Não Encontrado/Confirmado.");
+                alert("Seu pagamento não foi confirmado. Por favor, conclua o PIX e valide o comprovante.");
+                window.location.href = "pix_15.html"; // Ou 'transicao.html', dependendo da sua lógica
+            }
+
+        } catch (error) {
+            // ... (restante da lógica de erro)
+            console.error("Erro ao verificar o pagamento:", error);
+            alert("Erro de conexão ao verificar o pagamento. Tente novamente mais tarde.");
+            window.location.href = "escolha.html";
+        }
+    }
+
+        // Executa a verificação ao carregar a página
+        console.log("CHAMANDO CHECAGEM COM ID:", idUnicoSessao); // Debug final
+        verificarStatusPagamento(idUnicoSessao);
+    });
+</script>
+
+<script src="resultado.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+
+</body>
+</html>
