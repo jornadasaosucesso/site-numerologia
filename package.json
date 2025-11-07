@@ -11,11 +11,11 @@
   },
   "name": "site-numerologia",
   "version": "1.0.0",
-  "type": "module",  // 👈 ADICIONADO: Define o projeto como ES Module
-  "main": "./api/server.js", // 👈 AJUSTADO: Aponta para o seu servidor principal
+  "type": "module",
+  "main": "./api/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./api/server.js" // 👈 CORRIGIDO: Aponta para o caminho correto
+    "start": "node ./api/server.js"
   },
   "keywords": [],
   "author": "",
