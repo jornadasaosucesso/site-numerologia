@@ -1,13 +1,13 @@
-// api/server2.js - mudar para server.js no final dos testes.... 16:20 - gravado tbem no server09.js
+// api/server.js - mudar para server.js no final dos testes.... 16:20 - gravado tbem no server09.js
 import express from "express";
 import fetch from "node-fetch";
 import bodyParser from "body-parser";
 import path, { dirname } from "path";
 import crypto from "crypto";
-import cors from "cors";
 import dotenv from "dotenv";
 import { MongoClient } from "mongodb";
 import mongoose from "mongoose";
+import cors from "cors"; // ⬅️ Aqui você importa o cors
 
 import gravarPagamento from "./gravar_pagamento.js";
 import checkPagamento from "./routes/check_pagamento.js";
@@ -32,6 +32,14 @@ app.use(cors());
 app.use(express.static(path.resolve(__dirname, '..')));
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ extended: true, limit: "100mb" }));
+
+// Configuração do CORS ⬅️ Adicione este bloco
+app.use(cors({
+    origin: ['https://site-numerologia.onrender.com', 'https://site-numerologia.vercel.app', 'http://localhost:8000'], // Lista de domínios permitidos
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+    credentials: true // Se você usar cookies ou sessões
+}));
+
 
 // ----------------------------------------------------
 // 2. CONEXÃO COM O BANCO DE DADOS

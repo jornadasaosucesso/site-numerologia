@@ -257,7 +257,7 @@ body.pagina-escolha {
 }
 
 .box-tema {
-  border: 2px solid #ffb400;
+  /*border: 2px solid #ffb400; */
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 30px;

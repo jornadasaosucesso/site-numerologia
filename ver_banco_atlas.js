@@ -1,4 +1,5 @@
-const { MongoClient } = require('mongodb');
+//const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 const uri = "mongodb+srv://jorgeviana2008_db_user:GOFlkEi2hSt3bAZ7@jornadasaosucesso-db.dfs7hsd.mongodb.net/jornadasaosucesso";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });

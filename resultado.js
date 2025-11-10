@@ -195,15 +195,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const destaque = temBr ? texto.slice(0, indiceBr) : texto;
         const depoisDoBr = temBr ? texto.slice(indiceBr + 4) : "";
         // Ajuste para pegar um resumo de 150 caracteres após o destaque
-        const resumo = depoisDoBr.slice(0, 150).trim(); 
-        const continua = resumo.length >= 150 ? "..." : "";
+        const resumo = depoisDoBr.slice(0, 1500000).trim(); 
+        const continua = resumo.length >=  1500000 ? "..." : "";
         const alerta = `<span style="font-size:15px; color:#c0392b; font-weight:bold;">
           🚨📣📅 Fique atento! Conteúdo completo disponível no site a partir de 22/11/2025.
         </span>`;
         return `
           <span style="font-weight:bold; font-size:16px;">${destaque}</span><br><br>
           <span style="font-size:16px; color:#333;">${resumo}${continua}</span><br><br>
-          <span style="font-size:14px; color:#c0392b; font-weight:bold;">${alerta}</span>
         `;
     }
 
