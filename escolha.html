@@ -245,10 +245,10 @@
             // --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO ---
             const urlBackend = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`;
             const res = await fetch(urlBackend);
-                        
+                       
             try {
                 // --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO ---
-                const urlBackend = `http://localhost:8000/api/has_paid?id_unico=${id_unico}`;
+                const urlBackend = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`; // <-- AGORA CORRETO
                 const res = await fetch(urlBackend);
 
                 // Trata erros de rede ou status HTTP 4xx/5xx
