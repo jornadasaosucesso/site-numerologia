@@ -242,10 +242,11 @@
             console.log("🔑 ID único gerado para consulta:", id_unico);
             console.log("🔒 Base usada:", base); // Debug de segurança
 
-            // --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO ---
+            /* --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO 
             const urlBackend = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`;
             const res = await fetch(urlBackend);
-                       
+            */
+                      
             try {
                 // --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO ---
                 const urlBackend = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`; // <-- AGORA CORRETO
