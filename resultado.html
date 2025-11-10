@@ -236,7 +236,10 @@ document.addEventListener("DOMContentLoaded", function() {
             
             // Endpoint que verifica o status do pagamento pelo ID Único
 
-            const url_de_checagem = `http://localhost:8000/api/has_paid?id_unico=${idParaChecagem}`;
+            // ✅ CORREÇÃO: Usando a URL de produção do Render
+            const url_de_checagem = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${idParaChecagem}`;
+
+
             const response = await fetch(url_de_checagem, {
                 method: "GET",
                 headers: { "Content-Type": "application/json" }
