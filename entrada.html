@@ -1,126 +1,199 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jornada da Alma</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #000;
-            color: #fff;
-            font-family: 'Playfair Display', serif;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jornada ao Sucesso</title>
+  <meta name="description" content="Conheça o site Jornada ao Sucesso e descubra como a numerologia pode ajudar você a alcançar objetivos e se conhecer melhor.">
+  <meta name="keywords" content="sobre nós, numerologia, jornada ao sucesso, desenvolvimento pessoal, autoconhecimento">
+  <meta name="author" content="J. Viana & M. C. C. Viana">
+  <meta name="google-site-verification" content="z9DJ4Lbhbt0djQ2UT6_9JnJUZ8wC0_T_XB92WCRbR5g" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        .container-inicial {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            /* Garante que o clique seja capturado em toda a área do container */
-            cursor: pointer; 
-        }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1f1c2c, #928dab);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      /* O cursor continua indicando que é clicável */
+      cursor: pointer; 
+      transition: background 1s ease;
+    }
 
-      .capa {
-        transform: scale(1.5);
-        transform-origin: center;
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.3em;
+      animation: fadeIn 1.5s ease;
+    }
+
+    p {
+      font-size: 1.2em;
+      max-width: 600px;
+      opacity: 0.9;
+      animation: fadeIn 2s ease;
+    }
+
+    .touch {
+      margin-top: 2em;
+      font-size: 1em;
+      font-style: italic;
+      opacity: 0.7;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+
+    .countdown-container {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 16px 24px;
+      border-radius: 10px;
+      font-size: 1em;
+      color: #ffd700;
+      font-weight: bold;
+      max-width: 90vw;
+      text-align: center;
+      animation: fadeIn 2s ease;
+    }
+
+    .countdown-message {
+      font-size: 1em;
+    }
+
+    .countdown-clock {
+      font-size: 1.2em;
+      margin-top: 6px;
+    }
+
+    .full-width-text {
+      width: 100%;
+      max-width: 100%;
+      padding: 0 20px;
+      /* Garantindo o alinhamento e quebra de linha corretos */
+      text-align: justify; 
+      font-size: 1.1em;
+      line-height: 1.6;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2em;
       }
 
-        /* Novo estilo para a mensagem de clique */
-        .click-message {
-            position: absolute;
-            bottom: 10%;
-            padding: 12px 20px;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente para melhor leitura */
-            border-radius: 8px;
-            pointer-events: none; /* Ignora o clique, deixando o container capturá-lo */
-            opacity: 0;
-            animation: pulse 1.5s infinite alternate; /* Aplica um efeito pulsante */
-            z-index: 10;
-        }
+      p {
+        font-size: 1em;
+      }
 
-        @keyframes pulse {
-            0% { opacity: 0.7; transform: translateY(0); }
-            100% { opacity: 1; transform: translateY(-5px); }
-        }
+      .countdown-container {
+        font-size: 0.9em;
+        padding: 10px 12px;
+      }
 
-        .fade-out {
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-    </style>
+      .countdown-clock {
+        font-size: 1em;
+      }
+
+      .full-width-text {
+        font-size: 1em;
+        padding: 0 12px;
+      }
+    }
+  </style>
 </head>
+<body id="main-body"> 
+  <div class="countdown-container" id="countdown"></div>
 
-<body class="pagina-inicial">
-    <div class="container-inicial" id="mainContainer">
-        <video class="capa" autoplay muted loop playsinline>
-            <source src="imagens/capa-arcanos-2.mp4" type="video/mp4">
-            Seu navegador não suporta vídeos HTML5.
-        </video>
-        <div id="instructionMessage" class="click-message">Clique na imagem para entrar</div>
-    </div>
+  <h1>Jornada ao Sucesso 🚀</h1>
 
-    <script>
-        const mainContainer = document.getElementById("mainContainer");
-        const instructionMessage = document.getElementById("instructionMessage");
-        const videoElement = mainContainer.querySelector("video");
-        let hasEntered = false;
+  <p class="full-width-text">
+          Através do site Jornadas ao Sucesso, você se torna o protagonista da sua história de vida; Conhecedor de sua real identidade e da realidade que o cerca. Um ser capaz de redirecionar sua vida ao longo de sua jornada, sempre que precisar corrigir o trajeto para trilhar sua jornada ao sucesso! Sucesso vem como a união harmoniosa do seu eu interior com suas ações exteriores. O empenho para aprimorar seu dom nato, para servir o mundo que o rodeia, resulta na sua Jornada ao Sucesso! Esse caminho depende exclusivamente da sua vontade em se tornar um ser realizado com o seu progresso, a sua evolução. Através do auto conhecimento, todo ser é capaz de direcionar sua vida para uma Jornada de Sucesso!
+  </p>
+    
 
-        /**
-         * Funções de Fullscreen (para compatibilidade entre navegadores)
-         */
-        function enterFullscreen(element) {
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if (element.mozRequestFullScreen) { /* Firefox */
-                element.mozRequestFullScreen();
-            } else if (element.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                element.webkitRequestFullscreen();
-            } else if (element.msRequestFullscreen) { /* IE/Edge */
-                element.msRequestFullscreen();
-            }
-        }
-        
-        /**
-         * Lógica de Início: Fullscreen e Redirecionamento
-         */
-        function startJornada() {
-            if (hasEntered) return;
-            hasEntered = true;
+  <div class="touch">Toque na tela para continuar</div>
 
-            // 1. Tenta ativar o fullscreen no corpo da página
-            enterFullscreen(document.documentElement); 
-            
-            // 2. Aplica o efeito de fade-out
-            document.body.classList.add("fade-out");
+  <script>
+    // Configurações de Redirecionamento e Elementos
+    const BODY = document.getElementById('main-body');
+    const REDIRECT_URL = 'entrada.html';
+    const AUTO_REDIRECT_DELAY = 10000; // Redirecionamento automático após 5 segundos (em milissegundos)
 
-            // 3. Redireciona após o fade
-            setTimeout(() => {
-//                window.location.href = "/escolha.html";
-                window.location.href = "/escolha_11_22.html";
-            }, 1000);
-        }
+    // Função para redirecionar para 'entrada.html'
+    function goToEntrada() {
+        window.location.href = REDIRECT_URL;
+    }
 
-        // Mostra a mensagem após 3 segundos
-        setTimeout(() => {
-            instructionMessage.style.opacity = "1";
-        }, 3000);
+    // 1. Redirecionamento Automático: Define um timer para chamar goToEntrada
+    const autoRedirectTimer = setTimeout(goToEntrada, AUTO_REDIRECT_DELAY);
 
-        // Adiciona o listener de clique ao container
-        mainContainer.addEventListener("click", startJornada);
-    </script>
+    // 2. Redirecionamento por Interação (Clique/Touch):
+    // Adiciona o evento de clique ao corpo da página
+    BODY.addEventListener('click', function() {
+        clearTimeout(autoRedirectTimer); // Cancela o timer automático
+        goToEntrada();
+    });
+    
+    // Adiciona o evento de toque ao corpo da página (para dispositivos móveis)
+    BODY.addEventListener('touchstart', function() {
+        clearTimeout(autoRedirectTimer); // Cancela o timer automático
+        goToEntrada();
+    });
+
+    // Função para atualizar o contador
+    function updateCountdown() {
+      const targetDate = new Date("2025-11-22T06:00:00");
+      const now = new Date();
+      const diff = targetDate - now;
+
+      const container = document.getElementById("countdown");
+
+      if (diff <= 0) {
+        container.innerHTML = `
+          <div class="countdown-message">🚨📣📅 O conteúdo já está disponível!</div>
+        `;
+        // Se a data já passou, o redirecionamento automático não deve ocorrer
+         clearTimeout(autoRedirectTimer); 
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      container.innerHTML = `
+        <div class="countdown-message">🚨📣📅 Fique atento! - Conteúdo completo a partir de 22/11/2025.</div>
+        <div class="countdown-clock">⏳ ${days} dias, ${hours}h:${minutes}min:${seconds}s</div>
+      `;
+    }
+
+    // Inicia a atualização do contador a cada segundo
+    setInterval(updateCountdown, 1000);
+    // Garante que o contador seja exibido imediatamente ao carregar
+    window.onload = updateCountdown; 
+  </script>
 </body>
 </html>
