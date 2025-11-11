@@ -215,12 +215,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // === 🔍 Recupera o mesmo ID salvo nas etapas anteriores ===
   let idUnicoSessao = localStorage.getItem("id_unico");
-
+  
   // Se não existir, recalcula e salva
-  if (!idUnicoSessao || idUnicoSessao === "null" || idUnicoSessao.length < 30) {
-    idUnicoSessao = gerarIdUnico(nome, data);
-    localStorage.setItem("id_unico", idUnicoSessao);
-  }
+//  if (!idUnicoSessao || idUnicoSessao === "null" || idUnicoSessao.length < 30) {
+  idUnicoSessao = gerarIdUnico(nome, data);
+  localStorage.setItem("id_unico", idUnicoSessao);
+//  }
 
   console.log("✅ ID único ativo na sessão:", idUnicoSessao);
 
