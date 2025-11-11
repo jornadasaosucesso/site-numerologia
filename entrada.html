@@ -196,6 +196,23 @@
     setInterval(updateCountdown, 1000);
     // Garante que o contador seja exibido imediatamente ao carregar
     window.onload = updateCountdown; 
+
+// =========================================================
+    // === CÓDIGO PARA TENTAR DESATIVAR O GOOGLE TRADUTOR ===
+    // =========================================================
+    function disableGoogleTranslateBar() {
+        // Tenta forçar a detecção de idioma para desativar a barra de tradução do Chrome
+        // Adiciona atributos diretamente ao <body>
+        if (document.body) {
+            document.body.setAttribute("class", "notranslate");
+            document.body.setAttribute("translate", "no");
+        }
+    }
+
+    // Chama a função após o carregamento completo da página
+    window.addEventListener('load', disableGoogleTranslateBar);
+    // =======================================================
+
   </script>
 </body>
 </html>
