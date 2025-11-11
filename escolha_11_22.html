@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         
-        /*  (Seu CSS permanece inalterado) ... */
+        /* (Seu CSS permanece inalterado) ... */
         body {
             margin: 0;
             background: radial-gradient(circle at center, #000, #0a0a0a);
@@ -24,83 +24,83 @@
         }
 
         .tela-escolha {
-        text-align: center;
-        width: 100%;
-        max-width: 900px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 26px;
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 26px;
         }
 
         .linha {
-        display: flex;
-        justify-content: center;
-        gap: 16px;
-        flex-wrap: nowrap;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: nowrap;
         }
 
         /* === Campos Místicos === */
         input {
-        padding: 12px 18px;
-        font-size: 1.1em;
-        border-radius: 10px;
-        border: 1px solid rgba(212, 175, 55, 0.6);
-        text-align: center;
-        width: 230px;
-        background: radial-gradient(circle at top, rgba(255, 240, 200, 0.05), rgba(0, 0, 0, 0.5));
-        color: #fff;
-        outline: none;
-        box-shadow: inset 0 0 8px rgba(255, 215, 0, 0.2),
-                    0 0 10px rgba(255, 215, 0, 0.1);
-        transition: all 0.3s ease;
+            padding: 12px 18px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            text-align: center;
+            width: 230px;
+            background: radial-gradient(circle at top, rgba(255, 240, 200, 0.05), rgba(0, 0, 0, 0.5));
+            color: #fff;
+            outline: none;
+            box-shadow: inset 0 0 8px rgba(255, 215, 0, 0.2),
+                        0 0 10px rgba(255, 215, 0, 0.1);
+            transition: all 0.3s ease;
         }
 
         input:focus {
-        border-color: #ffcc70;
-        box-shadow: inset 0 0 10px rgba(255, 225, 100, 0.4),
-                    0 0 18px rgba(255, 225, 100, 0.6),
-                    0 0 28px rgba(255, 230, 120, 0.3);
-        background: radial-gradient(circle at top, rgba(255, 255, 200, 0.08), rgba(0, 0, 0, 0.6));
+            border-color: #ffcc70;
+            box-shadow: inset 0 0 10px rgba(255, 225, 100, 0.4),
+                        0 0 18px rgba(255, 225, 100, 0.6),
+                        0 0 28px rgba(255, 230, 120, 0.3);
+            background: radial-gradient(circle at top, rgba(255, 255, 200, 0.08), rgba(0, 0, 0, 0.6));
         }
 
         input::placeholder {
-        color: rgba(255, 255, 255, 0.6);
-        font-style: italic;
-        letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            letter-spacing: 0.5px;
         }
 
         button {
-        padding: 12px 36px;
-        font-size: 1.2em;
-        border-radius: 10px;
-        background: linear-gradient(90deg, #d4af37, #ffcc70);
-        color: #000;
-        font-weight: bold;
-        border: none;
-        cursor: pointer;
-        transition: transform 0.3s, box-shadow 0.3s;
+            padding: 12px 36px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #d4af37, #ffcc70);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         button:hover {
-        transform: scale(1.08);
-        box-shadow: 0 0 25px #ffcc70;
+            transform: scale(1.08);
+            box-shadow: 0 0 25px #ffcc70;
         }
 
         video {
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-        border-radius: 12px;
-        box-shadow: 0 0 18px rgba(255, 215, 0, 0.35);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        background-color: #111;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 0 18px rgba(255, 215, 0, 0.35);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #111;
         }
 
         video:hover {
-        transform: scale(1.1);
-        box-shadow: 0 0 28px rgba(255, 230, 100, 0.8);
-        filter: brightness(1.15);
+            transform: scale(1.1);
+            box-shadow: 0 0 28px rgba(255, 230, 100, 0.8);
+            filter: brightness(1.15);
         }
 
         @media (max-width: 600px) {
@@ -127,6 +127,66 @@
 </head>
 
 <body class="pagina-escolha">
+
+    <div id="previewModal" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.95); /* Fundo escuro mais denso */
+        z-index: 1000;
+        display: none; /* Inicia escondido, será exibido pelo JS */
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        padding: 20px;
+    ">
+        <div style="
+            background-color: #1a1a1a;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffdd99;
+        ">
+            <h2 style="color: #ffdd99; margin-bottom: 20px;">
+                🌟 Seja Bem-Vindo ao Jornadas ao Sucesso!
+            </h2>
+
+            <p style="font-size: 1.1em; line-height: 1.6;">
+                Olá! Você está explorando o site em **Modo Preview**. Nosso propósito é apresentar a você a profundidade do relatório e a beleza da sua jornada.
+            </p>
+            
+            <p style="font-size: 1.1em; line-height: 1.6; margin-top: 15px; font-weight: bold;">
+                O relatório que você verá a seguir não é o seu. Ele é uma amostra detalhada baseada na data de lançamento oficial do site:
+                <span style="color: #ffdd99;">22/11/2025 (JORNADAS AO SUCESSO)</span>.
+            </p>
+            
+            <p style="font-size: 0.9em; line-height: 1.5; margin-top: 25px; color: #aaa;">
+                Use este modo para conhecer o design, a organização das informações e a clareza da nossa apresentação.
+            </p>
+
+            <p id="instrucaoCont" style="font-size: 0.9em; margin-top: 30px; color: #ffdd99; cursor: pointer;">
+                Clique em "VER MEU ARCANO" ou pressione **qualquer tecla** para prosseguir com a demonstração.
+            </p>
+            
+            <button id="modalContinuar" style="
+                margin-top: 20px;
+                padding: 10px 20px;
+                background-color: #ffdd99;
+                color: #000;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 1.2em;
+                font-weight: bold;
+            ">
+                VER MEU ARCANO
+            </button>
+        </div>
+    </div>
     <main class="tela-escolha">
 
         <div class="linha">
@@ -177,8 +237,8 @@
     </main>
 
     <script>
-        const MODO_PREVIEW = false; // 🚨 MUDAR PARA FALSE PARA ATIVAR O SISTEMA DE PAGAMENTO 🚨
-     
+        const MODO_PREVIEW = true; // 🚨 MUDAR PARA FALSE PARA ATIVAR O SISTEMA DE PAGAMENTO 🚨
+        
         const htmlElement = document.documentElement;
         
         function exibirMensagem(texto, cor = '#ffcc70') {
@@ -203,7 +263,6 @@
         }
 
         // === Fullscreen ===
-        // ... (Seu código Fullscreen permanece inalterado) ...
         function enterFullscreen(element) {
             if (element.requestFullscreen) element.requestFullscreen();
             else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
@@ -224,18 +283,79 @@
             if (typeof $ !== 'undefined') { 
                 $("#data_nascimento").inputmask("99/99/9999");
             } else {
-                Inputmask("99/99/9999").mask(document.getElementById("data_nascimento"));
+                // A máscara de data deve ser aplicada apenas se os campos não estiverem desabilitados
+                if (!document.getElementById("data_nascimento").disabled) {
+                    Inputmask("99/99/9999").mask(document.getElementById("data_nascimento"));
+                }
             }
         } else {
             console.error("Inputmask não foi carregado corretamente.");
         }
 
+
+        // === NOVO BLOCO DE CONTROLE DA MODAL (RODA NO CARREGAMENTO DA PÁGINA) ===
+        const previewModal = document.getElementById('previewModal');
+        const modalContinuar = document.getElementById('modalContinuar');
+        const btnCalcular = document.getElementById('btnCalcular');
+
+        if (MODO_PREVIEW) {
+            // 1. Exibir a modal ao carregar
+            window.onload = () => {
+                previewModal.style.display = 'flex';
+                // Garante que o botão principal não pode ser clicado antes de fechar a modal
+                btnCalcular.disabled = true;
+                btnCalcular.style.opacity = '0.5';
+                btnCalcular.style.cursor = 'default';
+            };
+            
+            // 2. Função para fechar a modal e focar no botão principal
+            const fecharModal = () => {
+                previewModal.style.display = 'none';
+                btnCalcular.disabled = false; // Habilita o botão principal
+                btnCalcular.style.opacity = '1';
+                btnCalcular.style.cursor = 'pointer';
+                btnCalcular.focus(); 
+                document.removeEventListener('keydown', fecharModal); // Remove o listener de tecla
+            };
+
+            // 3. Fechar a modal ao clicar no botão 'VER MEU ARCANO' da modal
+            modalContinuar.addEventListener('click', fecharModal);
+
+            // 4. Fechar a modal ao pressionar qualquer tecla
+            document.addEventListener('keydown', fecharModal);
+
+            // 5. Mudar o texto do botão principal (VER ARCANO) para refletir o texto da modal
+            btnCalcular.textContent = "VER DEMONSTRAÇÃO";
+        }
+        // --- FIM DO BLOCO DE CONTROLE DA MODAL ---
+
+
+
         // === Botão Calcular (Checagem no Backend) ===
         document.getElementById('btnCalcular').addEventListener('click', async function () {
+            
+            // --- O BLOCO DO MODO PREVIEW PARA REDIRECIONAMENTO ---
+            if (MODO_PREVIEW) {
+                // Só prossegue se o botão for habilitado (modal fechada)
+                if (this.disabled) return; 
+
+                exibirMensagem('Carregando a Jornada de Demonstração...', '#ffdd99'); 
+                
+                // Armazena os dados FIXOS
+                localStorage.setItem('nome', 'JORNADAS AO SUCESSO');
+                localStorage.setItem('data_nascimento', '22/11/2025');
+                
+                // Redireciona diretamente para o resultado.html
+                setTimeout(() => {
+                    window.location.href = 'resultado.html';
+                }, 1000); 
+
+                // ESTE É O COMANDO CRÍTICO: IMPEDE A EXECUÇÃO DO FLUXO NORMAL DE PIX/BACKEND
+                return; 
+            }
+            // --- FIM DO BLOCO DO MODO PREVIEW ---
 
             //exibirMensagem('Checando acesso...'); 
-            // --- O BLOCO DO MODO PREVIEW PRECISA ESTAR AQUI ---
-
 
             let data = document.getElementById('data_nascimento').value.trim(); // Use 'let'
             const nome = document.getElementById('nome_individual').value.trim();
@@ -254,22 +374,16 @@
                 .replace(/\s+/g, ' ') 
                 .trim(); 
 
-            // ... (dentro do 'click', após a base ser definida)
-
             const base = `${nomePadronizado}|${dataFormatada}`;
             const id_unico = CryptoJS.SHA1(base).toString();
 
             console.log("🔑 ID único gerado para consulta:", id_unico);
             console.log("🔒 Base usada:", base); // Debug de segurança
 
-            /* --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO 
-            const urlBackend = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`;
-            const res = await fetch(urlBackend);
-            */
-
             try {
                 // --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO ---
-                const urlBackend = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`; // <-- AGORA CORRETO
+                // ATENÇÃO: Verifique se este domínio 'site-numerologia.onrender.com' é o seu backend ATUAL
+                const urlBackend = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`; 
                 const res = await fetch(urlBackend);
 
                 // Trata erros de rede ou status HTTP 4xx/5xx
@@ -295,7 +409,7 @@
                     // ❌ Pagamento NÃO encontrado (paid: false)
                     exibirMensagem('🛑 Pagamento não validado. Redirecionando para PIX.', '#c0392b');
                     
-                    // Redireciona para a página de cobrança, enviando o ID ÚNICO e dados na URL
+                    // Redireciona para a página de cobrança
                     setTimeout(() => {
                         window.location.href = `transicao.html?id_unico=${id_unico}&nome=${encodeURIComponent(nome)}&data=${encodeURIComponent(data)}`;
                     }, 2000);
