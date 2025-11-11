@@ -25,7 +25,8 @@
       align-items: center;
       min-height: 100vh;
       text-align: center;
-      cursor: pointer;
+      /* O cursor continua indicando que é clicável */
+      cursor: pointer; 
       transition: background 1s ease;
     }
 
@@ -90,7 +91,8 @@
       width: 100%;
       max-width: 100%;
       padding: 0 20px;
-      text-align: justify;
+      /* Garantindo o alinhamento e quebra de linha corretos */
+      text-align: justify; 
       font-size: 1.1em;
       line-height: 1.6;
       margin-top: 30px;
@@ -121,19 +123,46 @@
     }
   </style>
 </head>
-<body onclick="window.location.href='entrada.html'" ontouchstart="window.location.href='entrada.html'">
+<body id="main-body"> 
   <div class="countdown-container" id="countdown"></div>
 
   <h1>Jornada ao Sucesso 🚀</h1>
 
   <p class="full-width-text">
-     -  Através do site Jornadas ao Sucesso, você se torna o protagonista da sua história de vida; Conhecedor de sua real identidade e da realidade que o cerca. Um ser capaz de redirecionar sua vida ao longo de sua jornada, sempre que precisar corrigir o trajeto para trilhar sua jornada ao sucesso! Sucesso vem como a união harmoniosa do seu eu interior com suas ações exteriores. O empenho para aprimorar seu dom nato, para servir o mundo que o rodeia, resulta na sua Jornada ao Sucesso! Esse caminho depende exclusivamente da sua vontade em se tornar um ser realizado com o seu progresso,  a sua evolução. Atraves do auto conhecimento, todo ser é capaz de direcionar sua vida para uma Jornada de Sucesso!
+          Através do site Jornadas ao Sucesso, você se torna o protagonista da sua história de vida; Conhecedor de sua real identidade e da realidade que o cerca. Um ser capaz de redirecionar sua vida ao longo de sua jornada, sempre que precisar corrigir o trajeto para trilhar sua jornada ao sucesso! Sucesso vem como a união harmoniosa do seu eu interior com suas ações exteriores. O empenho para aprimorar seu dom nato, para servir o mundo que o rodeia, resulta na sua Jornada ao Sucesso! Esse caminho depende exclusivamente da sua vontade em se tornar um ser realizado com o seu progresso, a sua evolução. Através do auto conhecimento, todo ser é capaz de direcionar sua vida para uma Jornada de Sucesso!
   </p>
     
 
   <div class="touch">Toque na tela para continuar</div>
 
   <script>
+    // Configurações de Redirecionamento e Elementos
+    const BODY = document.getElementById('main-body');
+    const REDIRECT_URL = 'entrada.html';
+    const AUTO_REDIRECT_DELAY = 10000; // Redirecionamento automático após 5 segundos (em milissegundos)
+
+    // Função para redirecionar para 'entrada.html'
+    function goToEntrada() {
+        window.location.href = REDIRECT_URL;
+    }
+
+    // 1. Redirecionamento Automático: Define um timer para chamar goToEntrada
+    const autoRedirectTimer = setTimeout(goToEntrada, AUTO_REDIRECT_DELAY);
+
+    // 2. Redirecionamento por Interação (Clique/Touch):
+    // Adiciona o evento de clique ao corpo da página
+    BODY.addEventListener('click', function() {
+        clearTimeout(autoRedirectTimer); // Cancela o timer automático
+        goToEntrada();
+    });
+    
+    // Adiciona o evento de toque ao corpo da página (para dispositivos móveis)
+    BODY.addEventListener('touchstart', function() {
+        clearTimeout(autoRedirectTimer); // Cancela o timer automático
+        goToEntrada();
+    });
+
+    // Função para atualizar o contador
     function updateCountdown() {
       const targetDate = new Date("2025-11-22T06:00:00");
       const now = new Date();
@@ -145,6 +174,8 @@
         container.innerHTML = `
           <div class="countdown-message">🚨📣📅 O conteúdo já está disponível!</div>
         `;
+        // Se a data já passou, o redirecionamento automático não deve ocorrer
+         clearTimeout(autoRedirectTimer); 
         return;
       }
 
@@ -159,8 +190,10 @@
       `;
     }
 
+    // Inicia a atualização do contador a cada segundo
     setInterval(updateCountdown, 1000);
-    window.onload = updateCountdown;
+    // Garante que o contador seja exibido imediatamente ao carregar
+    window.onload = updateCountdown; 
   </script>
 </body>
 </html>
