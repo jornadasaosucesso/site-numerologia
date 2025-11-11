@@ -381,3 +381,29 @@ body.bloqueia-rolagem {
   line-height: 1.6;
 }
 
+.tela-capa {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw; /* Usa 100% da largura da viewport */
+        height: 100vh; /* Usa 100% da altura da viewport */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden; /* ESSENCIAL: Esconde o que transborda (o zoom) */
+        background: #000;
+        z-index: 10;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    .capa {
+        width: 100%; 
+        height: 100%;
+        object-fit: cover; 
+        transform: scale(1.5); /* VOLTA O ZOOM DE 50% */
+        transform-origin: center;
+        max-width: none; /* Garante que ele possa ser maior que o container */
+        max-height: none;
+    }
