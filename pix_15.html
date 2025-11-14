@@ -87,11 +87,9 @@
 </head>
 
 <body>
-  <p style="font-size:1.6em; margin-bottom:12px; font-weight:bold;">ESTAMOS EM FASE DE TESTES!</p>
-  <p style="font-size:1.6em; margin-bottom:12px; font-weight:bold;">⚠️ O SITE ESTARÁ ONLINE EM BREVE ⚠️</p>
-
   <h2>💰 Clique em "PIX PAGO" para validar seu pagamento</h2>
-  <p>Escaneie o QR Code abaixo ou copie o código Pix para pagamento de R$ 35,00</p>
+  <p>Escaneie o QR Code abaixo ou copie o código Pix para pagamento de R$ 26,00</p>
+  <p>**** ATENÇÃO ***** - TIRE UM PRINT DA PARTE INFERIOR DO PIX, NESCESSÁRIO PARA VALIDAÇÃO</p>
 
   <div id="qrcode"></div>
   <textarea id="pixCode" readonly>Escaneie o QR Code acima para pagamento</textarea>
@@ -133,8 +131,6 @@
     const nome = localStorage.getItem("nome") || "Jorge Viana";
     const data = localStorage.getItem("data_nascimento") || "26/05/1955";
 
-       // === ID ÚNICO CORRIGIDO ===
-    // Garante consistência com o backend e evita re-geração incorreta
     function sha1(str) {
         const shaObj = new jsSHA("SHA-1", "TEXT");
         shaObj.update(str);
@@ -181,8 +177,6 @@
 
     // --- FUNÇÃO DE GERAÇÃO DE TXID OTIMIZADA PARA OCR ---
     function gerarTXID(nome) { 
-        // Caracteres OTIMIZADOS para OCR (Exclui O, I, L, S, Z, T que causam confusão 0/O, 1/I/L, 5/S, 7/T/Z)
-        // O pool é: A B C D E F G H J K M N P Q R U V W X Y 2 3 4 6 8 9
         const CARACTERES_OCR = 'ABCDEFGHJKMNPQRUVWXY234689'; 
 
         // 1. Limpa o nome, deixando apenas letras e números, e converte para maiúsculas
@@ -195,7 +189,6 @@
         const length = 10 - txid.length; 
         
         for (let i = 0; i < length; i++) {
-            // Usa o pool de caracteres OTIMIZADO para os caracteres aleatórios
             const randomIndex = Math.floor(Math.random() * CARACTERES_OCR.length);
             txid += CARACTERES_OCR.charAt(randomIndex);
         }
@@ -204,20 +197,12 @@
         txidGerado = txid; // Armazena o TXID globalmente
         return txid;
     }
-    // -------------------------------------------------------------------
-
-    // Função corrigida para garantir que o valor seja uma String
     function formatarCampo(id, valor) {
-        // Garante que o valor não é nulo/undefined e o converte para String
         const valorString = String(valor || ""); 
-        
-        // Calcula o comprimento da string e preenche com zero à esquerda
         const len = valorString.length.toString().padStart(2, '0');
-        
         return id + len + valorString;
     }
 
-    // Função CRC16 (CRC-CCITT)
     function calcularCRC16(payload) {
         let polinomio = 0x1021;
         let resultado = 0xFFFF;
@@ -233,53 +218,36 @@
             resultado &= 0xFFFF; // Garante que o resultado tem 16 bits
         }
         
-        // Converte para hexadecimal de 4 dígitos (padded)
         return resultado.toString(16).toUpperCase().padStart(4, '0');
     }
     
-    // Função SHA1 para ID único (mantida)
     function sha1(str) {
       const shaObj = new jsSHA("SHA-1", "TEXT");
       shaObj.update(str);
       return shaObj.getHash("HEX");
     }
 
-    // Função de normalização de data (mantida)
     function normalizarData(data) { return data.replace(/\D/g, ''); }
     
-    // Função de geração de ID (mantida)
     function gerarIdUnico(nome, data) { return sha1(`${nome.trim().toLowerCase()}|${normalizarData(data)}`); }
 
-
-    // === Geração do QR Code PIX ...    // === Geração do QR Code PIX (Atualizado para valor R$ 35,00) ===
     document.getElementById("btnGerar").addEventListener("click", () => {
-
-        // 🔔 CORREÇÃO: DEFINIR nome, data, e chaveBase PRIMEIRO!
         const nome = localStorage.getItem('nome') || '';
         const data = localStorage.getItem('data_nascimento') || '';
         const chaveBase = normalizarData(data) + nome; // <-- chaveBase PRECISA estar aqui
 
-        // 📢 NOVO: DEFINIR AS CHAVES PROTEGIDAS ANTES DE USAR NA LIMPEZA
         const chavesProtegidas = ["nome", "data_nascimento", "nome_original", "data_original"];
-        // -----------------------------------------------------------
-        // Itera sobre o localStorage e remove todos os PIXs antigos do usuário atual
-    
-        // Itera sobre o localStorage e remove todos os PIXs antigos do usuário atual
         Object.keys(localStorage).forEach(key => {
-            // Se a chave começar com a base do usuário, e já contém um TXID (para evitar deletar nome/data)
             if (key.includes(chaveBase) && key.includes('PIX')) {
                 localStorage.removeItem(key);
                 console.log("Removido TXID antigo do LocalStorage:", key);
             }
 
-            // Adiciona a condição para pular as chaves protegidas
             if (chavesProtegidas.includes(key)) {
                 return; // Pula esta chave, mantendo-a intacta
             }
         });
 
-
-    // 1. Verificação inicial de dados
         console.log("--- DEBUG PIX ---");
         console.log("Nome Destinatário:", nomeDestinatario);
         console.log("Cidade:", cidade);
@@ -303,12 +271,9 @@
             formatarCampo("60", cidade) +
             formatarCampo("62", formatarCampo("05", txid));
 
-        // 2. Verificação do payload antes do CRC
         console.log("Payload sem CRC (após campos):", payload);
-
         const payloadSemCRC = payload + "6304";
 
-        // 3. Verificação do CRC
         const crc = calcularCRC16(payloadSemCRC); // <-- Possível fonte do NaN
         console.log("CRC Calculado:", crc); // Se aparecer NaN, o erro está em calcularCRC16
 
@@ -316,8 +281,6 @@
         console.log("BRCode Final:", brcode); // Verificar se o BRCode está completo
 
         document.getElementById("pixCode").value = brcode;
-        
-        // Geração do QR Code e armazenamento local (TXID)
         QRCode.toDataURL(brcode, { width: 184 }).then(url => {
             const qrcodeDiv = document.getElementById("qrcode");
             qrcodeDiv.innerHTML = "";
@@ -327,15 +290,6 @@
             qrcodeDiv.appendChild(img);
         });
 
-        // ----------------------------------------------------
-        // 🔔 NOVO BLOCO: Limpeza de Dados Antigos no LocalStorage
-        // ----------------------------------------------------
-        // Chave base para identificar todos os PIXs antigos deste usuário
-        
-
-        // ----------------------------------------------------
-        // Armazenamento do NOVO TXID e dados do usuário
-        // Usamos uma chave única que inclui "PIX_" para fácil identificação e exclusão.
         const chaveUsuario = normalizarData(data) + nome + "PIX_" + txid; 
         localStorage.setItem(chaveUsuario, JSON.stringify({
             nome,
@@ -345,17 +299,8 @@
             pago: false
         }));
 
-
-
-
         document.getElementById("mensagemPix").textContent = "✅ PIX Gerado com sucesso! Valor: R$ " + valorEsperado;
     });
-
-
-
-    
-    // ... (restante dos listeners: copyBtn, btnPixPago, btnVoltar)
-    // ... (outros listeners) ...
 
     document.getElementById("copyBtn").addEventListener("click", () => {
         const pixCode = document.getElementById("pixCode");
@@ -367,25 +312,17 @@
     document.getElementById("btnPixPago").addEventListener("click", () => {
         console.log("CLIQUE: PIX PAGO - Iniciando upload."); // Log de verificação
         
-        // 1. Atualiza a mensagem
         document.getElementById("mensagemInterativa").textContent =
            `Por favor, ${nome}, compartilhe o comprovante do PIX através do botão abaixo. Em seguida clique em “PROSSEGUIR”.`;
 
-        // 2. Mostra os campos de upload
         document.getElementById("comprovante").style.display = "block";
         document.getElementById("uploadStatus").style.display = "block";
         
-        // 3. Esconde "PIX PAGO" e mostra "PROSSEGUIR"
         document.getElementById("btnPixPago").style.display = "none";
         document.getElementById("btnProsseguir").style.display = "inline-block";
     });
 
-
-
     document.getElementById("btnVoltar").addEventListener("click", () => { window.location.href = "escolha.html"; });
-
-
-    // --- FUNÇÃO CENTRAL DE PROCESSAMENTO OCR ---
     async function processarComprovante(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -464,27 +401,19 @@
           }
         };
 
-        // Inicia a leitura do arquivo como Base64
         reader.readAsDataURL(file);
       });
     }
-
-    // --- NOVO LISTENER DO PROSSEGUIR (VALIDAÇÃO LOCAL) ---
-    // --- NOVO LISTENER DO PROSSEGUIR (VALIDAÇÃO LOCAL) ---
     document.getElementById("btnProsseguir").addEventListener("click", async () => {
 
-        // 🔔 CORREÇÃO FINAL: Definir as variáveis necessárias para a busca
         const nome = localStorage.getItem('nome') || '';
         const data = localStorage.getItem('data_nascimento') || '';
-        
-        // Supondo que 'normalizarData' esteja definida globalmente
         const chaveBase = normalizarData(data) + nome; 
         
         console.log("CLIQUE: PIX PAGO - Iniciando upload.");
 
         const file = document.getElementById("comprovante").files[0];
         
-        // 1. Limpa status e mostra painel
         painelValidacao.style.display = "block";
         txidStatus.innerHTML = `🔄 TXID: analisando...`;
         valorStatus.innerHTML = `🔄 Valor: analisando...`;
@@ -492,15 +421,11 @@
         extStatus.innerHTML = `🔄 Extensão: analisando...`;
         mensagemPix.textContent = "Iniciando validação...";
         
-        // 2. Verifica se o arquivo existe e a extensão
-        // (Código de validação de extensão aqui - INALTERADO)
         if (!file) {
             mensagemPix.innerHTML = `<span style="color:red">❌ Nenhum comprovante foi selecionado.</span>`;
             return;
         }
 
-
-        
         const ext = file.name.split('.').pop().toLowerCase();
         const extensoesValidas = ['pdf', 'jpg', 'jpeg', 'png', 'csv', 'txt'];
         const extOk = extensoesValidas.includes(ext);
@@ -512,31 +437,17 @@
         if (!extOk) { mensagemPix.innerHTML = `<span style="color:red">❌ Falha na Extensão.</span>`; return; }
         btnProsseguir.disabled = false;
 
-        // ... (após a validação de extensão no Ponto 2) ...
-
-        // 3. Obtém TXID esperado (Gerado no "Gerar Pix")
         let txidEsperado = "";
 
-        // A chave base deve ser o mínimo necessário para identificar o usuário.
-        // const chaveBase = normalizarData(data) + nome;
-        // Chaves essenciais que NÃO devem ser removidas
-        // const chavesProtegidas = ["nome", "data_nascimento", "nome_original", "data_original"]; // OK, preserva dados do questionário
-        
-        // Itera sobre o localStorage e remove PIXs antigos
-
-        // 🔔 CORREÇÃO CRÍTICA: DEFINIÇÃO DA VARIÁVEL CHAVESPIX
         const chavesPix = Object.keys(localStorage)
             // Filtra chaves que contêm a base do usuário E o prefixo PIX_
             .filter(k => k.includes(chaveBase) && k.includes('PIX_')) 
             .sort(); // Pega o último gerado
-    
                  
         if (chavesPix.length > 0) {
-            // Pega o item mais recente
             const dados = JSON.parse(localStorage.getItem(chavesPix[chavesPix.length - 1]));
             txidEsperado = dados?.txid?.toUpperCase() || "";
 
-            // Adicionado log para DEBUG
             console.log("TXID Esperado (Lido do LocalStorage):", txidEsperado);
 
             if (!txidEsperado) {
@@ -548,72 +459,46 @@
             return;
         } 
 
-        // 4. Executa OCR e Validação
         try {
             mensagemPix.textContent = "Executando OCR no comprovante...";
             const ocrText = await processarComprovante(file);
             let ocrTextUpper = ocrText.toUpperCase(); // Padroniza o texto do OCR
             
-            // --- NOVO PASSO: LIMPEZA DE CARACTERES COMUNS DO OCR ---
-            // Corrige confusão OCR comum: 7/S e 0/O (especialmente em TXIDs)
             ocrTextUpper = ocrTextUpper.replace(/S/g, '7'); // ⬅️ Substitui S por 7 para corrigir TXID
             ocrTextUpper = ocrTextUpper.replace(/0/g, 'O'); // ⬅️ Substitui 0 por O para corrigir TXID
-            // --------------------------------------------------------
             
             console.log("Texto OCR Limpo:", ocrTextUpper); // Log para debug final!
            
             console.log("Texto OCR Completo:", ocrText); // Log para debug final!
 
-            // --- Variáveis de Validação ---
             let validoTxid = false;
             let txidExtraido = "Não lido";
             let validoValor = false;
             let valorExtraido = "N/A";
             let validoData = false;
 
-            // A. Validação do TXID (Identificador)
-            // 1. Tenta encontrar o TXID esperado diretamente
             if (txidEsperado && ocrTextUpper.includes(txidEsperado)) {
                 validoTxid = true;
                 txidExtraido = txidEsperado;
             } 
-            // 2. Se falhar, tenta extrair pelo label "IDENTIFICADOR" ou "TXID" (MARCIAC2H8)
             else {
                 const regexTxidLido = ocrTextUpper.match(/(IDENTIFICADOR|TXID|ID\s+TRANSACAO)[:\s]+([A-Z0-9]{8,20})/);
                 if (regexTxidLido && regexTxidLido[2]) {
                     txidExtraido = regexTxidLido[2].trim();
                     console.log("TXID lido via Regex:", txidExtraido);
-
-                    // Compara o que foi lido com o que era esperado (MARCIAC2H8)
                     if (txidExtraido === txidEsperado) {
                         validoTxid = true;
                     }
                 }
             }
 
-            // B. Validação do Valor (0.50)
-//            const valorBusca = valorEsperado.replace('.', '[.,]');
-//            const regexValor = new RegExp(`[R\\$]?\\s*${valorBusca}(\\s|$)`, 'i');
-//           validoValor = regexValor.test(ocrText);
-            
-            // Tenta extrair o valor lido
-//            const matchValor = ocrText.match(/(\d+[\.,]\d{2})/);
-//            if(matchValor) valorExtraido = matchValor[1];
-
-            // B. Validação do Valor (0.50)
-
-            // 1. Extrai o primeiro padrão de moeda brasileira (com separador de milhar opcional)
-            // Procura por: [R$ ] seguido de [dígitos] [vírgula/ponto] [2 dígitos]
             const matchValor = ocrText.match(/[R$]?[^\d]*(\d{1,3}(?:\.\d{3})*,\d{2})/i); 
 
             if (matchValor && matchValor[1]) {
-                valorExtraido = matchValor[1]; // Ex: "35,00" ou "1.000,00"
-                
-                // 2. Converte o valor extraído para o padrão de comparação (FLOAT/US-style)
+                valorExtraido = matchValor[1]; 
                 let valorConvertido = valorExtraido.replace(/\./g, ''); // Remove separador de milhar (ponto)
                 valorConvertido = valorConvertido.replace(',', '.'); // Troca vírgula por ponto para comparação
 
-                // 3. Valida se o valor convertido é igual ao valor esperado ("0.50")
                 if (parseFloat(valorConvertido) === parseFloat(valorEsperado)) {
                     validoValor = true;
                 }
@@ -621,7 +506,6 @@
                 console.log(`Valor Extraído: ${valorExtraido}, Valor Convertido: ${valorConvertido}, Esperado: ${valorEsperado}`);
 
             } else {
-                // Tenta a extração simples se falhar na busca do padrão monetário
                 const matchSimples = ocrText.match(/(\d+,\d{2})/); // Procura só por números com vírgula e 2 decimais
                 if (matchSimples && matchSimples[1]) {
                     valorExtraido = matchSimples[1];
@@ -631,15 +515,9 @@
                     }
                 }
             }
-            //
-
-
-            // C. Validação de Data/Hora
             const matchData = ocrText.match(/\d{2}[\/\\-]\d{2}[\/\\-]\d{4}\s*-\s*\d{2}:\d{2}:\d{2}/); 
             validoData = !!matchData;
 
-
-            // 5. Atualiza o Painel de Validação
             txidStatus.innerHTML = validoTxid
                 ? `<span style="color:green">✅ TXID: ${txidExtraido} (OK)</span>`
                 : `<span style="color:red">❌ TXID: ${txidExtraido} (Esperado: ${txidEsperado})</span>`;
@@ -651,30 +529,7 @@
             dataStatus.innerHTML = validoData
                 ? `<span style="color:green">✅ Data/Hora: detectada</span>`
                 : `<span style="color:orange">⚠️ Data/Hora: não detectada</span>`;
-                
-            // 6. Decisão Final e Gravação
-//            if (extOk && validoTxid && validoValor && validoData) {
-//                mensagemPix.innerHTML = `<span style="color:lime">✅ Validação OCR concluída! Gravando usuário...</span>`;
-//
-//                localStorage.setItem('txidConsulta', txidEsperado);
-//                
-//                const payloadUsuario = { 
-//                    id_unico: idUnicoSessao,  // 🔑 Usa o ID correto
-//                    nome, 
-//                    data, 
-//                    txid: txidEsperado, 
-//                    valor: valorEsperado, 
-//                    paid: true, 
-//                    status: "confirmado"
-//                };
-                
-                // Rota de gravação (CORRIGIDA)
-//                const resGravar = await fetch("http://localhost:8000/api/gravar_pagamento", {
-//                    method: "POST",
-//                    headers: { "Content-Type": "application/json" },
-//                    body: JSON.stringify(payloadUsuario)
-//                });
-            
+             
                 if (extOk && validoTxid && validoValor && validoData) {
                     const payloadUsuario = { 
                         id_unico: idUnicoSessao, 
@@ -686,21 +541,13 @@
                         status: 'pago' // 👈 ENVIANDO O STATUS CORRETO
                     };
                     
-                    // Rota de gravação
                     const resGravar = await fetch("http://localhost:8000/api/gravar_pagamento", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(payloadUsuario)
                     });
 
-
-
-                // Conversão para JSON
                 const gravarData = await resGravar.json(); 
-                
-                // ... continua o if (gravarData.success)
-
-                // Rota de gravação
                 
                 if (gravarData.success) {
                     mensagemPix.innerHTML = `<span style="color:lime">✅ Usuário gravado com sucesso! Redirecionando...</span>`;
@@ -718,6 +565,25 @@
             mensagemPix.innerHTML = `<span style="color:red">❌ Erro ao processar o arquivo: ${err}</span>`;
         }
     });
+    
 </script>
+<div id="instrucaoPixModal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8);">
+    <div style="background-color: #222; margin: 15% auto; padding: 25px; border: 2px solid gold; width: 80%; max-width: 600px; border-radius: 10px; box-shadow: 0 0 20px rgba(255,215,0,0.4); color: #fff;">
+        <h3 style="color: gold; text-align: center; margin-bottom: 15px;">Atenção: Instruções do Comprovante PIX</h3>
+        <p style="font-size: 1.1em; line-height: 1.6; text-align: left;">
+            **AO PAGAR O PIX**, pegue a **PARTE DE BAIXO DO COMPROVANTE**, conforme o modelo (apenas a área com os dados e o TXID) e faça um **PRINT DA TELA**.
+            <br><br>
+            **Deixe a imagem disponível no seu celular.** Se for salvar em notas, anote o local exato onde o print foi gravado para referência futura.
+        </p>
+        
+        <div style="text-align: center; margin: 20px 0; border: 1px dashed #666; padding: 10px;">
+             
+        </div>
+
+        <p style="text-align: center; font-weight: bold; color: #ffae42; margin-top: 20px;">
+            Aperte **QUALQUER TECLA** para prosseguir com a geração do PIX.
+        </p>
+    </div>
+</div>
 </body>
 </html>
