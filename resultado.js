@@ -10,11 +10,27 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("📅 Data formatada:", data);
 
     // === FUNÇÕES AUXILIARES DE NUMEROLOGIA ===
-    function reduzir(n) {
+    function reduzir(n, forcarReducaoPura = false) { // Adicionamos um novo parâmetro
         if (!Number.isFinite(n)) return 0;
-        while (n > 9 && ![11, 22].includes(n)) {
+        
+        let shouldStop = !forcarReducaoPura && [11, 22].includes(n);
+
+        while (n > 9 && !shouldStop) {
             n = String(n).split("").reduce((acc, d) => acc + parseInt(d || 0, 10), 0);
+            
+            // Re-checa se deve parar após a redução
+            shouldStop = !forcarReducaoPura && [11, 22].includes(n);
         }
+        
+        // No caso do 11+11=22, ele para aqui e retorna 22.
+        // Se for 22+10=32, ele reduz para 5.
+        // Se for forcarReducaoPura=true, ele reduz 11->2, 22->4.
+        
+        // Se após o while, o número ainda for 11 ou 22 E a redução pura for ativada, reduza-o.
+        if (forcarReducaoPura && (n === 11 || n === 22)) {
+            n = String(n).split("").reduce((acc, d) => acc + parseInt(d || 0, 10), 0); // 11->2, 22->4
+        }
+        
         return n;
     }
 
@@ -41,29 +57,74 @@ document.addEventListener("DOMContentLoaded", () => {
     function somaData(dataStr) {
         return [...(dataStr || "")].filter(ch => /\d/.test(ch)).reduce((a, ch) => a + parseInt(ch, 10), 0);
     }
+    
+    // Função auxiliar para obter D, M, A reduzidos
+    // NOVO CÓDIGO AUXILIAR PARA CORREÇÃO DO ERRO:
+    function obterDMAReduzidos(dataStr) {
+        const partes = (dataStr || "").split("/").map(Number);
+        
+        // 1. Reduz o Dia (D)
+        const d = partes[0] ? reduzir(partes[0]) : 0;
+        
+        // 2. Reduz o Mês (M)
+        const m = partes[1] ? reduzir(partes[1]) : 0;
+        
+        // 3. Soma os dígitos do Ano (ex: 2025 -> 9), e depois Reduz o total (A)
+        const anoRaw = partes[2] ? partes[2] : 0;
+        const a = reduzir(String(anoRaw).split("").reduce((acc, digit) => acc + parseInt(digit, 10), 0));
+        
+        return { d, m, a };
+    }
 
     function calcularArcano(dataStr) { return reduzir(somaData(dataStr)); }
     function calcularPotencial(dataStr) { return reduzir(somaData(dataStr)); }
     function calcularAprendizado(dia) { return reduzir(String(dia).split("").reduce((a, b) => a + parseInt(b || 0, 10), 0)); }
     function calcularCompromisso(expressao, potencial) { return reduzir(expressao + potencial); }
-    function calcularAbertura(dataStr) {
-        const [d, m] = (dataStr || "").split("/").map(Number);
-        if (!Number.isFinite(d) || !Number.isFinite(m)) return 0;
-        return reduzir(Math.abs(m - d));
+
+
+    // === FUNÇÕES DOS DESAFIOS (CORRIGIDAS) ===
+
+// D1: Desafio Mês - Dia
+    function calcularDesafio1(dataStr) {
+        const partes = (dataStr || "").split("/");
+        const dRaw = partes[0] ? parseInt(partes[0]) : 0;
+        const mRaw = partes[1] ? parseInt(partes[1]) : 0;
+        
+        const d = reduzir(dRaw, true); // <--- FORÇANDO REDUÇÃO PURA (22 -> 4)
+        const m = reduzir(mRaw, true); // <--- FORÇANDO REDUÇÃO PURA (11 -> 2)
+        
+        return Math.abs(m - d); // RESULTADO FINAL: |2 - 4| = 2
     }
-    function calcularLiberdade(dataStr) {
-        const [d, , a] = (dataStr || "").split("/").map(Number);
-        if (!Number.isFinite(d) || !Number.isFinite(a)) return 0;
-        return reduzir(Math.abs(a - d));
+
+    // D2: Desafio Dia - Ano
+    function calcularDesafio2(dataStr) {
+        const partes = (dataStr || "").split("/");
+        const dRaw = partes[0] ? parseInt(partes[0]) : 0;
+        const aRaw = partes[2] ? partes[2] : "0";
+
+        const d = reduzir(dRaw, true); // <--- FORÇANDO REDUÇÃO PURA (22 -> 4)
+        // O Ano (A) já estava reduzindo para 9, mas vamos garantir:
+        const a = reduzir(somaData(aRaw), true); // <--- FORÇANDO REDUÇÃO PURA (2025 -> 9)
+        
+        return Math.abs(d - a); // RESULTADO FINAL: |4 - 9| = 5
     }
-    function calcularSabedoria(dataStr) {
-        const [, m, a] = (dataStr || "").split("/").map(Number);
-        if (!Number.isFinite(m) || !Number.isFinite(a)) return 0;
-        return reduzir(Math.abs(a - m));
+
+    // D4: Desafio Mês - Ano
+    function calcularDesafio4(dataStr) {
+        const partes = (dataStr || "").split("/");
+        const mRaw = partes[1] ? parseInt(partes[1]) : 0;
+        const aRaw = partes[2] ? partes[2] : "0";
+
+        const m = reduzir(mRaw, true); // <--- FORÇANDO REDUÇÃO PURA (11 -> 2)
+        const a = reduzir(somaData(aRaw), true); // <--- FORÇANDO REDUÇÃO PURA (2025 -> 9)
+        
+        return Math.abs(m - a); // RESULTADO FINAL: |2 - 9| = 7
     }
-    function calcularDesafio(abertura, liberdade) {
-        const dif = Math.abs(abertura - liberdade);
-        return dif === 0 ? reduzir(abertura + liberdade) : reduzir(dif);
+
+    // D3: Desafio Principal (D1 - D2)
+    function calcularDesafioPrincipal(D1, D2) {
+        // Usa o resultado 0-8 do D1 e D2
+        return Math.abs(D1 - D2); // Pitagórico Puro (3)
     }
 
     let campos = [];
@@ -72,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === FUNÇÃO PARA CARREGAR CSV (Promisified) ===
     function carregarCSV(caminho) {
+        // ... (restante da função carregarCSV)
         return new Promise((resolve, reject) => {
             Papa.parse(caminho, {
                 download: true,
@@ -97,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
         carregarCSV("dados/resultado_numerologia.csv"),
         carregarCSV("dados/dia_natal.csv")
     ])
+    
     .then(([numerologia, diaNatal]) => {
         // Armazena os dados carregados
         dadosNumerologia = numerologia;
@@ -106,7 +169,9 @@ document.addEventListener("DOMContentLoaded", () => {
         function buscarDescricao(numero, campo) {
             const linha = dadosNumerologia.find(row => {
                 const n = parseInt(row.numero, 10);
-                return !isNaN(n) && reduzir(n) === numero;
+                // A busca precisa ser ajustada para o Desafio 0-8. 
+                // Se o CSV só tem 1-9, o Desafio 0 e 9 não serão encontrados
+                return !isNaN(n) && (n === numero || reduzir(n) === numero);
             });
             return linha ? (linha[campo] || "Informação não encontrada.") : "Informação não encontrada.";
         }
@@ -121,24 +186,47 @@ document.addEventListener("DOMContentLoaded", () => {
         const dia = parseInt((data || "").split("/")[0], 10) || 0;
         const aprendizado = calcularAprendizado(dia);
         const compromisso = calcularCompromisso(num_missao, potencial);
-        const abertura = calcularAbertura(data);
-        const liberdade = calcularLiberdade(data);
-        const sabedoria = calcularSabedoria(data);
-        const desafio_entrega = calcularDesafio(abertura, liberdade); // Mudança na lógica: Desafio Entrega deve ser Abertura x Liberdade, não Sabedoria
-        const potencia_combinada = reduzir(potencial + aprendizado); // Renomeada para evitar conflito
+        
 
+        // --- LOGS DE DIAGNÓSTICO ---
+        const d_log = reduzir(parseInt((data || "").split("/")[0], 10) || 0); // Dia Reduzido (4)
+        const m_log = reduzir(parseInt((data || "").split("/")[1], 10) || 0); // Mês Reduzido (2)
+        const a_log = reduzir(somaData((data || "").split("/")[2] || "0")); // Ano Reduzido (9)
+        
+        console.log(`[DEBUG DESAFIO] D, M, A Reduzidos (Esperado: 4, 2, 9): ${d_log}, ${m_log}, ${a_log}`);
+        console.log(`[DEBUG DESAFIO] D1 |M-D| = |${m_log}-${d_log}| = ${Math.abs(m_log - d_log)} (Esperado: 2)`);
+        console.log(`[DEBUG DESAFIO] D2 |D-A| = |${d_log}-${a_log}| = ${Math.abs(d_log - a_log)} (Esperado: 5)`);
+        console.log(`[DEBUG DESAFIO] D4 |M-A| = |${m_log}-${a_log}| = ${Math.abs(m_log - a_log)} (Esperado: 7)`);
+        // -----------------------------
+
+
+
+        // CORREÇÃO AQUI: Chamando as novas funções de Desafio 1, 2 e 4.
+        // NOVO CÁLCULO DOS DESAFIOS:
+        const desafio_abertura = calcularDesafio1(data);  // D1 -> 2
+        const desafio_liberdade = calcularDesafio2(data); // D2 -> 5
+        const desafio_sabedoria = calcularDesafio4(data); // D4 -> 7
+
+        // CÁLCULO DO D3 usando D1 e D2
+        const desafio_entrega = calcularDesafioPrincipal(desafio_abertura, desafio_liberdade); // D3 -> 3
+        
+        const potencia_combinada = reduzir(potencial + aprendizado);
+
+
+        
         // Busca a descrição do dia natal agora de forma síncrona
         const descricaoEuSou = buscarDiaNatal(dia);
 
+        // CORREÇÃO AQUI: Atualizando os IDs e valores nos campos
         campos = [
             { id: "eu_sou", titulo: "EU SOU", valor: dia, descricao: descricaoEuSou },
             { id: "aprendizado", titulo: "APRENDIZADO", valor: aprendizado, descricao: buscarDescricao(aprendizado, "aprendizado") },
             { id: "dons", titulo: "DONS", valor: potencial, descricao: buscarDescricao(potencial, "dons_potencial") },
-            { id: "desafio_abertura", titulo: "DESAFIO ABERTURA", valor: abertura, descricao: buscarDescricao(abertura, "Abertura_emocional") },
-            { id: "desafio_liberdade", titulo: "DESAFIO LIBERDADE", valor: liberdade, descricao: buscarDescricao(liberdade, "Liberdade") },
-            { id: "desafio_entrega", titulo: "DESAFIO ENTREGA", valor: desafio_entrega, descricao: buscarDescricao(desafio_entrega, "desafio_principal") },
-            { id: "desafio_sabedoria", titulo: "DESAFIO SABEDORIA", valor: sabedoria, descricao: buscarDescricao(sabedoria, "Sabedoria_doadora") },
-            { id: "potencia", titulo: "POTÊNCIA", valor: potencia_combinada, descricao: buscarDescricao(potencia_combinada, "Harmonia") },
+            { id: "desafio_abertura", titulo: "DESAFIO ABERTURA", valor: desafio_abertura, descricao: buscarDescricao(desafio_abertura, "desafio_abertura") }, // D1
+            { id: "desafio_liberdade", titulo: "DESAFIO LIBERDADE", valor: desafio_liberdade, descricao: buscarDescricao(desafio_liberdade, "desafio_liberdade") }, // D2
+            { id: "desafio_entrega", titulo: "DESAFIO ENTREGA", valor: desafio_entrega, descricao: buscarDescricao(desafio_entrega, "desafio_entrega") }, // D3
+            { id: "desafio_sabedoria", titulo: "DESAFIO SABEDORIA", valor: desafio_sabedoria, descricao: buscarDescricao(desafio_sabedoria, "desafio_sabedoria") }, // D4
+            { id: "potencia", titulo: "POTÊNCIA", valor: potencia_combinada, descricao: buscarDescricao(potencia_combinada, "potencia") },
             { id: "alma", titulo: "ALMA", valor: num_ego, descricao: buscarDescricao(num_ego, "alma") },
             { id: "aparencia", titulo: "APARÊNCIA", valor: num_aparencia, descricao: buscarDescricao(num_aparencia, "aparencia") },
             { id: "missao", titulo: "MISSÃO", valor: num_missao, descricao: buscarDescricao(num_missao, "missao") },
@@ -146,6 +234,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
 
         // === RENDERIZAÇÃO DOS DADOS NA TELA ===
+        // ... (restante do código de renderização e modais)
+
         campos.forEach(c => {
             const el = document.getElementById(c.id);
             if (!el) return;
@@ -196,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const depoisDoBr = temBr ? texto.slice(indiceBr + 4) : "";
         // Ajuste para pegar um resumo de 150 caracteres após o destaque
         const resumo = depoisDoBr.slice(0, 1500000).trim(); 
-        const continua = resumo.length >=  1500000 ? "..." : "";
+        const continua = resumo.length >=  1500000 ? "..." : "";
         const alerta = `<span style="font-size:15px; color:#c0392b; font-weight:bold;">
           🚨📣📅 Fique atento! Conteúdo completo disponível no site a partir de 22/11/2025.
         </span>`;
@@ -208,6 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === MONTAGEM DO RESUMO COMPLETO ===
     function montarResumoCompleto() {
+        // ... (restante do código de montagem do resumo)
         let html = `
           <div class="dados-pessoa">
             <div style="font-size:24px; font-weight:bold; color:#0044cc; text-align:center; text-transform:uppercase; margin-bottom:6px;">
