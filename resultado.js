@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // CÁLCULO DO D3 usando D1 e D2
         const desafio_entrega = calcularDesafioPrincipal(desafio_abertura, desafio_liberdade); // D3 -> 3
         
-        const potencia_combinada = 3;
+        const potencia_combinada = 4;
 
 
         
