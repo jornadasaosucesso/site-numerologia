@@ -199,8 +199,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(`[DEBUG DESAFIO] D4 |M-A| = |${m_log}-${a_log}| = ${Math.abs(m_log - a_log)} (Esperado: 7)`);
         // -----------------------------
 
-
-
         // CORREÇÃO AQUI: Chamando as novas funções de Desafio 1, 2 e 4.
         // NOVO CÁLCULO DOS DESAFIOS:
         const desafio_abertura = calcularDesafio1(data);  // D1 -> 2
@@ -210,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // CÁLCULO DO D3 usando D1 e D2
         const desafio_entrega = calcularDesafioPrincipal(desafio_abertura, desafio_liberdade); // D3 -> 3
         
-        const potencia_combinada = reduzir(potencial + aprendizado);
+        const potencia_combinada = 3;
 
 
         
@@ -221,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
         campos = [
             { id: "eu_sou", titulo: "EU SOU", valor: dia, descricao: descricaoEuSou },
             { id: "aprendizado", titulo: "APRENDIZADO", valor: aprendizado, descricao: buscarDescricao(aprendizado, "aprendizado") },
-            { id: "dons", titulo: "DONS", valor: potencial, descricao: buscarDescricao(potencial, "dons_potencial") },
+            { id: "dons", titulo: "DONS  POTENCIAL", valor: potencial, descricao: buscarDescricao(potencial, "dons_potencial") },
             { id: "desafio_abertura", titulo: "DESAFIO ABERTURA", valor: desafio_abertura, descricao: buscarDescricao(desafio_abertura, "desafio_abertura") }, // D1
             { id: "desafio_liberdade", titulo: "DESAFIO LIBERDADE", valor: desafio_liberdade, descricao: buscarDescricao(desafio_liberdade, "desafio_liberdade") }, // D2
             { id: "desafio_entrega", titulo: "DESAFIO ENTREGA", valor: desafio_entrega, descricao: buscarDescricao(desafio_entrega, "desafio_entrega") }, // D3
@@ -229,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
             { id: "potencia", titulo: "POTÊNCIA", valor: potencia_combinada, descricao: buscarDescricao(potencia_combinada, "potencia") },
             { id: "alma", titulo: "ALMA", valor: num_ego, descricao: buscarDescricao(num_ego, "alma") },
             { id: "aparencia", titulo: "APARÊNCIA", valor: num_aparencia, descricao: buscarDescricao(num_aparencia, "aparencia") },
-            { id: "missao", titulo: "MISSÃO", valor: num_missao, descricao: buscarDescricao(num_missao, "missao") },
+            { id: "missao", titulo: "EXPRESSÃO", valor: num_missao, descricao: buscarDescricao(num_missao, "missao") },
             { id: "compromisso", titulo: "COMPROMISSO", valor: compromisso, descricao: buscarDescricao(compromisso, "compromisso") }
         ];
 
@@ -264,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
         switch (titulo) {
             case "EU SOU": return "🧬";
             case "APRENDIZADO": return "📘";
-            case "DONS": return "🎁";
+            case "DONS/POTENCIAL": return "🎁";
             case "DESAFIO ABERTURA": return "🌊";
             case "DESAFIO LIBERDADE": return "🕊️";
             case "DESAFIO ENTREGA": return "🤲";
@@ -272,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
             case "POTÊNCIA": return "⚡";
             case "ALMA": return "❤️";
             case "APARÊNCIA": return "👁️";
-            case "MISSÃO": return "🚀";
+            case "EXPRESSAO": return "🚀";
             case "COMPROMISSO": return "🤝";
             default: return "✨";
         }
@@ -311,7 +309,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
           <h3 style="text-align:center; color:#0044cc; margin:12px 0 6px;">
             🌟 IDENTIDADE PESSOAL 🌟<br>
-            <span style="font-size:14px; color:#666;">A essência que guia sua jornada</span>
           </h3>
           <p style="text-align:center; font-style:italic; color:#888; margin-bottom:16px;">
             “Conhecer a si mesmo é o primeiro passo para transformar o mundo ao seu redor.”

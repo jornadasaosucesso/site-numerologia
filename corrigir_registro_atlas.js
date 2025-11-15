@@ -10,11 +10,11 @@ async function corrigirRegistro() {
     const pagamentos = db.collection("pagamentos");
 
     const resultado = await pagamentos.updateOne(
-      { nome: "Pedro De Tal", data_nascimento: "26/05/1955" },
+      { nome: "antonio", data_nascimento: "10112010" },
       {
         $set: {
-          nome: "Jorge Barbosa Viana",
-          id_unico: "e6e3da4dbefaed042fc329c6b6db02db7dbfa1fc"
+          nome: "Silmara Correa",
+          id_unico: "e3366392201bf834519f7a932dde628d80432328"
         }
       }
     );
