@@ -156,7 +156,7 @@
 
 
         // Função para apresentar o resumo de forma limitada (MAX_CHARS)
-        function destacarResumoComAlerta(texto, maxChars = 250) {
+        function destacarResumoComAlerta(texto, maxChars = 150) {
             if (!texto) return "Conteúdo indisponível para amostra.";
             
             // 1. Remove tags HTML (como <br>) para contar os caracteres puros.
@@ -262,7 +262,7 @@
 
 
                 // 1. Extração e Preparação dos Campos (USANDO dadosSubstituidos)
-                
+                data1
                 // Extração da Porcentagem e Veredito (Ex: 65% - FORTE)
                 // Usando a coluna 'vibracao_harmonica'
                 const matchVibracao = dadosSubstituidos.vibracao_harmonica ? dadosSubstituidos.vibracao_harmonica.match(/(\d+%)\s*([^\n\r]+)/i) : null;
@@ -286,14 +286,13 @@
                     { key: 'sinal_saude', titulo: '🩺 Sinais da Saúde ', subtitulo: ' ', isDestaque: false },
                     { key: 'checklist', titulo: '- ✅ CheckList  ', subtitulo: ' ', isDestaque: false },
                     { key: 'frase_resumo', titulo: '✍️ Frase do Par', subtitulo: ' ', isDestaque: false },
-
                 ];
                 
                 // -------------------------------------------------------------
-                // 2. Montagem dos Blocos de Amostra (250 CARACTERES)
+                // 2. Montagem dos Blocos de Amostra (150 CARACTERES)
                 // -------------------------------------------------------------
                 let blocosHTML = [];
-                const MAX_CHARS_AMPLIADO = 250; // Conforme solicitado
+                const MAX_CHARS_AMPLIADO = 150; // Conforme solicitado
 
                 camposParaAmostra.forEach(campo => {
                     const textoCompleto = dadosSubstituidos[campo.key] || "Conteúdo não disponível.";

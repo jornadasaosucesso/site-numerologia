@@ -320,7 +320,6 @@
             // 1. **Geração do ID Único (CHAMADA ESSENCIAL)**
             const idUnico = gerarIdUnicoDatas(data1, data2); 
 
-
             // Salvando os dados de Luz (Pessoa 1)
             localStorage.setItem("nome1", nome1);
             localStorage.setItem("data1", data1);
@@ -332,6 +331,9 @@
             // 2. **Salvando o ID Único (Com a nova nomenclatura)**
             localStorage.setItem("idUnico_p_ideal", idUnico);
 
+
+
+
             // 3. Redirecionando para a tela de transição
             window.location.href = "transicao_p_ideal.html";
         });
@@ -340,6 +342,26 @@
         // Listener do botão "SAIR"
         document.getElementById("btnSair").addEventListener("click", () => {
             window.location.href = "index.html"; 
+        });
+
+        function mascData(input) {
+            let valor = input.value.replace(/\D/g, "");
+
+            if (valor.length > 2 && valor.length <= 4) {
+                valor = valor.replace(/(\d{2})(\d+)/, "$1/$2");
+            } else if (valor.length > 4) {
+                valor = valor.replace(/(\d{2})(\d{2})(\d+)/, "$1/$2/$3");
+            }
+
+            input.value = valor;
+        }
+
+        document.getElementById("data1").addEventListener("input", function () {
+            mascData(this);
+        });
+
+        document.getElementById("data2").addEventListener("input", function () {
+            mascData(this);
         });
     </script>
 </body>
