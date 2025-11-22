@@ -7,7 +7,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-06417Z6ZND');
     </script>
 
@@ -16,10 +15,8 @@
     <title>Escolha seu Arcano</title>
 
     <link rel="stylesheet" href="style.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
     <style>
-        
-        /*  (Seu CSS permanece inalterado) ... */
         body {
             margin: 0;
             background: radial-gradient(circle at center, #000, #0a0a0a);
@@ -50,7 +47,6 @@
         flex-wrap: nowrap;
         }
 
-        /* === Campos Místicos === */
         input {
         padding: 12px 18px;
         font-size: 1.1em;
@@ -117,21 +113,15 @@
         .linha {
             flex-wrap: wrap;
         }
-
-        input {
-            width: 90%;
+        input { width: 90%; }
+        video { width: min(22vw, 160px); }
         }
 
-        video {
-            width: min(22vw, 160px);
-        }
-        }
-        /* Novo estilo para exibir mensagens de erro/sucesso */
         #feedbackMensagem {
             margin-top: 20px;
             font-weight: bold;
             font-size: 1.1em;
-            min-height: 25px; /* Evita que a tela salte */
+            min-height: 25px;
         }
     </style>
 </head>
@@ -140,21 +130,8 @@
     <main class="tela-escolha">
 
         <div class="linha">
-            <input 
-                type="text" 
-                id="data_nascimento" 
-                placeholder="DD/MM/AAAA" 
-                maxlength="10"
-                inputmode="numeric"
-                required
-            />
-            <input 
-                type="text" 
-                id="nome_individual" 
-                maxlength="60" 
-                placeholder="Seu nome" 
-                required
-            />
+            <input type="text" id="data_nascimento" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric" required/>
+            <input type="text" id="nome_individual" maxlength="60" placeholder="Seu nome" required/>
         </div>
 
         <div id="feedbackMensagem" style="color: #ffcc70;"></div>
@@ -182,146 +159,84 @@
 
     </main>
 
-    <script>
-        const MODO_PREVIEW = false; // 🚨 MUDAR PARA FALSE PARA ATIVAR O SISTEMA DE PAGAMENTO 🚨
-     
-        const htmlElement = document.documentElement;
-        
-        function exibirMensagem(texto, cor = '#ffcc70') {
-            const el = document.getElementById('feedbackMensagem');
-            if(el) {
-                el.innerHTML = texto;
-                el.style.color = cor;
-            }
-        }
+<script>
+/* ==========================================================
+   FUNÇÃO SHA-1 NATIVA — 100% FUNCIONANDO
+========================================================== */
+async function sha1(str) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(str);
+    const hash = await crypto.subtle.digest("SHA-1", data);
+    return Array.from(new Uint8Array(hash))
+               .map(b => b.toString(16).padStart(2, "0"))
+               .join("");
+}
 
-        function padronizarDataParaEnvio(data) {
-            // Remove todos os caracteres que NÃO são dígitos.
-            const dataLimpa = data.replace(/\D/g, ''); 
-            
-            // Verifica se tem 8 dígitos (DDMMYYYY).
-            if (dataLimpa.length === 8) {
-                // Formata para o padrão DD/MM/AAAA para validação e localStorage.
-                return `${dataLimpa.substring(0, 2)}/${dataLimpa.substring(2, 4)}/${dataLimpa.substring(4, 8)}`;
-            }
-            // Se não for 8 dígitos, retorna o original para falhar na validação.
-            return data; 
-        }
+/* ==========================================================
+   SISTEMA
+========================================================== */
+function exibirMensagem(txt, cor="#ffcc70") {
+    const el = document.getElementById("feedbackMensagem");
+    el.innerHTML = txt;
+    el.style.color = cor;
+}
 
-        // === Fullscreen ===
-        // ... (Seu código Fullscreen permanece inalterado) ...
-        function enterFullscreen(element) {
-            if (element.requestFullscreen) element.requestFullscreen();
-            else if (element.webkitRequestFullscreen) element.webkitRequestFullscreen();
-            else if (element.msRequestFullscreen) element.msRequestFullscreen();
-        }
+document.getElementById("btnCalcular").addEventListener("click", async () => {
 
-        function handleFirstInteraction() {
-            enterFullscreen(htmlElement);
-            document.removeEventListener('click', handleFirstInteraction);
-            document.removeEventListener('touchstart', handleFirstInteraction);
-        }
+    let data = document.getElementById("data_nascimento").value.trim();
+    let nome = document.getElementById("nome_individual").value.trim();
 
-        document.addEventListener('click', handleFirstInteraction);
-        document.addEventListener('touchstart', handleFirstInteraction);
+    if (!data || !nome) {
+        exibirMensagem("Preencha todos os campos!", "#c0392b");
+        return;
+    }
 
-        // === Aplica máscara de data ===
-        if (typeof Inputmask !== "undefined") {
-            if (typeof $ !== 'undefined') { 
-                $("#data_nascimento").inputmask("99/99/9999");
-            } else {
-                Inputmask("99/99/9999").mask(document.getElementById("data_nascimento"));
-            }
+    const dataFormatada = data.replace(/\D/g, "");
+    const nomePadronizado = nome
+        .toUpperCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^A-Z\s]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+
+    const base = `${nomePadronizado}|${dataFormatada}`;
+    const id_unico = await sha1(base);
+
+    console.log("ID único:", id_unico);
+    console.log("Base:", base);
+
+    try {
+        const url = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`;
+        const res = await fetch(url);
+
+        if (!res.ok) throw new Error("Falha ao conectar");
+
+        const json = await res.json();
+
+        localStorage.setItem("nome", nome);
+        localStorage.setItem("data_nascimento", data);
+
+        if (json.paid) {
+            exibirMensagem("✅ Acesso validado! Redirecionando...");
+            setTimeout(() => window.location.href = "resultado.html", 800);
         } else {
-            console.error("Inputmask não foi carregado corretamente.");
+            exibirMensagem("🛑 Pagamento não encontrado. Indo para PIX...", "#c0392b");
+            setTimeout(() => {
+                window.location.href =
+                    `transicao.html?id_unico=${id_unico}&nome=${encodeURIComponent(nome)}&data=${encodeURIComponent(data)}`;
+            }, 1500);
         }
 
-        // === Botão Calcular (Checagem no Backend) ===
-        document.getElementById('btnCalcular').addEventListener('click', async function () {
+    } catch (err) {
+        exibirMensagem("❌ Erro ao conectar ao servidor!", "#c0392b");
+        console.error(err);
+    }
+});
 
-            //exibirMensagem('Checando acesso...'); 
-            // --- O BLOCO DO MODO PREVIEW PRECISA ESTAR AQUI ---
+document.getElementById("btnSair").addEventListener("click", () => {
+    window.location.href = "index.html";
+});
+</script>
 
-
-            let data = document.getElementById('data_nascimento').value.trim(); // Use 'let'
-            const nome = document.getElementById('nome_individual').value.trim();
-
-            if (!nome || !data) {
-                exibirMensagem('Preencha todos os campos!', '#c0392b');
-                return;
-            }
-
-            // --- GERAÇÃO DO ID ÚNICO (CHAVE DE ACESSO) ---
-            const dataFormatada = data.replace(/\D/g, ''); // DDMMYYYY
-            const nomePadronizado = nome
-                .toUpperCase() 
-                .normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
-                .replace(/[^A-Z\s]/g, '') 
-                .replace(/\s+/g, ' ') 
-                .trim(); 
-
-            // ... (dentro do 'click', após a base ser definida)
-
-            const base = `${nomePadronizado}|${dataFormatada}`;
-            const id_unico = CryptoJS.SHA1(base).toString();
-
-            console.log("🔑 ID único gerado para consulta:", id_unico);
-            console.log("🔒 Base usada:", base); // Debug de segurança
-
-            /* --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO 
-            const urlBackend = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`;
-            const res = await fetch(urlBackend);
-            */
-
-            try {
-                // --- 1. CHAMADA AO BACKEND PARA CHECAR PAGAMENTO ---
-                const urlBackend = `https://site-numerologia.onrender.com/api/has_paid?id_unico=${id_unico}`; // <-- AGORA CORRETO
-                const res = await fetch(urlBackend);
-
-                // Trata erros de rede ou status HTTP 4xx/5xx
-                if (!res.ok) {
-                    throw new Error(`Erro HTTP ${res.status}: Não foi possível conectar ao servidor.`);
-                }
-
-                const json = await res.json();
-                
-                // 2. Salva os dados de entrada no localStorage (PARA USO POSTERIOR)
-                localStorage.setItem('nome', nome);
-                localStorage.setItem('data_nascimento', data);
-
-                if (json.paid === true) {
-                    // ✅ SUCESSO! Pagamento encontrado e validado.
-                    exibirMensagem('✅ Acesso validado! Redirecionando...');
-                    // Navega para o resultado final
-                    setTimeout(() => {
-                        window.location.href = "resultado.html";
-                    }, 1000); 
-
-                } else {
-                    // ❌ Pagamento NÃO encontrado (paid: false)
-                    exibirMensagem('🛑 Pagamento não validado. Redirecionando para PIX.', '#c0392b');
-                    
-                    // Redireciona para a página de cobrança, enviando o ID ÚNICO e dados na URL
-                    setTimeout(() => {
-                        window.location.href = `transicao.html?id_unico=${id_unico}&nome=${encodeURIComponent(nome)}&data=${encodeURIComponent(data)}`;
-                    }, 2000);
-                }
-                
-            } catch (err) {
-                console.error('Erro geral na checagem de acesso:', err);
-                exibirMensagem('🚨 Erro ao verificar acesso. Verifique a conexão do servidor.', '#c0392b');
-            }
-            
-            // Limpa a mensagem após um tempo se não houve redirecionamento
-            setTimeout(() => { exibirMensagem(''); }, 5000);
-
-        });
-
-        // === Botão Sair ===
-        document.getElementById('btnSair').addEventListener('click', function () {
-            // Lógica para sair ou ir para uma página final
-            window.location.href = "fim.html";
-        });
-    </script>
 </body>
 </html>

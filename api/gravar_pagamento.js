@@ -39,19 +39,24 @@ function gerarIdUnico(nome, data) {
 // ======================================================
 // 🔹 POST /api/gravar_pagamento - CORREÇÃO FINAL
 // ======================================================
+// ======================================================
+// 🔹 POST /api/gravar_pagamento - CORREÇÃO FINAL
+// ======================================================
 
 router.post("/", async (req, res) => {
     try {
         console.log("📥 Recebendo requisição em /api/gravar_pagamento");
         
         // 🚨 CRÍTICO: RECEBER E VALIDAR AS VARIÁVEIS AQUI DENTRO!
-        const { nome, data, valor, txid, paid, status } = req.body; 
+        // CORREÇÃO: Mudei 'data' para 'data_nascimento'
+        const { nome, data_nascimento, valor, txid, paid, status } = req.body; 
 
-        if (!nome || !data || !valor || !txid) {
+        if (!nome || !data_nascimento || !valor || !txid) {
             return res.status(400).json({ erro: "Campos obrigatórios ausentes" });
         }
 
-        const id_unico = gerarIdUnico(nome, data);
+        // CORREÇÃO: Use 'data_nascimento' na função gerarIdUnico
+        const id_unico = gerarIdUnico(nome, data_nascimento); 
         console.log("🔑 ID único gerado:", id_unico);
 
         const query = { id_unico: id_unico };
@@ -60,7 +65,7 @@ router.post("/", async (req, res) => {
         const updateData = {
             $set: {
                 nome: nome, 
-                data_nascimento: data, 
+                data_nascimento: data_nascimento, 
                 valor: valor,
                 txid: txid, 
                 paid: typeof paid === 'boolean' ? paid : false, 

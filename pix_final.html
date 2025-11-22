@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-06417Z6ZND"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-06417Z6ZND');
+    </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PIX - Validação de Comprovante</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.4.2/sha.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+  <script src="libs/papaparse.min.js"></script>
+  
+  <style>
+    :root {
+        --cor-principal: #ffd700; /* Dourado */
+        --cor-fundo: #0c0c0c;
+        --cor-alerta: #e74c3c;
+    }
+
+    body {
+      background: radial-gradient(circle at center, var(--cor-fundo), #000);
+      color: #fff;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h2 { color: var(--cor-principal); margin-bottom: 8px; }
+
+    #qrcode {
+      margin: 20px 0;
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255,215,0,0.4);
+      background: #fff;
+    }
+
+    #pixCode {
+      background: #111;
+      border: 1px solid var(--cor-principal);
+      color: #fff;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      padding: 10px;
+      font-size: 0.9em;
+      line-height: 1.4;
+      word-break: break-all;
+    }
+
+    button {
+      margin-top: 18px;
+      background: linear-gradient(90deg,var(--cor-principal),#ffae42);
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 24px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+
+    button:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255,220,100,0.8); }
+
+    #btnProsseguir { 
+        background-color: #32CD32; 
+        color: #fff; 
+        display: none; 
+        transition: background-color 0.3s, transform 0.3s;
+    }
+    #btnProsseguir:hover {
+        background-color: #28a745;
+    }
+
+    #comprovante, #uploadStatus { display: none; }
+
+    .mensagem { font-size: 1.1em; margin-top: 20px; max-width: 600px; }
+    
+    .alerta-print {
+        font-weight: bold;
+        color: var(--cor-alerta);
+        padding: 10px 0;
+        border-top: 1px solid var(--cor-alerta);
+        border-bottom: 1px solid var(--cor-alerta);
+        margin: 15px 0;
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.7; }
+        100% { opacity: 1; }
+    }
+
+    #painelValidacao {
+      display: none;
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      max-width: 500px;
+    }
+
+    #painelValidacao ul { list-style: none; padding: 0; text-align: left; }
+    
+    .ocr-status { color: #fff; margin-top: 10px; font-weight: bold; }
+    #ocr-progresso { width: 100%; height: 8px; background: #444; border-radius: 4px; overflow: hidden; margin-top: 5px; }
+    #ocr-bar { width: 0%; height: 100%; background: limegreen; transition: width 0.3s; }
+
+    /* Estilos do Modal */
+    #instrucaoPixModal {
+        display: none; 
+        position: fixed; 
+        z-index: 1000; 
+        left: 0; 
+        top: 0; 
+        width: 100%; 
+        height: 100%; 
+        overflow: auto; 
+        background-color: rgba(0,0,0,0.9);
+        backdrop-filter: blur(5px);
+    }
+    #instrucaoPixModal > div {
+        background-color: #1a1a1a; 
+        margin: 8% auto; 
+        padding: 30px; 
+        border: 2px solid var(--cor-principal); 
+        width: 90%; 
+        max-width: 650px; 
+        border-radius: 15px; 
+        box-shadow: 0 0 30px rgba(255,215,0,0.6); 
+        color: #fff;
+        text-align: center;
+    }
+    #instrucaoPixModal h3 {
+        color: var(--cor-principal); 
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+    #instrucaoPixModal p {
+        font-size: 1.1em; 
+        line-height: 1.6; 
+        text-align: justify;
+    }
+    .img-comprovante-exemplo {
+        max-width: 250px;
+        height: auto;
+        border: 2px solid #555;
+        border-radius: 8px;
+        margin: 20px auto;
+        display: block;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    .tecla-prompt {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #ffae42; 
+        margin-top: 30px;
+        background-color: #333;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    @media (max-width: 600px) {
+        #instrucaoPixModal > div { margin: 15% auto; }
+        .img-comprovante-exemplo { max-width: 180px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="instrucaoPixModal">
+    <div>
+        <h3>⚠️ INSTRUÇÕES CRUCIAIS PARA VALIDAÇÃO DO PIX ⚠️</h3>
+        <p>
+            Para que nosso sistema consiga **validar seu pagamento automaticamente** via OCR, você deve nos enviar a **parte correta do comprovante**.
+        </p>
+        <hr style="border-color: #555;">
+        <p style="font-size: 1.2em; font-weight: bold; color: #76ff03;">
+            Tire um PRINT APENAS da **PARTE INFERIOR** do comprovante, onde aparecem os dados essenciais como **ID Transação** e **Identificador**.
+        </p>
+        
+        <p style="text-align: center; color: #ccc;">
+            Veja o exemplo do print necessário:
+        </p>
+        
+        <div style="text-align: center;">
+            <img 
+                src="imagem_pix.jpg"
+                alt="Exemplo de comprovante PIX mostrando parte inferior"
+                class="img-comprovante-exemplo"
+            />
+        </div>
+
+        <p class="tecla-prompt">
+            Role a tela até o final e, quando estiver pronto, clique no botão abaixo para prosseguir.        </p>
+    </div>
+     <button id="btnFecharInstrucao" class="btn-continuar">
+        👉 CLIQUE PARA CONTINUAR
+    </button>
+  </div>
+
+  <h2>💰 Clique em "PIX PAGO" para validar seu pagamento</h2>
+  <p>**Para liberar seu Relatório, efetue o pagamento de R$ 26,00 via PIX.**</p>
+  <p>QUALQUER PROBLEMA ENCONTRADO, ENTRAR EM CONTATO COM E-MAIL jornadasaosucesso@outlook.com</p>
+
+  <p class="alerta-print">Validação Rápida: Após o pagamento, anexe o comprovante. É fundamental que o ID da Transação (Identificador) na parte inferior do recibo esteja visível e legível.</p>
+
+  <div id="qrcode"></div>
+  <textarea id="pixCode" readonly>Aguardando a geração do PIX...</textarea>
+
+  <p id="mensagemInterativa" class="mensagem"></p>
+  <input type="file" id="comprovante" accept="image/*,application/pdf" />
+  <p id="uploadStatus" style="font-weight: bold;"></p>
+  
+  <div class="ocr-status" id="ocr-status-msg" style="display:none;">
+      Processando Comprovante (OCR)...
+      <div id="ocr-progresso"><div id="ocr-bar"></div></div>
+  </div>
+
+  <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:18px;">
+    <button id="btnGerar">Gerar Pix</button>
+    <button id="copyBtn">Copiar Pix</button>
+    <button id="btnPixPago">VALIDAR PAGAMENTO</button>
+    <button id="btnProsseguir">PROSSEGUIR</button>
+    <button id="btnVoltar">Voltar</button>
+  </div>
+
+  <div id="mensagemPix" style="margin-top:15px; font-size:1em;"></div>
+
+  <div id="painelValidacao">
+    <h3>🔍 Resultado da Validação</h3>
+    <ul>
+>      <li id="statusTxid">🔄 TXID: analisando...</li>
+      <li id="statusValor">🔄 Valor: analisando...</li>
+      <li id="statusData">🔄 Data/Hora: analisando...</li>
+      <li id="statusExtensao">🔄 Extensão: analisando...</li>
+    </ul>
+  </div>
+
+  <script>
+    // --- FUNÇÕES DE LÓGICA (MANTIDAS) ---
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js";
+    
+    // Função de utilidade necessária em vários pontos (TXID, Payload)
+    function normalizarData(dataStr) {
+        // Remove tudo que não for dígito. Ex: "05/01/2010" -> "05012010"
+        return dataStr.replace(/\D/g, ''); 
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const nome = urlParams.get("nome") || localStorage.getItem("nome") || "";
+    const data = urlParams.get("data") || localStorage.getItem("data_nascimento") || "";
+    let idUnicoSessao = urlParams.get("id_unico") || localStorage.getItem("id_unico") || "";
+
+    const nomeDecoded = decodeURIComponent(nome);
+
+    function sha1(str) {
+        const shaObj = new jsSHA("SHA-1", "TEXT");
+        shaObj.update(str);
+        return shaObj.getHash("HEX");
+    }
+
+    // function normalizarData(data) { return data.replace(/\D/g, ''); }
+
+    function gerarIdUnico(nome, data) { return sha1(`${nome.trim().toLowerCase()}|${normalizarData(data)}`); }
+
+
+    if (!idUnicoSessao) {
+        idUnicoSessao = gerarIdUnico(nome, data);
+        localStorage.setItem("id_unico", idUnicoSessao);
+    }
+
+    const nomeDestinatario = "JORGEBARBOSAVIANA";
+    const cidade = "CAMPOGRANDE";
+    const valorEsperado = "26.00"; 
+    const chavePix = "f4246be4-ede3-4535-8248-93acbe51c006";
+
+    let txidGerado = ""; 
+    const btnProsseguir = document.getElementById("btnProsseguir");
+    const painelValidacao = document.getElementById("painelValidacao");
+    const txidStatus = document.getElementById("statusTxid");
+    const valorStatus = document.getElementById("statusValor");
+    const extStatus = document.getElementById("statusExtensao");
+    const dataStatus = document.getElementById("statusData");
+    const mensagemPix = document.getElementById("mensagemPix");
+    const ocrStatusMsg = document.getElementById("ocr-status-msg");
+    const ocrBar = document.getElementById("ocr-bar");
+    
+    function gerarTXID(nome) { 
+        const CARACTERES_OCR = 'ABCDEFGHJKMNPQRUVWXY234689'; 
+        const cleanName = nome.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+        let txid = cleanName.substring(0, 4).padEnd(4, 'X'); 
+        const length = 10 - txid.length; 
+        
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * CARACTERES_OCR.length);
+            txid += CARACTERES_OCR.charAt(randomIndex);
+        }
+        
+        txidGerado = txid; 
+        return txid;
+    }
+    
+    function formatarCampo(id, valor) {
+        const valorString = String(valor || ""); 
+        const len = valorString.length.toString().padStart(2, '0');
+        return id + len + valorString;
+    }
+
+    function calcularCRC16(payload) {
+        let polinomio = 0x1021;
+        let resultado = 0xFFFF;
+        
+        for (let i = 0; i < payload.length; i++) {
+            const code = payload.charCodeAt(i) || 0;
+            resultado ^= code << 8;
+
+            for (let j = 0; j < 8; j++) {
+                resultado = (resultado & 0x8000) ? (resultado << 1) ^ polinomio : resultado << 1;
+            }
+            resultado &= 0xFFFF; 
+        }
+        
+        return resultado.toString(16).toUpperCase().padStart(4, '0');
+    }
+    
+    // --- EVENT LISTENERS ---
+
+    // 1. Mostrar modal de instrução ao carregar a página
+    document.addEventListener("DOMContentLoaded", () => {
+        const modal = document.getElementById("instrucaoPixModal");
+        const btnFecharInstrucao = document.getElementById("btnFecharInstrucao");
+
+        modal.style.display = "block";
+        document.body.style.overflow = 'hidden';
+
+        // Fecha com ENTER (opcional no desktop)
+        document.addEventListener('keydown', handleKeyDown);
+
+        // Fecha com clique no botão
+        btnFecharInstrucao.addEventListener('click', fecharModal);
+
+        // Atualiza o placeholder do PIX
+        document.getElementById("pixCode").value = "Clique em 'Gerar Pix' para obter o código.";
+    });
+
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') {
+            fecharModal();
+        }
+    }
+
+    // Função para fechar o modal
+    function fecharModal() {
+        const modal = document.getElementById("instrucaoPixModal");
+        modal.style.display = "none";
+        document.body.style.overflow = 'auto';
+        document.removeEventListener('keydown', handleKeyDown);
+    }
+
+
+    document.getElementById("btnGerar").addEventListener("click", () => {
+        const nome = localStorage.getItem('nome') || '';
+        const data = localStorage.getItem('data_nascimento') || '';
+        const chaveBase = normalizarData(data) + nome; 
+
+        // Limpa TXID antigo do LocalStorage (Lógica mantida)
+        Object.keys(localStorage).forEach(key => {
+            if (key.includes(chaveBase) && key.includes('PIX')) {
+                localStorage.removeItem(key);
+            }
+        });
+
+        // Geração do Payload PIX (Lógica mantida)
+        const txid = gerarTXID(nome);
+        const payload =
+            formatarCampo("00", "01") +
+            formatarCampo("26",
+                formatarCampo("00", "BR.GOV.BCB.PIX") +
+                formatarCampo("01", chavePix)
+            ) +
+            formatarCampo("52", "0000") +
+            formatarCampo("53", "986") +
+            formatarCampo("54", valorEsperado) + 
+            formatarCampo("58", "BR") +
+            formatarCampo("59", nomeDestinatario) +
+            formatarCampo("60", cidade) +
+            formatarCampo("62", formatarCampo("05", txid));
+
+        const payloadSemCRC = payload + "6304";
+        const crc = calcularCRC16(payloadSemCRC); 
+        const brcode = payloadSemCRC + crc;
+
+        // Renderiza QR Code
+        document.getElementById("pixCode").value = brcode;
+        QRCode.toDataURL(brcode, { width: 184 }).then(url => {
+            const qrcodeDiv = document.getElementById("qrcode");
+            qrcodeDiv.innerHTML = "";
+            const img = document.createElement("img");
+            img.src = url;
+            img.alt = "QR Code para pagamento";
+            qrcodeDiv.appendChild(img);
+        });
+
+        // Salva TXID no LocalStorage (Lógica mantida)
+        const chaveUsuario = normalizarData(data) + nome + "PIX_" + txid; 
+        localStorage.setItem(chaveUsuario, JSON.stringify({
+            nome,
+            data_nascimento: data,
+            txid,
+            valor: valorEsperado,
+            pago: false
+        }));
+
+        document.getElementById("mensagemPix").textContent = `✅ PIX Gerado com sucesso! Valor: R$ ${valorEsperado}`;
+    });
+
+    document.getElementById("copyBtn").addEventListener("click", () => {
+        const pixCode = document.getElementById("pixCode");
+        pixCode.select();
+        document.execCommand("copy");
+        document.getElementById("mensagemPix").textContent = "📋 Código Pix copiado!";
+    });
+
+    document.getElementById("btnPixPago").addEventListener("click", () => {
+        
+        document.getElementById("mensagemInterativa").innerHTML =
+            `<strong style="color: ${document.querySelector('.alerta-print').style.color};">
+                
+                ⚠️ ATENÇÃO: ${nome}, Clique em "Escolher Arquivo", selecione o comprovante e, em seguida, clique em "PROSSEGUIR" abaixo.`;
+                 
+
+        document.getElementById("comprovante").style.display = "block";
+        document.getElementById("uploadStatus").style.display = "block";
+        
+        document.getElementById("btnPixPago").style.display = "none";
+        document.getElementById("btnProsseguir").style.display = "inline-block";
+    });
+
+    document.getElementById("btnVoltar").addEventListener("click", () => { window.location.href = "escolha.html"; });
+    
+    // Processamento do Comprovante (Lógica de OCR mantida)
+    async function processarComprovante(file) {
+        return new Promise(async (resolve, reject) => {
+            // ... (Lógica do FileReader e Tesseract/PDF mantida)
+            // Mantendo a lógica de processamento OCR para fins de completude do código:
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const base64 = e.target.result;
+                let ocrText = "";
+                let extensao = file.name.split('.').pop().toLowerCase();
+                
+                ocrStatusMsg.style.display = "block";
+                
+                try {
+                    // Simulação do processamento OCR (substitua pelo seu código real)
+                    if (base64.startsWith("data:application/pdf") || base64.startsWith("data:image")) {
+                       
+                        const result = await Tesseract.recognize(base64, 'por', { 
+                            logger: m => {
+                                if (m.status === 'recognizing text' || m.status === 'loading language traineddata') {
+                                    ocrBar.style.width = `${m.progress * 100}%`;
+                                }
+                            } 
+                        });
+                        ocrText = result.data.text;
+                    } else {
+                        // ... (Lógica para CSV/TXT mantida)
+                        const text = atob(base64.split(',')[1]);
+                        ocrText = extensao === 'csv' ? Papa.parse(text).data.flat().join(' ') : text;
+                    }
+                    
+                    ocrStatusMsg.style.display = "none";
+                    ocrBar.style.width = "0%";
+                    resolve(ocrText);
+                    
+                } catch (err) {
+                    ocrStatusMsg.style.display = "none";
+                    ocrBar.style.width = "0%";
+                    console.error("Erro no OCR/PDF:", err);
+                    reject("Falha no reconhecimento do comprovante. Tente uma imagem mais clara.");
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Lógica de Validação (Mantida)
+// ... (Continuação do seu código PIX_15.html)
+
+    // Lógica de Validação e Gravação (Corrigida)
+    document.getElementById("btnProsseguir").addEventListener("click", async () => { // <--- Função marcada como ASYNC
+
+        const nome = localStorage.getItem('nome') || '';
+        const data = localStorage.getItem('data_nascimento') || '';
+        const chaveBase = normalizarData(data) + nome; 
+        
+        const file = document.getElementById("comprovante").files[0];
+        
+        painelValidacao.style.display = "block";
+        // Reset dos status (Lógica mantida)
+        txidStatus.innerHTML = `🔄 TXID: analisando...`;
+        valorStatus.innerHTML = `🔄 Valor: analisando...`;
+        dataStatus.innerHTML = `🔄 Data/Hora: analisando...`;
+        extStatus.innerHTML = `🔄 Extensão: analisando...`;
+        mensagemPix.textContent = "Iniciando validação...";
+        
+        if (!file) {
+            mensagemPix.innerHTML = `<span style="color:red">❌ Nenhum comprovante foi selecionado.</span>`;
+            return;
+        }
+
+        const ext = file.name.split('.').pop().toLowerCase();
+        const extensoesValidas = ['pdf', 'jpg', 'jpeg', 'png', 'csv', 'txt'];
+        const extOk = extensoesValidas.includes(ext);
+        extStatus.innerHTML = extOk
+            ? `<span style="color:green">✅ Extensão: .${ext} válida</span>`
+            : `<span style="color:red">❌ Extensão: .${ext} não permitida</span>`;
+
+        btnProsseguir.disabled = true;    
+        if (!extOk) { mensagemPix.innerHTML = `<span style="color:red">❌ Falha na Extensão.</span>`; btnProsseguir.disabled = false; return; }
+        
+        let txidEsperado = "";
+
+        const chavesPix = Object.keys(localStorage)
+            .filter(k => k.includes(chaveBase) && k.includes('PIX_')) 
+            .sort(); 
+            
+        if (chavesPix.length > 0) {
+            const dados = JSON.parse(localStorage.getItem(chavesPix[chavesPix.length - 1]));
+            txidEsperado = dados?.txid?.toUpperCase() || "";
+
+            if (!txidEsperado) {
+                mensagemPix.innerHTML = `<span style="color:orange">⚠️ Alerta: TXID gerado não encontrado no LocalStorage, chave vazia.</span>`;
+            }
+        } else {
+            mensagemPix.innerHTML = `<span style="color:red">❌ Erro Grave: Não foi encontrado nenhum PIX gerado. Clique em 'Gerar Pix'.</span>`;
+            btnProsseguir.disabled = false;
+            return;
+        } 
+
+        try {
+            mensagemPix.textContent = "Executando OCR no comprovante...";
+            const ocrText = await processarComprovante(file);
+            let ocrTextUpper = ocrText.toUpperCase(); 
+            
+            // Correções de OCR (Lógica mantida)
+            ocrTextUpper = ocrTextUpper.replace(/S/g, '7'); 
+            ocrTextUpper = ocrTextUpper.replace(/0/g, 'O'); 
+            
+            let validoTxid = false;
+            let txidExtraido = "Não lido";
+            let validoValor = false;
+            let valorExtraido = "N/A";
+            let validoData = false;
+
+            // Lógica de Validação (Mantida)
+            if (txidEsperado && ocrTextUpper.includes(txidEsperado)) {
+                validoTxid = true;
+                txidExtraido = txidEsperado;
+            } else {
+                const regexTxidLido = ocrTextUpper.match(/(IDENTIFICADOR|TXID|ID\s+TRANSACAO)[:\s]+([A-Z0-9]{8,20})/);
+                if (regexTxidLido && regexTxidLido[2]) {
+                    txidExtraido = regexTxidLido[2].trim();
+                    if (txidExtraido === txidEsperado) {
+                        validoTxid = true;
+                    }
+                }
+            }
+
+            // Validação de Valor e Data (Lógica mantida)
+            const matchValor = ocrText.match(/[R$]?[^\d]*(\d{1,3}(?:\.\d{3})*,\d{2})/i); 
+            if (matchValor && matchValor[1]) {
+                valorExtraido = matchValor[1]; 
+                let valorConvertido = valorExtraido.replace(/\./g, '').replace(',', '.'); 
+                if (parseFloat(valorConvertido) === parseFloat(valorEsperado)) { validoValor = true; }
+            } else {
+                const matchSimples = ocrText.match(/(\d+,\d{2})/); 
+                if (matchSimples && matchSimples[1]) {
+                    valorExtraido = matchSimples[1];
+                    let valorConvertido = valorExtraido.replace(',', '.');
+                    if (parseFloat(valorConvertido) === parseFloat(valorEsperado)) { validoValor = true; }
+                }
+            }
+            const matchData = ocrText.match(/\d{2}[\/\\-]\d{2}[\/\\-]\d{4}\s*-\s*\d{2}:\d{2}:\d{2}/); 
+            validoData = !!matchData;
+            
+            // Atualiza status no Painel (Lógica mantida)
+
+            txidStatus.innerHTML = validoTxid
+                ? `<span style="color:green">✅ TXID: ${txidExtraido} (OK)</span>`
+                : `<span style="color:red">❌ TXID: ${txidExtraido} (Esperado: ${txidEsperado})</span>`;
+                
+            valorStatus.innerHTML = validoValor
+                ? `<span style="color:green">✅ Valor: R$ ${valorExtraido} (OK)</span>`
+                : `<span style="color:red">❌ Valor: R$ ${valorExtraido} (Esperado: ${valorEsperado})</span>`;
+            
+            dataStatus.innerHTML = validoData
+                ? `<span style="color:green">✅ Data/Hora: detectada</span>`
+                : `<span style="color:orange">⚠️ Data/Hora: não detectada</span>`;
+                
+            console.log("--- LOG DE VALIDAÇÃO TXID ---");
+            console.log("TXID ESPERADO (Gerado/LS):", txidEsperado);
+            console.log("TXID EXTRAÍDO (Pelo OCR):", txidExtraido);
+            console.log("Validação TXID OK (Booleano):", validoTxid);
+            console.log("-----------------------------");
+
+
+
+            // Ações Finais (Lógica CORRIGIDA com Gravação no BD)
+            if (extOk && validoTxid && validoValor && validoData) {
+                // Verificando se os campos chaves não estão vazios antes de montar o payload
+                const finalNome = nome || "NOME_AUSENTE";
+                const finalData = data || "DATA_AUSENTE";
+
+                // Usamos a função normalizarData (agora global) para limpar a data para o BD
+                const dataFormatadaParaBD = normalizarData(data); // Ex: "05012020"
+                const nomeFormatadoParaBD = nome.trim();
+
+
+                // 1. Prepara os dados para envio
+                const dadosParaGravacao = {
+                    id_unico: idUnicoSessao, 
+                    txid: txidEsperado,
+                    valor: valorEsperado, 
+                    data_nascimento: dataFormatadaParaBD,
+                    nome: nomeFormatadoParaBD,
+                    paid: true,
+                    status: 'pago'
+                };
+
+                try {
+                    // MENSAGEM DE SUCESSO APLICADA AQUI (ANTES DE CHAMAR O BACKEND)
+                    mensagemPix.innerHTML = `<span style="color:lime; font-weight:bold; font-size:1.2em;">✅ COMPROVANTE OK! Liberando acesso...</span>`;
+                    
+                    // 2. REQUISIÇÃO DE GRAVAÇÃO (FETCH)
+                    const resGravar = await fetch("http://localhost:8000/api/gravar_pagamento", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(dadosParaGravacao)
+                    });
+                
+                    // 3. Trata a resposta do servidor
+                    if (!resGravar.ok) {
+                        // ... (Tratamento de Erro Mantido)
+                        const erroBackend = await resGravar.text().catch(() => "Erro desconhecido.");
+                        throw new Error(`Falha no servidor (${resGravar.status}). Detalhes: ${erroBackend}`);
+                    }
+                    
+                    // 4. SUCESSO DE GRAVAÇÃO: Redirecionamento
+                    mensagemPix.innerHTML = `<span style="color:lime; font-weight:bold;">✅ Pagamento gravado no BD. Redirecionando...</span>`;
+                    setTimeout(() => { window.location.href = "resultado.html"; }, 1500);
+
+                } catch (error) {
+                    // Tratamento de Erro de Gravação/Conexão (Mantido)
+                    console.error("Erro CRÍTICO na Gravação do Pagamento:", error);
+                    mensagemPix.innerHTML = `<span style="color:red; font-weight:bold;">❌ ERRO DE VALIDAÇÃO: Falha ao gravar no BD. Tente novamente ou entre em contato com o suporte.</span>`; // <- MENSAGEM DE ERRO NA GRAVAÇÃO
+                }
+            } else {
+                // Falha na validação do OCR, TXID, Valor ou Extensão.
+                // MENSAGEM DE ERRO APLICADA AQUI (FALHA OCR)
+                mensagemPix.innerHTML = `<span style="color:red; font-weight:bold; font-size:1.2em;">❌ ERRO DE VALIDAÇÃO. Por favor, envie o print correto (parte INFERIOR) e VERIFIQUE a legibilidade.</span>`;
+            }
+
+
+
+
+        } catch (err) {
+            console.error("Erro na Etapa de OCR:", err);
+            mensagemPix.innerHTML = `<span style="color:red">❌ Erro ao processar o arquivo: ${err}</span>`;
+        } finally {
+            btnProsseguir.disabled = false;
+        }
+    });
+    
+</script>
+</body>
+</html>

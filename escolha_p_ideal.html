@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Par-Perfeito ✨ Escolha</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script> 
+    
+    <body class="pagina-escolha"></body>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Cormorant Garamond", "Segoe UI", serif;
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 2em;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .titulo-par {
+            font-size: 16px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            color: #ffeaa7;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            width: 80%;
+            max-width: 260px;
+            text-align: center;
+            font-size: 1em;
+            margin: 8px 0 16px 0;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .input-group input {
+            flex: 1 1 120px;
+            max-width: 180px;
+        }
+
+        .result-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .dual-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .pair-info {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            text-align: center;
+        }
+
+        button {
+            background: #ff69b4;
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 25px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ff85c1;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>Descubra a energia entre Luz ✨ e Reflexo 🌗</h1>
+
+    <div class="container">
+        <div class="dual-box">
+            
+            <div>
+                <h2 class="titulo-par">Luz ✨</h2>
+                <div class="input-group"> 
+                    <input type="text" id="nome1" placeholder="Nome de Luz" />
+                    <input type="date" id="data1" />
+                </div>
+                <div class="result-box" id="info1"></div>
+            </div>
+
+            <div>
+                <h2 class="titulo-par">Reflexo 🌗</h2>
+                <div class="input-group"> 
+                    <input type="text" id="nome2" placeholder="Nome de Reflexo" />
+                    <input type="date" id="data2" />
+                </div>
+                <div class="result-box" id="info2"></div>
+            </div>
+
+        </div>
+
+        <div class="pair-info" id="comum"></div>
+
+        <div class="btn-group">
+            <button id="verPar">💞 Ver meu Par</button>
+            <button id="btnSair" style="background: #e74c3c;">🚪 SAIR</button>
+        </div>
+    </div>
+
+    <script>
+        // Função auxiliar para calcular informações pessoais (Signo, Caminho)
+        function calcularInfo(dataStr) {
+            if (!dataStr) return null;
+            const data = new Date(dataStr + "T00:00:00");
+            if (isNaN(data)) return null;
+
+            const signos = [
+                "Capricórnio", "Aquário", "Peixes", "Áries", "Touro", "Gêmeos",
+                "Câncer", "Leão", "Virgem", "Libra", "Escorpião", "Sagitário"
+            ];
+            const datasSignos = [20, 19, 20, 20, 21, 21, 23, 23, 23, 23, 22, 22];
+            let mes = data.getMonth();
+            let dia = data.getDate();
+            if (dia > datasSignos[mes]) mes = (mes + 1) % 12;
+
+            const diaSemana = data.toLocaleDateString("pt-BR", { weekday: "long" });
+            
+            // Cálculo simplificado do Caminho de Vida (redução simples)
+            const soma = [...dataStr.replace(/-/g, '')].reduce((a, b) => a + parseInt(b), 0);
+            const caminho = soma % 9 || 9;
+
+            return { signo: signos[mes], diaSemana, caminho, diaNascimento: data.getDate() };
+        }
+
+        // Função para mostrar as informações pessoais em cada box
+        function mostrarInfo(id, info) {
+            const box = document.getElementById(id);
+            if (!info) {
+                box.innerHTML = "";
+                return;
+            }
+            box.innerHTML = `
+                <p>♈ Signo: <strong>${info.signo}</strong></p>
+                <p>📅 Dia da semana: <strong>${info.diaSemana}</strong></p>
+                <p>🔢 Caminho de vida: <strong>${info.caminho}</strong></p>
+            `;
+        }
+
+        // Função para buscar a compatibilidade real no CSV
+        function buscarCompatibilidadeReal(dia1, dia2) {
+            return new Promise((resolve, reject) => {
+                const chave = `${String(dia1).padStart(2, '0')}X${String(dia2).padStart(2, '0')}`;
+                
+                if (typeof Papa === 'undefined') {
+                    console.error("PapaParse não carregado.");
+                    // Retorna um objeto com ambos como 'N/A'
+                    return resolve({ porcentagem: 'N/A', veredito: '' }); 
+                }
+
+                Papa.parse("dados/par_ideal_31_31.csv", {
+                    download: true,
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: (results) => {
+                        const linha = results.data.find(row => row.numero === chave);
+                        
+                        if (!linha || !linha.vibracao_harmonica || !linha.compatibilidade) {
+                            return resolve({ porcentagem: 'N/A', veredito: 'Não encontrado' });
+                        }
+                        
+                    
+                        // 2. Extrai o Veredito (a palavra após os dois pontos e um espaço)
+
+                        if (!linha || !linha.vibracao_harmonica || !linha.compatibilidade) {
+                            return resolve({ porcentagem: 'N/A', veredito: 'Não encontrado' });
+                        }
+                        
+                        // 1. Extrai a Porcentagem (da linha.vibracao_harmonica)
+                        const matchPorcentagem = linha.vibracao_harmonica.match(/(\d+%)/);
+                        const porcentagem = matchPorcentagem ? matchPorcentagem[1] : 'N/A';
+                        
+                        // 2. Extrai o Veredito (da linha.compatibilidade, usando a Regex robusta)
+                        // Procura por ': ' seguido por qualquer coisa (.*?) até encontrar ' -'
+                        const matchVeredito = linha.compatibilidade.match(/:\s*(.*?)\s*-/);
+                        
+                        // .trim() para garantir a palavra completa e limpa
+                        const veredito = matchVeredito ? matchVeredito[1].trim() : ''; 
+                        
+                        // Retorna ambos os valores como um objeto
+                        resolve({ porcentagem: porcentagem, veredito: veredito });
+// ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        // Retorna ambos os valores como um objeto
+                        resolve({ porcentagem: porcentagem, veredito: veredito });
+                    },
+                    error: (err) => {
+                        console.error("Erro ao carregar CSV:", err);
+                        reject({ porcentagem: 'N/A', veredito: 'Erro' });
+                    }
+                });
+            });
+        }
+
+        // Função principal para calcular e exibir informações comuns (Diferença de idade e Compatibilidade)
+        async function gerarComum(data1, data2) {
+            const comumBox = document.getElementById("comum");
+            if (!data1 || !data2) {
+                comumBox.innerHTML = "";
+                return;
+            }
+            
+            comumBox.innerHTML = `<p>🔄 Buscando compatibilidade...</p>`;
+
+            const d1 = new Date(data1 + "T00:00:00");
+            const d2 = new Date(data2 + "T00:00:00");
+            
+            // Diferença de idade
+            const diff = Math.abs(d1 - d2);
+            const dias = diff / (1000 * 60 * 60 * 24);
+            const anos = Math.floor(dias / 365.25);
+
+            // --- BUSCA DA COMPATIBILIDADE REAL NO CSV ---
+            const info1 = calcularInfo(data1);
+            const info2 = calcularInfo(data2);
+
+            // Recebe um objeto com porcentagem E veredito
+            const compatibilidade = await buscarCompatibilidadeReal(
+                info1 ? info1.diaNascimento : 0, 
+                info2 ? info2.diaNascimento : 0
+            );
+            
+            // Formata o Veredito (ex: " - Fantástico")
+            const textoVeredito = compatibilidade.veredito ? ` - ${compatibilidade.veredito}` : '';
+
+            comumBox.innerHTML = `
+                <p>🧮 Diferença de idade: <strong>${anos}</strong> anos</p>
+                <p>💞 Compatibilidade básica: <strong>${compatibilidade.porcentagem}${textoVeredito}</strong></p>
+            `;
+        }
+ 
+        // Função de hash SHA1 (mantida)
+        function gerarIdUnicoDatas(data1, data2) {
+            // Ordena as datas para que o hash seja consistente
+            const datasOrdenadas = [data1, data2].sort(); 
+            const base = `${datasOrdenadas[0]}|${datasOrdenadas[1]}`;
+            // Verifica se a biblioteca CryptoJS está disponível
+            if (typeof CryptoJS === 'undefined' || !CryptoJS.SHA1) return 'ID indisponível';
+            return CryptoJS.SHA1(base).toString();
+        }
+
+        // Listener de eventos nos inputs para atualizar os dados
+        document.querySelectorAll("input").forEach(inp => {
+            inp.addEventListener("input", () => {
+                const d1 = document.getElementById("data1").value;
+                const d2 = document.getElementById("data2").value;
+
+                mostrarInfo("info1", calcularInfo(d1));
+                mostrarInfo("info2", calcularInfo(d2));
+                gerarComum(d1, d2); // Chama a função assíncrona
+            });
+        });
+
+        // Listener do botão "Ver meu Par" para salvar e navegar
+        document.getElementById("verPar").addEventListener("click", () => {
+            const nome1 = document.getElementById("nome1").value;
+            const data1 = document.getElementById("data1").value;
+            const nome2 = document.getElementById("nome2").value;
+            const data2 = document.getElementById("data2").value;
+            
+            // 1. **Geração do ID Único (CHAMADA ESSENCIAL)**
+            const idUnico = gerarIdUnicoDatas(data1, data2); 
+
+            // Salvando os dados de Luz (Pessoa 1)
+            localStorage.setItem("nome1", nome1);
+            localStorage.setItem("data1", data1);
+
+            // Salvando os dados de Reflexo (Pessoa 2)
+            localStorage.setItem("nome2", nome2);
+            localStorage.setItem("data2", data2);
+            
+            // 2. **Salvando o ID Único (Com a nova nomenclatura)**
+            localStorage.setItem("idUnico_p_ideal", idUnico);
+
+            // 3. Redirecionando para a tela de transição
+            window.location.href = "transicao_p_ideal.html";
+        });
+
+
+        // Listener do botão "SAIR"
+        document.getElementById("btnSair").addEventListener("click", () => {
+            window.location.href = "index.html"; 
+        });
+    </script>
+</body>
+</html>

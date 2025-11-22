@@ -1,238 +1,326 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-06417Z6ZND"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-06417Z6ZND"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-06417Z6ZND');
+    </script>
 
-    gtag('config', 'G-06417Z6ZND');
-  </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sua Amostra Numerológica Premium</title>
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amostra Numerológica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <style>
+        /* Paleta de Cores: Azul Marinho (#1a2c47) e Dourado (#ffcc00) */
+        :root {
+            --cor-principal: #1a2c47; /* Azul Marinho Profundo */
+            --cor-acento: #ffcc00; /* Dourado */
+            --cor-fundo: #0c1a2e; /* Fundo ainda mais escuro para o corpo */
+            --cor-texto: #e0e0e0; /* Texto claro no fundo escuro */
+            --cor-texto-claro: #1a1a1a;
+        }
 
-  <style>
-    body {
-      background: radial-gradient(circle at center, #000, #0a0a0a);
-      font-family: 'Playfair Display', serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      padding: 20px;
-      color: #000;
-    }
+        body {
+            background: radial-gradient(circle at center, var(--cor-fundo), #000);
+            font-family: 'Poppins', sans-serif;
+            color: var(--cor-texto);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Alinha no topo para rolagem */
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+        }
 
-    .caixa {
-      background: linear-gradient(to bottom, #fff, #fdfdfd);
-      border: 2px solid #ffd700;
-      border-radius: 20px;
-      padding: 30px;
-      max-width: 750px;
-      width: 100%;
-      box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-      max-height: 85vh;
-      gap: 20px;
-    }
+        .caixa {
+            background: linear-gradient(180deg, #fff, #f5f5f5); /* Fundo claro para o conteúdo principal */
+            color: var(--cor-texto-claro);
+            border: 5px solid var(--cor-acento);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
 
-    h2 {
-      text-align: center;
-      font-size: 42px;
-      font-weight: bold;
-      color: #0074d9;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px rgba(0, 116, 217, 0.3);
-    }
+        /* Título Principal */
+        h2 {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            font-weight: 900;
+            color: var(--cor-principal);
+            margin-bottom: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Subtítulo */
+        p.frase {
+            text-align: center;
+            font-style: italic;
+            color: #555;
+            font-size: 1.1em;
+            margin-top: 5px;
+            margin-bottom: 30px;
+        }
 
-    p.frase {
-      text-align: center;
-      font-style: italic;
-      color: #666;
-      margin-bottom: 25px;
-      font-size: 16px;
-    }
+        /* Blocos de Conteúdo */
+        .bloco, .bloco-eu-sou {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.7s forwards;
+            position: relative;
+        }
+        
+        .bloco:hover, .bloco-eu-sou:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+        }
 
-    .bloco, .bloco-eu-sou {
-      background: linear-gradient(145deg, #fff8e1, #fff3b0);
-      border: 2px solid #ffd700;
-      border-radius: 18px;
-      padding: 25px 30px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-      text-align: left;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 0.7s forwards;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
+        /* Bloco Destaque (EU SOU) */
+        .bloco-eu-sou {
+            background: linear-gradient(135deg, #fefefe, #f0f8ff);
+            border: 3px solid var(--cor-principal);
+            box-shadow: 0 0 30px rgba(26, 44, 71, 0.3);
+            animation-delay: 0.1s;
+        }
 
-    .bloco:hover, .bloco-eu-sou:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.35);
-    }
+        /* Títulos Internos */
+        .bloco h4, .bloco-eu-sou h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--cor-principal);
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .bloco-eu-sou {
-      background: linear-gradient(145deg, #fff5cc, #ffe066);
-      border: 3px solid #ffcc00;
-      box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
-      animation-delay: 0.1s;
-    }
+        /* Valor Numérico */
+        .valor {
+            font-size: 2.2em;
+            font-weight: 900;
+            color: var(--cor-acento); /* Dourado */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            display: inline-block;
+            margin-left: 10px;
+        }
 
-    .bloco h4, .bloco-eu-sou h4 {
-      font-size: 28px;
-      font-weight: bold;
-      color: #0074d9;
-      margin: 0 0 12px 0;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+        /* Descrição do Texto */
+        .descricao {
+            font-size: 1em;
+            line-height: 1.8;
+            color: #333;
+            text-align: justify;
+        }
 
-    .valor {
-      font-size: 28px;
-      font-weight: bolder;
-      color: #d35400;
-      display: inline-block;
-    }
+        /* Estilo da Mensagem de Alerta (Chamada para o PIX) */
+        .alerta-pix {
+            display: block;
+            margin-top: 15px;
+            padding: 15px;
+            border: 2px solid #e74c3c; /* Vermelho vibrante */
+            border-radius: 8px;
+            background-color: #fcecec;
+            font-size: 1em;
+            color: #c0392b;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        /* Botão */
+        button {
+            align-self: center;
+            background: linear-gradient(90deg, var(--cor-principal), #0074d9);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 32px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.3s;
+            letter-spacing: 0.5px;
+        }
 
-    .descricao {
-      font-size: 16px;
-      line-height: 1.7;
-      color: #222;
-      text-align: left;
-    }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 116, 217, 0.5);
+        }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
+        /* Scrollbar Personalizado */
+        .caixa::-webkit-scrollbar { width: 8px; }
+        .caixa::-webkit-scrollbar-thumb {
+            background: var(--cor-acento);
+            border-radius: 4px;
+        }
+        .caixa::-webkit-scrollbar-track {
+            background: #e0e0e0;
+        }
 
-    button {
-      align-self: center;
-      background: linear-gradient(90deg, #0044cc, #0074d9);
-      color: #fff;
-      border: none;
-      border-radius: 12px;
-      padding: 14px 32px;
-      cursor: pointer;
-      font-size: 1.2em;
-      font-weight: bold;
-      margin-top: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      transition: transform 0.2s, box-shadow 0.3s;
-    }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
 
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(0, 116, 217, 0.6);
-    }
-
-    .caixa::-webkit-scrollbar { width: 8px; }
-    .caixa::-webkit-scrollbar-thumb {
-      background: #ffd700;
-      border-radius: 4px;
-    }
-  </style>
+        /* Responsividade Básica */
+        @media (max-width: 600px) {
+            .caixa {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            .bloco h4, .bloco-eu-sou h4 {
+                font-size: 1.4em;
+            }
+            .valor {
+                font-size: 1.8em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="caixa">
-    <h2 id="titulo">Carregando...</h2>
-    <p class="frase">Aguarde, preparando sua leitura numerológica...</p>
-    <div id="conteudo">Carregando amostra...</div>
-    <button id="btnVoltar">Voltar</button>
-  </div>
+    <div class="caixa">
+        <h2 id="titulo"><i class="fas fa-scroll" style="color: var(--cor-acento);"></i> Sua Amostra Numerológica</h2>
+        <p class="frase" id="subtitulo">Aguarde, preparando sua leitura personalizada...</p>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const nome = localStorage.getItem("nome");
-      const data = localStorage.getItem("data_nascimento");
-      const titulo = document.getElementById("titulo");
-      const conteudo = document.getElementById("conteudo");
-      const btnVoltar = document.getElementById("btnVoltar");
+        <div id="conteudo">
+            <p style="text-align: center; color: #555;">Carregando amostra...</p>
+        </div>
 
-      titulo.textContent = nome && data ? `${nome} - ${data}` : "Sua Amostra Numerológica";
+        <button id="btnVoltar"><i class="fas fa-arrow-left"></i> Voltar</button>
+    </div>
 
-      function reduzir(n) {
-        if (!Number.isFinite(n)) return 0;
-        while (n > 9 && ![11, 22].includes(n)) {
-          n = String(n).split("").reduce((acc, d) => acc + parseInt(d||0,10), 0);
-        }
-        return n;
-      }
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const nome = localStorage.getItem("nome");
+            const data = localStorage.getItem("data_nascimento");
+            const titulo = document.getElementById("titulo");
+            const subtitulo = document.getElementById("subtitulo");
+            const conteudo = document.getElementById("conteudo");
+            const btnVoltar = document.getElementById("btnVoltar");
+            
+            // Define o título e subtítulo de forma mais elegante
+            if (nome && data) {
+                titulo.innerHTML = `<i class="fas fa-scroll" style="color: var(--cor-acento);"></i> Relatório de ${nome}`;
+                subtitulo.textContent = `Nascido(a) em ${data} — Descubra seu Potencial.`;
+            } else {
+                subtitulo.textContent = "Amostra Numerológica";
+            }
 
-      function destacarResumoComAlerta(texto, maxChars=150) {
-        if(!texto) return "";
-        let resumo = texto.replace(/<br>/g,' ').slice(0, maxChars);
-        if(texto.length > maxChars) resumo += " ...";
-        const alerta = `<span style="font-size:18px; color:#c0392b; font-weight:bold;">
-          🚨📣📅 Fique atento! Conteúdo completo disponível no site a partir de 22/11/2025.
-        </span>`;
-        return `<span>${resumo}</span><br><br>${alerta}`;
-      }
+            // A função reduzir é mantida como essencial para os cálculos
+            function reduzir(n) {
+                if (!Number.isFinite(n)) return 0;
+                while (n > 9 && ![11, 22].includes(n)) {
+                    n = String(n).split("").reduce((acc, d) => acc + parseInt(d||0,10), 0);
+                }
+                return n;
+            }
 
-      async function carregarAmostra() {
-        try {
-          const responseDia = await fetch("./dados/dia_natal.csv");
-          const csvDiaText = await responseDia.text();
-          const parsedDia = Papa.parse(csvDiaText, { header:true, skipEmptyLines:true });
-          const dia = parseInt((data||"").split("/")[0],10);
-          const diaData = parsedDia.data.find(r => parseInt(r.numero)===dia);
+            // Função destacada para a Mensagem de Desbloqueio (PIX)
+            function destacarResumoComAlerta(texto, maxChars=150) {
+                if(!texto) return "";
+                // Remove tags HTML (como <br>) para um resumo limpo
+                let resumo = texto.replace(/<br\s*\/?>/gi, ' ').slice(0, maxChars).trim();
+                if(texto.length > maxChars) resumo += "...";
+                
+                // Mensagem de alerta refinada
+                const alerta = `
+                    <span class="alerta-pix">
+                        <i class="fas fa-lock"></i> 
+                        Este é apenas um **RESUMO**. Desbloqueie a análise completa do seu Mapa Natal 
+                        com todos os Pináculos, Desafios, Lições Kármicas e previsões.
+                        <br>
+                        **Invista no seu futuro:** Adquira o relatório completo por **R$ 26,00**.
+                    </span>
+                `;
+                return `<span>${resumo}</span><br>${alerta}`;
+            }
 
-          const responseRes = await fetch("./dados/resultado_numerologia.csv");
-          const csvResText = await responseRes.text();
-          const parsedRes = Papa.parse(csvResText, { header:true, skipEmptyLines:true });
-          const resData = parsedRes.data;
+            async function carregarAmostra() {
+                try {
+                    // 1. Carrega dados do Dia Natal
+                    const responseDia = await fetch("./dados/dia_natal.csv");
+                    const csvDiaText = await responseDia.text();
+                    const parsedDia = Papa.parse(csvDiaText, { header:true, skipEmptyLines:true });
+                    const dia = parseInt((data||"").split("/")[0],10);
+                    const diaData = parsedDia.data.find(r => parseInt(r.numero)===dia);
 
-          const campos = [
-            { id:"eu_sou", titulo:"EU SOU", valor:dia, descricao: diaData ? `${diaData.perfil}${diaData.natureza}<br>${diaData.impulsos}` : "Informação não encontrada." },
-            { id:"aprendizado", titulo:"APRENDIZADO", valor:8, descricao: resData.find(r=>reduzir(parseInt(r.numero))===8)?.aprendizado || "Informação não encontrada." },
-            { id:"dons", titulo:"DONS", valor:5, descricao: resData.find(r=>reduzir(parseInt(r.numero))===5)?.dons_potencial || "Informação não encontrada." },
-            { id:"desafio_abertura", titulo:"DESAFIO ABERTURA", valor:4, descricao: resData.find(r=>reduzir(parseInt(r.numero))===4)?.Abertura_emocional || "Informação não encontrada." },
-            { id:"desafio_liberdade", titulo:"DESAFIO LIBERDADE", valor:6, descricao: resData.find(r=>reduzir(parseInt(r.numero))===6)?.Liberdade || "Informação não encontrada." },
-            { id:"desafio_entrega", titulo:"DESAFIO ENTREGA", valor:7, descricao: resData.find(r=>reduzir(parseInt(r.numero))===7)?.desafio_principal || "Informação não encontrada." },
-            { id:"desafio_sabedoria", titulo:"DESAFIO SABEDORIA", valor:9, descricao: resData.find(r=>reduzir(parseInt(r.numero))===9)?.Sabedoria_doadora || "Informação não encontrada." },
-            { id:"potencia", titulo:"POTÊNCIA", valor:3, descricao: resData.find(r=>reduzir(parseInt(r.numero))===3)?.Harmonia || "Informação não encontrada." },
-            { id:"alma", titulo:"ALMA", valor:2, descricao: resData.find(r=>reduzir(parseInt(r.numero))===2)?.alma || "Informação não encontrada." },
-            { id:"aparencia", titulo:"APARÊNCIA", valor:1, descricao: resData.find(r=>reduzir(parseInt(r.numero))===1)?.aparencia || "Informação não encontrada." },
-            { id:"missao", titulo:"MISSÃO", valor:8, descricao: resData.find(r=>reduzir(parseInt(r.numero))===8)?.missao || "Informação não encontrada." },
-            { id:"compromisso", titulo:"COMPROMISSO", valor:5, descricao: resData.find(r=>reduzir(parseInt(r.numero))===5)?.compromisso || "Informação não encontrada." }
-          ];
+                    // 2. Carrega dados de resultado_numerologia
+                    const responseRes = await fetch("./dados/resultado_numerologia.csv");
+                    const csvResText = await responseRes.text();
+                    const parsedRes = Papa.parse(csvResText, { header:true, skipEmptyLines:true });
+                    const resData = parsedRes.data;
 
-          let blocosHTML = [];
-          campos.forEach(c => {
-            let maxChars = c.id==="eu_sou" ? 500 : 150;
-            const valorExibir = c.id === "eu_sou" ? c.valor : "XX";
-            blocosHTML.push(`
-              <div class="${c.id==="eu_sou"?"bloco-eu-sou":"bloco"}">
-              <h4>${c.titulo} <span class="valor">${valorExibir}</span></h4>
-              <div class="descricao">${destacarResumoComAlerta(c.descricao, maxChars)}</div>
-            </div>
+                    // 3. Estrutura dos Campos de Amostra (Mantido o seu array original de valores fictícios)
+                    const campos = [
+                        { id:"eu_sou", titulo:"EU SOU (Dia Natal)", valor:dia, icon:"fa-star", descricao: diaData ? `${diaData.perfil} <br><br> Natureza: ${diaData.natureza} <br><br> Impulsos: ${diaData.impulsos}` : "Informação não encontrada." },
+                        { id:"aprendizado", titulo:"LIÇÃO DE VIDA (Aprendizado)", valor:8, icon:"fa-lightbulb", descricao: resData.find(r=>reduzir(parseInt(r.numero))===8)?.aprendizado || "Informação não encontrada." },
+                        { id:"dons", titulo:"DONS E POTENCIAL", valor:5, icon:"fa-gift", descricao: resData.find(r=>reduzir(parseInt(r.numero))===5)?.dons_potencial || "Informação não encontrada." },
+                        { id:"desafio_abertura", titulo:"DESAFIO (Abertura)", valor:4, icon:"fa-map-signs", descricao: resData.find(r=>reduzir(parseInt(r.numero))===4)?.desafio_abertura || "Informação não encontrada." },
+                        { id:"missao", titulo:"MISSÃO (Caminho)", valor:8, icon:"fa-compass", descricao: resData.find(r=>reduzir(parseInt(r.numero))===8)?.missao || "Informação não encontrada." },
+                        { id:"compromisso", titulo:"COMPROMISSO AFETIVO", valor:5, icon:"fa-heart-circle-check", descricao: resData.find(r=>reduzir(parseInt(r.numero))===5)?.compromisso || "Informação não encontrada." }
+                    ];
 
+                    let blocosHTML = [];
+                    campos.forEach((c, index) => {
+                        let maxChars = c.id==="eu_sou" ? 600 : 180; // Mais espaço para o EU SOU
+                        // O valor do EU SOU é o dia de nascimento, os demais são "XX"
+                        const valorExibir = c.id === "eu_sou" ? c.valor : "XX"; 
+                        // Atrasa a animação para efeito cascata
+                        const styleDelay = `animation-delay: ${0.2 + index * 0.1}s;`;
+                        
+                        // O bloco EU SOU tem um estilo diferente
+                        const isEuSou = c.id === "eu_sou";
+                        
+                        // HTML com a nova estrutura de ícones e classes
+                        blocosHTML.push(`
+                            <div class="${isEuSou ? "bloco-eu-sou" : "bloco"}" style="${styleDelay}">
+                                <h4>
+                                    <i class="fas ${c.icon}" style="color: var(--cor-acento);"></i>
+                                    ${c.titulo} 
+                                    <span class="valor">${valorExibir}</span>
+                                </h4>
+                                <div class="descricao">${destacarResumoComAlerta(c.descricao, maxChars)}</div>
+                            </div>
+                        `);
+                    });
 
-
-            `);
-          });
-
-          conteudo.innerHTML = blocosHTML.join("");
-        } catch(err) {
-          conteudo.innerHTML = `⚠️ Erro ao carregar: ${err.message}`;
-        }
-      }
-
-      carregarAmostra();
-      btnVoltar.addEventListener("click", ()=> window.location.href="transicao.html");
-    });
-  </script>
+                    conteudo.innerHTML = blocosHTML.join("");
+                } catch(err) {
+                    conteudo.innerHTML = `<div class="bloco-eu-sou">⚠️ Erro ao carregar os dados. Verifique a estrutura dos arquivos CSV e o console. Erro: ${err.message}</div>`;
+                    console.error(err);
+                }
+            }
+            carregarAmostra();
+            btnVoltar.addEventListener("click", ()=> window.location.href="transicao.html");
+        });
+    </script>
 </body>
 </html>

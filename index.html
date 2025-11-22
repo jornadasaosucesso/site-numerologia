@@ -1,136 +1,148 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-06417Z6ZND"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-06417Z6ZND');
-    </script>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jornada da Alma</title>
     <link rel="stylesheet" href="style.css" />
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #000;
-            color: #fff;
-            font-family: 'Playfair Display', serif;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+        color: #fff;
+        font-family: 'Playfair Display', serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 
-        .container-inicial {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            /* Garante que o clique seja capturado em toda a área do container */
-            cursor: pointer; 
-        }
+    .grid-container {
+        display: grid;
+        /* 🔑 AÇÃO 1: MANTÉM DUAS COLUNAS */
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 20px;
+        padding: 20px;
+        width: 100%;
+        
+        /* Largura Máxima Ajustada para Notebooks (tente 800px) */
+        max-width: 800px; 
+        margin: 0 auto; 
+        
+        /* 🔑 AÇÃO 2: CENTRALIZAR ITENS SE HOUVER MENOS DE 4 */
+        justify-content: center; 
+    }
 
-      .capa {
-        transform: scale(1.5);
-        transform-origin: center;
-      }
+    .image-item {
+        position: relative;
+        
+        /* 🔑 AÇÃO 3: Proporção Mais ALTA (Vertical/Retrato) */
+        /* 3 / 4 (mais alta que larga) ou 2 / 3 (bem alta) */
+        aspect-ratio: 3 / 4; 
+        
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
 
-        /* Novo estilo para a mensagem de clique */
-        .click-message {
-            position: absolute;
-            bottom: 10%;
-            padding: 12px 20px;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente para melhor leitura */
-            border-radius: 8px;
-            pointer-events: none; /* Ignora o clique, deixando o container capturá-lo */
-            opacity: 0;
-            animation: pulse 1.5s infinite alternate; /* Aplica um efeito pulsante */
-            z-index: 10;
-        }
+    .image-item:hover {
+        transform: scale(1.02);
+        box-shadow: 0 12px 30px rgba(125, 95, 255, 0.5);
+    }
 
-        @keyframes pulse {
-            0% { opacity: 0.7; transform: translateY(0); }
-            100% { opacity: 1; transform: translateY(-5px); }
-        }
+    .capa-imagem {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    
+    .acesso-btn {
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #fff;
+        background: linear-gradient(90deg, #4b0082, #7d5fff);
+        border: none;
+        border-radius: 50px;
+        z-index: 10;
+        transition: background 0.3s ease, transform 0.2s;
+        text-decoration: none;
+        text-align: center;
+        width: 80%;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
 
-        .fade-out {
-            opacity: 0;
-            transition: opacity 1s ease;
+    .acesso-btn:hover {
+        background: linear-gradient(90deg, #6c5ce7, #8f75ff);
+        transform: translateX(-50%) translateY(-2px);
+    }
+    
+    /* Responsividade para telas menores (celulares) */
+    @media (max-width: 600px) {
+        .grid-container {
+            grid-template-columns: 1fr; /* Coluna única */
+            gap: 15px;
+            padding: 15px;
+            max-width: 100%; 
         }
-    </style>
+        .image-item {
+            /* Mantém a proporção vertical alta em mobile (ou mude para 4/3 se 3/4 for demais) */
+            aspect-ratio: 3 / 4; 
+        }
+        .acesso-btn {
+            font-size: 1rem;
+            padding: 10px 20px;
+            width: 90%;
+        }
+    }
+</style>
 </head>
 
-<body class="pagina-inicial">
-    <div class="container-inicial" id="mainContainer">
-        <video class="capa" autoplay muted loop playsinline>
-            <source src="imagens/capa-arcanos-2.mp4" type="video/mp4">
-            Seu navegador não suporta vídeos HTML5.
-        </video>
-        <div id="instructionMessage" class="click-message">Clique na imagem para entrar</div>
-    </div>
-
-    <script>
-        const mainContainer = document.getElementById("mainContainer");
-        const instructionMessage = document.getElementById("instructionMessage");
-        const videoElement = mainContainer.querySelector("video");
-        let hasEntered = false;
-
-        /**
-         * Funções de Fullscreen (para compatibilidade entre navegadores)
-         */
-        function enterFullscreen(element) {
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if (element.mozRequestFullScreen) { /* Firefox */
-                element.mozRequestFullScreen();
-            } else if (element.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                element.webkitRequestFullscreen();
-            } else if (element.msRequestFullscreen) { /* IE/Edge */
-                element.msRequestFullscreen();
-            }
-        }
+<body>
+    <h1 style="color: #fff; text-align: center; margin: 20px 0 10px; font-size: 2.2rem;">Escolha Sua Jornada</h1>
+    
+    <div class="grid-container">
         
-        /**
-         * Lógica de Início: Fullscreen e Redirecionamento
-         */
-        function startJornada() {
-            if (hasEntered) return;
-            hasEntered = true;
+        <a href="escolha.html" class="image-item">
+            <video controls autoplay loop muted playsinline class="capa-imagem">
+                <source src="/imagens/capa-arcanos-2.mp4" type="video/mp4">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+            <div class="acesso-btn">1. NUMEROLOGIA</div>
+        </a>
 
-            // 1. Tenta ativar o fullscreen no corpo da página
-            enterFullscreen(document.documentElement); 
-            
-            // 2. Aplica o efeito de fade-out
-            document.body.classList.add("fade-out");
+        <a href="escolha_p_ideal.html" class="image-item">
+            <video controls autoplay loop muted playsinline class="capa-imagem">
+                <source src="/imagens/capa-arcanos-3.mp4" type="video/mp4">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+            <div class="acesso-btn">2. PAR IDEAL</div>
+        </a>
+        
+<!--        <a href="escolha_esp1.html" class="image-item">
+            <img src="imagens/capa-3.jpg" alt="Jornada Especial 1" class="capa-imagem">
+            <div class="acesso-btn">3. Jornada Especial 1</div>
+        </a>
+        
+        <a href="escolha_esp2.html" class="image-item">
+            <img src="imagens/capa-4.jpg" alt="Jornada Especial 2" class="capa-imagem">
+            <div class="acesso-btn">4. Jornada Especial 2</div>
+        </a>
+        
+    </div>-->
 
-            // 3. Redireciona após o fade
-            setTimeout(() => {
-//                window.location.href = "/escolha.html";
-                window.location.href = "/escolha_11_22.html";
-            }, 1000);
-        }
-
-        // Mostra a mensagem após 3 segundos
-        setTimeout(() => {
-            instructionMessage.style.opacity = "1";
-        }, 3000);
-
-        // Adiciona o listener de clique ao container
-        mainContainer.addEventListener("click", startJornada);
-    </script>
+    <script></script>
 </body>
 </html>

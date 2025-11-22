@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transição | Par Ideal - Opções de Compra</title>
+
+    <link rel="stylesheet" href="style_p_ideal.css" /> 
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at center, #000000, #0d0d0d);
+            color: #f5f5f5;
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column; 
+        }
+
+        .caixa {
+            background: rgba(30, 30, 30, 0.9);
+            border: 2px solid gold;
+            border-radius: 16px;
+            padding: 30px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            animation: fadeIn 1s ease;
+        }
+
+        h2 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.5em;
+            color: #ddd;
+        }
+        
+        /* Estilo para exibir o ID */
+        .id-container {
+            font-size: 1em;
+            margin: 15px 0 25px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            word-break: break-all;
+            color: #b0c4de;
+        }
+        
+        /* REMOVIDO: #statusPagamento */
+
+
+        .botoes {
+            /* Aumentando a margem superior para compensar a remoção do statusPagamento */
+            margin-top: 35px; 
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        button {
+            background: linear-gradient(90deg, #ffd700, #ffae42);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 28px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+
+        button:hover:not([disabled]) { 
+            transform: scale(1.07);
+            box-shadow: 0 0 18px rgba(255, 200, 50, 0.7);
+        }
+        
+        #btnPagar {
+             /* Cor para a opção Pagar Agora (Inibido) */
+            background: linear-gradient(90deg, #505050, #707070); 
+            color: #ccc;
+            cursor: not-allowed; 
+        }
+
+        #btnPagar[disabled]:hover {
+            transform: none; 
+            box-shadow: none;
+        }
+        
+        #btnVoltar {
+            background: linear-gradient(90deg, #e74c3c, #c0392b); /* Vermelho para Voltar */
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="caixa">
+        <h2>✨ Resultado Exclusivo: O Mapa Vibracional do Casal Está Pronto! ✨</h2>
+        
+        <p id="mensagem"></p>
+        
+        <div class="botoes">
+            <button id="btnPagar" disabled>ACESSO TOTAL ao Par Ideal (Lançamento Breve)</button> 
+            
+            <button id="btnAmostra">Ver Amostra GRÁTIS e Simplificada</button> 
+            <button id="btnVoltar">Voltar</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Definição das variáveis do localStorage
+        const nome1 = localStorage.getItem("nome1") || "Luz";
+        const nome2 = localStorage.getItem("nome2") || "Reflexo";
+        const idUnico = localStorage.getItem("idUnico_p_ideal");
+        
+        // 2. Mensagem personalizada (REFORMULADA COM PROMOÇÃO SEGURA)
+        const mensagem = document.getElementById("mensagem");
+        mensagem.innerHTML = `
+            A sinergia entre **${nome1}** e **${nome2}** foi decifrada! Você está a um passo de acessar um mapa completo que revela a Compatibilidade Profunda, os Desafios Ocultos e o Propósito de União do seu relacionamento.
+            <br><br>
+            🚨 ALERTA DE LANÇAMENTO! 🚨<br>
+            <strong style="color: #ffd700; font-size: 1.1em;">
+                O Par Ideal (Acesso Completo) será lançado em breve!
+                <br>
+            </strong>
+            <br><br>
+            Enquanto isso, clique abaixo para visualizar a **Amostra Gratuita** e tenha um vislumbre do seu destino.
+        `;
+        
+        // 3. Exibir ID
+        // document.getElementById("idUnicoDisplay").innerHTML = `<strong>${idUnico || 'ID indisponível'}</strong>`;
+
+
+        // 4. Ações dos botões 
+        
+        // AÇÃO DO BOTÃO PAGAR REMOVIDA/COMENTADA POR ESTAR INIBIDO
+
+        document.getElementById("btnAmostra").addEventListener("click", () => {
+            window.location.href = "amostra_p_ideal.html"; 
+        });
+
+        document.getElementById("btnVoltar").addEventListener("click", () => {
+            window.location.href = "escolha_p_ideal.html";
+        });
+        
+    </script>
+</body>
+</html>

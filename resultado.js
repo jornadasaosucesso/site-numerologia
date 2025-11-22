@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('load', () => {
     const nomeRaw = localStorage.getItem("nome") || "";
     const nome = nomeRaw.toUpperCase();
 
@@ -18,15 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
         while (n > 9 && !shouldStop) {
             n = String(n).split("").reduce((acc, d) => acc + parseInt(d || 0, 10), 0);
             
-            // Re-checa se deve parar após a redução
             shouldStop = !forcarReducaoPura && [11, 22].includes(n);
         }
         
-        // No caso do 11+11=22, ele para aqui e retorna 22.
-        // Se for 22+10=32, ele reduz para 5.
-        // Se for forcarReducaoPura=true, ele reduz 11->2, 22->4.
-        
-        // Se após o while, o número ainda for 11 ou 22 E a redução pura for ativada, reduza-o.
         if (forcarReducaoPura && (n === 11 || n === 22)) {
             n = String(n).split("").reduce((acc, d) => acc + parseInt(d || 0, 10), 0); // 11->2, 22->4
         }
@@ -58,20 +52,20 @@ document.addEventListener("DOMContentLoaded", () => {
         return [...(dataStr || "")].filter(ch => /\d/.test(ch)).reduce((a, ch) => a + parseInt(ch, 10), 0);
     }
     
-    // Função auxiliar para obter D, M, A reduzidos
-    // NOVO CÓDIGO AUXILIAR PARA CORREÇÃO DO ERRO:
+    // Função auxiliar para obter D, M, A reduzidos (com redução pura forçada)
     function obterDMAReduzidos(dataStr) {
         const partes = (dataStr || "").split("/").map(Number);
         
-        // 1. Reduz o Dia (D)
-        const d = partes[0] ? reduzir(partes[0]) : 0;
+        // 1. Reduz o Dia (D) - Pura
+        const d = partes[0] ? reduzir(partes[0], true) : 0;
         
-        // 2. Reduz o Mês (M)
-        const m = partes[1] ? reduzir(partes[1]) : 0;
+        // 2. Reduz o Mês (M) - Pura
+        const m = partes[1] ? reduzir(partes[1], true) : 0;
         
-        // 3. Soma os dígitos do Ano (ex: 2025 -> 9), e depois Reduz o total (A)
+        // 3. Soma os dígitos do Ano, e depois Reduz o total (A) - Pura
         const anoRaw = partes[2] ? partes[2] : 0;
-        const a = reduzir(String(anoRaw).split("").reduce((acc, digit) => acc + parseInt(digit, 10), 0));
+        const aSoma = String(anoRaw).split("").reduce((acc, digit) => acc + parseInt(digit, 10), 0);
+        const a = reduzir(aSoma, true);
         
         return { d, m, a };
     }
@@ -84,16 +78,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === FUNÇÕES DOS DESAFIOS (CORRIGIDAS) ===
 
-// D1: Desafio Mês - Dia
+    // D1: Desafio Mês - Dia
     function calcularDesafio1(dataStr) {
         const partes = (dataStr || "").split("/");
         const dRaw = partes[0] ? parseInt(partes[0]) : 0;
         const mRaw = partes[1] ? parseInt(partes[1]) : 0;
         
-        const d = reduzir(dRaw, true); // <--- FORÇANDO REDUÇÃO PURA (22 -> 4)
-        const m = reduzir(mRaw, true); // <--- FORÇANDO REDUÇÃO PURA (11 -> 2)
+        const d = reduzir(dRaw, true); 
+        const m = reduzir(mRaw, true); 
         
-        return Math.abs(m - d); // RESULTADO FINAL: |2 - 4| = 2
+        let resultado = Math.abs(m - d);
+    
+        // Regra: Se o resultado for 0, ele é substituído pelo Desafio 9
+        return (resultado === 0) ? 9 : resultado;
+
     }
 
     // D2: Desafio Dia - Ano
@@ -102,11 +100,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const dRaw = partes[0] ? parseInt(partes[0]) : 0;
         const aRaw = partes[2] ? partes[2] : "0";
 
-        const d = reduzir(dRaw, true); // <--- FORÇANDO REDUÇÃO PURA (22 -> 4)
-        // O Ano (A) já estava reduzindo para 9, mas vamos garantir:
-        const a = reduzir(somaData(aRaw), true); // <--- FORÇANDO REDUÇÃO PURA (2025 -> 9)
-        
-        return Math.abs(d - a); // RESULTADO FINAL: |4 - 9| = 5
+        const d = reduzir(dRaw, true); 
+        const a = reduzir(somaData(aRaw), true); 
+
+        let resultado = Math.abs(d - a);
+    
+        // Regra: Se o resultado for 0, ele é substituído pelo Desafio 9
+        return (resultado === 0) ? 9 : resultado;
+
     }
 
     // D4: Desafio Mês - Ano
@@ -115,16 +116,66 @@ document.addEventListener("DOMContentLoaded", () => {
         const mRaw = partes[1] ? parseInt(partes[1]) : 0;
         const aRaw = partes[2] ? partes[2] : "0";
 
-        const m = reduzir(mRaw, true); // <--- FORÇANDO REDUÇÃO PURA (11 -> 2)
-        const a = reduzir(somaData(aRaw), true); // <--- FORÇANDO REDUÇÃO PURA (2025 -> 9)
-        
-        return Math.abs(m - a); // RESULTADO FINAL: |2 - 9| = 7
+        const m = reduzir(mRaw, true); 
+        const a = reduzir(somaData(aRaw), true); 
+
+        let resultado = Math.abs(m - a);
+    
+        // Regra: Se o resultado for 0, ele é substituído pelo Desafio 9
+        return (resultado === 0) ? 9 : resultado;
+
     }
 
     // D3: Desafio Principal (D1 - D2)
     function calcularDesafioPrincipal(D1, D2) {
-        // Usa o resultado 0-8 do D1 e D2
-        return Math.abs(D1 - D2); // Pitagórico Puro (3)
+        let resultado = Math.abs(D1 - D2); 
+        
+        // Regra: Se o resultado for 0, ele é substituído pelo Desafio 9
+        return (resultado === 0) ? 9 : resultado; 
+    }
+    
+    // === FUNÇÕES DOS PINÁCULOS (NOVAS FUNÇÕES PARA OS 4 CÁLCULOS) ===
+
+    // Pináculo 1: Dia + Mês
+    function calcularPinaculo1(d, m) {
+        return reduzir(d + m); // Redução normal (permite 11, 22)
+    }
+
+    // Pináculo 2: Dia + Ano
+    function calcularPinaculo2(d, a) {
+        return reduzir(d + a); // Redução normal (permite 11, 22)
+    }
+
+    // Pináculo 3: Pináculo 1 + Pináculo 2
+    function calcularPinaculo3(p1, p2) {
+        return reduzir(p1 + p2); // Redução normal (permite 11, 22)
+    }
+
+    // Pináculo 4: Mês + Ano
+    function calcularPinaculo4(m, a) {
+        return reduzir(m + a); // Redução normal (permite 11, 22)
+    }
+
+    /**
+     * Calcula os períodos dos 4 Pináculos de forma dinâmica.
+     * @param {number} numMissao - O número da Missão (Expressão) da pessoa.
+     * @returns {object} Um objeto com as idades de transição (XX, YY, WW).
+     */
+    function calcularPeriodosPinaculos(numMissao) {
+        if (!Number.isFinite(numMissao) || numMissao < 1) {
+            return { XX: 36, YY: 45, WW: 54 }; // Valores default
+        }
+
+        // 1. Idade da 1ª Mudança (XX): Fim do P1 / Início do P2
+        const XX = 36 - numMissao;
+        
+        // 2. Idade da 2ª Mudança (YY): Fim do P2 / Início do P3 (Ciclo padrão de 9 anos)
+        const YY = XX + 9; 
+        
+        // 3. Idade da 3ª Mudança (WW): Fim do P3 / Início do P4 (Ciclo padrão de 9 anos)
+        const WW = YY + 9;
+
+        return { XX, YY, WW };
     }
 
     let campos = [];
@@ -133,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === FUNÇÃO PARA CARREGAR CSV (Promisified) ===
     function carregarCSV(caminho) {
-        // ... (restante da função carregarCSV)
         return new Promise((resolve, reject) => {
             Papa.parse(caminho, {
                 download: true,
@@ -165,52 +215,118 @@ document.addEventListener("DOMContentLoaded", () => {
         dadosNumerologia = numerologia;
         dadosDiaNatal = diaNatal;
 
-        // Função para buscar descrição no CSV principal
+        // Função para buscar descrição no CSV principal (usada para campos não-Pináculos)
         function buscarDescricao(numero, campo) {
             const linha = dadosNumerologia.find(row => {
                 const n = parseInt(row.numero, 10);
-                // A busca precisa ser ajustada para o Desafio 0-8. 
-                // Se o CSV só tem 1-9, o Desafio 0 e 9 não serão encontrados
+                // A busca aceita tanto o número reduzido quanto o mestre (11, 22)
                 return !isNaN(n) && (n === numero || reduzir(n) === numero);
             });
             return linha ? (linha[campo] || "Informação não encontrada.") : "Informação não encontrada.";
         }
 
+        // === NOVO CÓDIGO DE BUSCA ESPECÍFICA PARA PINÁCULOS (USA AS COLUNAS pinaculo1, pinaculo2, etc.) ===
+        function buscarDescricaoPinaculo(numero, indicePinaculo) {
+            const coluna = `pinaculo${indicePinaculo}`; // Ex: 'pinaculo1', 'pinaculo2'
+            
+            const linha = dadosNumerologia.find(row => {
+                const n = parseInt(row.numero, 10);
+                return !isNaN(n) && (n === numero || reduzir(n) === numero);
+            });
+
+            return linha ? (linha[coluna] || `Conteúdo não encontrado para esta fase (${coluna}).`) : "Número do Pináculo não encontrado no CSV.";
+        }
+        // ====================================================================================================
+
         // === CÁLCULOS PRINCIPAIS ===
         const [vogais, consoantes] = separarVogaisConsoantes(nome);
-        // Não utilizado: const num_arcano = calcularArcano(data);
         const num_ego = calcularNumero(vogais);
         const num_aparencia = calcularNumero(consoantes);
-        const num_missao = calcularNumero(vogais + consoantes);
+        const num_missao = calcularNumero(vogais + consoantes); // ESSENCIAL PARA CALCULAR AS IDADES
         const potencial = calcularPotencial(data);
         const dia = parseInt((data || "").split("/")[0], 10) || 0;
         const aprendizado = calcularAprendizado(dia);
         const compromisso = calcularCompromisso(num_missao, potencial);
         
-
-        // --- LOGS DE DIAGNÓSTICO ---
-        const d_log = reduzir(parseInt((data || "").split("/")[0], 10) || 0); // Dia Reduzido (4)
-        const m_log = reduzir(parseInt((data || "").split("/")[1], 10) || 0); // Mês Reduzido (2)
-        const a_log = reduzir(somaData((data || "").split("/")[2] || "0")); // Ano Reduzido (9)
+        // CÁLCULO DOS DESAFIOS (MANTIDO)
+        const desafio_abertura = calcularDesafio1(data); 
+        const desafio_liberdade = calcularDesafio2(data); 
+        const desafio_sabedoria = calcularDesafio4(data); 
+        const desafio_entrega = calcularDesafioPrincipal(desafio_abertura, desafio_liberdade); 
         
-        console.log(`[DEBUG DESAFIO] D, M, A Reduzidos (Esperado: 4, 2, 9): ${d_log}, ${m_log}, ${a_log}`);
-        console.log(`[DEBUG DESAFIO] D1 |M-D| = |${m_log}-${d_log}| = ${Math.abs(m_log - d_log)} (Esperado: 2)`);
-        console.log(`[DEBUG DESAFIO] D2 |D-A| = |${d_log}-${a_log}| = ${Math.abs(d_log - a_log)} (Esperado: 5)`);
-        console.log(`[DEBUG DESAFIO] D4 |M-A| = |${m_log}-${a_log}| = ${Math.abs(m_log - a_log)} (Esperado: 7)`);
-        // -----------------------------
-
-        // CORREÇÃO AQUI: Chamando as novas funções de Desafio 1, 2 e 4.
-        // NOVO CÁLCULO DOS DESAFIOS:
-        const desafio_abertura = calcularDesafio1(data);  // D1 -> 2
-        const desafio_liberdade = calcularDesafio2(data); // D2 -> 5
-        const desafio_sabedoria = calcularDesafio4(data); // D4 -> 7
-
-        // CÁLCULO DO D3 usando D1 e D2
-        const desafio_entrega = calcularDesafioPrincipal(desafio_abertura, desafio_liberdade); // D3 -> 3
         
-        const potencia_combinada = 4;
+        // === CÁLCULO DOS PINÁCULOS ===
+        const { d, m, a } = obterDMAReduzidos(data); // Obtém D, M, A PURAMENTE reduzidos
+        
+        const pinaculo1 = calcularPinaculo1(d, m);
+        const pinaculo2 = calcularPinaculo2(d, a);
+        const pinaculo4 = calcularPinaculo4(m, a); 
+        const pinaculo3 = calcularPinaculo3(pinaculo1, pinaculo2);
 
+        // === CÁLCULO DINÂMICO DOS PERÍODOS ===
+        const { XX, YY, WW } = calcularPeriodosPinaculos(num_missao); 
+        
+        // O valor principal do campo 'potencia' será o P1
+        const potencia_valor = pinaculo1; 
+        
+        
+        // --- MONTAGEM DA DESCRIÇÃO CONSOLIDADA DOS PINÁCULOS ---
+        let descricaoPinaculos = `
+            <h4 style="color:#0044cc; margin-top:20px;">Ciclos de Experiência (Pináculos)</h4>
+            <p style="font-style:italic;">As idades de transição são calculadas com base no seu Número de Expressão (${num_missao}).</p>
+        `;
 
+        // Função auxiliar para montar o bloco de Pináculo com período dinâmico
+        function formatarPinaculoHTML(pValor, pIndice, pCor) {
+            let periodo_texto = "";
+            let fase_titulo = "";
+            
+            if (pIndice === 1) {
+                fase_titulo = "Pináculo de Formação (Jovem)";
+                periodo_texto = `Da infância até os ${XX} anos.`;
+            } else if (pIndice === 2) {
+                fase_titulo = "Pináculo de Realização (Adulto Jovem)";
+                periodo_texto = `Dos ${XX + 1} anos aos ${YY} anos.`;
+            } else if (pIndice === 3) {
+                fase_titulo = "Pináculo de Amadurecimento (Meia-Idade)";
+                periodo_texto = `Dos ${YY + 1} anos aos ${WW} anos.`;
+            } else if (pIndice === 4) {
+                fase_titulo = "Pináculo de Colheita (Maturidade)";
+                periodo_texto = `A partir dos ${WW + 1} anos.`;
+            }
+
+            // Busca o conteúdo na coluna específica do CSV (pinaculo1, pinaculo2, etc.)
+            let html = buscarDescricaoPinaculo(pValor, pIndice); 
+
+            // Formata o bloco de saída
+            return `
+                <div style="border-left: 3px solid ${pCor}; padding-left: 10px; margin-bottom: 25px;">
+                    <p style="font-weight: bold; margin-bottom: 5px;">
+                        ${pIndice === 1 ? '🌟' : pIndice === 2 ? '💫' : pIndice === 3 ? '🌍' : '🏆'} Pináculo ${pIndice} (${pValor}) - ${fase_titulo}
+                    </p>
+                    <p style="font-style: italic; color: #555; margin-bottom: 5px;">
+                        Período: ${periodo_texto}
+                    </p>
+                    ${html}
+                </div>
+            `;
+        }
+
+        const cores = { cor1: '#ff69b4', cor2: '#00aaff', cor3: '#ffaa00', cor4: '#4caf50' };
+
+        // Pináculo 1 (P1)
+        descricaoPinaculos += formatarPinaculoHTML(pinaculo1, 1, cores.cor1);
+        
+        // Pináculo 2 (P2)
+        descricaoPinaculos += formatarPinaculoHTML(pinaculo2, 2, cores.cor2);
+
+        // Pináculo 3 (P3)
+        descricaoPinaculos += formatarPinaculoHTML(pinaculo3, 3, cores.cor3);
+        
+        // Pináculo 4 (P4)
+        descricaoPinaculos += formatarPinaculoHTML(pinaculo4, 4, cores.cor4);
+        
+        // ----------------------------------------------------------------------
         
         // Busca a descrição do dia natal agora de forma síncrona
         const descricaoEuSou = buscarDiaNatal(dia);
@@ -219,12 +335,21 @@ document.addEventListener("DOMContentLoaded", () => {
         campos = [
             { id: "eu_sou", titulo: "EU SOU", valor: dia, descricao: descricaoEuSou },
             { id: "aprendizado", titulo: "APRENDIZADO", valor: aprendizado, descricao: buscarDescricao(aprendizado, "aprendizado") },
-            { id: "dons", titulo: "DONS  POTENCIAL", valor: potencial, descricao: buscarDescricao(potencial, "dons_potencial") },
+            { id: "dons", titulo: "DONS POTENCIAL", valor: potencial, descricao: buscarDescricao(potencial, "dons_potencial") },
             { id: "desafio_abertura", titulo: "DESAFIO ABERTURA", valor: desafio_abertura, descricao: buscarDescricao(desafio_abertura, "desafio_abertura") }, // D1
             { id: "desafio_liberdade", titulo: "DESAFIO LIBERDADE", valor: desafio_liberdade, descricao: buscarDescricao(desafio_liberdade, "desafio_liberdade") }, // D2
             { id: "desafio_entrega", titulo: "DESAFIO ENTREGA", valor: desafio_entrega, descricao: buscarDescricao(desafio_entrega, "desafio_entrega") }, // D3
             { id: "desafio_sabedoria", titulo: "DESAFIO SABEDORIA", valor: desafio_sabedoria, descricao: buscarDescricao(desafio_sabedoria, "desafio_sabedoria") }, // D4
-            { id: "potencia", titulo: "POTÊNCIA", valor: potencia_combinada, descricao: buscarDescricao(potencia_combinada, "potencia") },
+            
+            // === CAMPO POTÊNCIA AGORA CONSOLIDA OS 4 PINÁCULOS ===
+            { 
+                id: "potencia", 
+                titulo: "CICLOS (PINÁCULOS)", 
+                valor: potencia_valor, 
+                descricao: descricaoPinaculos // Descrição consolidada dos 4 Pináculos
+            },
+            // =======================================================
+            
             { id: "alma", titulo: "ALMA", valor: num_ego, descricao: buscarDescricao(num_ego, "alma") },
             { id: "aparencia", titulo: "APARÊNCIA", valor: num_aparencia, descricao: buscarDescricao(num_aparencia, "aparencia") },
             { id: "missao", titulo: "EXPRESSÃO", valor: num_missao, descricao: buscarDescricao(num_missao, "missao") },
@@ -232,8 +357,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
 
         // === RENDERIZAÇÃO DOS DADOS NA TELA ===
-        // ... (restante do código de renderização e modais)
-
         campos.forEach(c => {
             const el = document.getElementById(c.id);
             if (!el) return;
@@ -262,15 +385,15 @@ document.addEventListener("DOMContentLoaded", () => {
         switch (titulo) {
             case "EU SOU": return "🧬";
             case "APRENDIZADO": return "📘";
-            case "DONS/POTENCIAL": return "🎁";
+            case "DONS POTENCIAL": return "🎁";
             case "DESAFIO ABERTURA": return "🌊";
             case "DESAFIO LIBERDADE": return "🕊️";
             case "DESAFIO ENTREGA": return "🤲";
             case "DESAFIO SABEDORIA": return "🧠";
-            case "POTÊNCIA": return "⚡";
+            case "CICLOS (PINÁCULOS)": return "🌀"; // Novo Emoji
             case "ALMA": return "❤️";
             case "APARÊNCIA": return "👁️";
-            case "EXPRESSAO": return "🚀";
+            case "EXPRESSÃO": return "🚀";
             case "COMPROMISSO": return "🤝";
             default: return "✨";
         }
@@ -282,7 +405,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const temBr = indiceBr !== -1;
         const destaque = temBr ? texto.slice(0, indiceBr) : texto;
         const depoisDoBr = temBr ? texto.slice(indiceBr + 4) : "";
-        // Ajuste para pegar um resumo de 150 caracteres após o destaque
         const resumo = depoisDoBr.slice(0, 1500000).trim(); 
         const continua = resumo.length >=  1500000 ? "..." : "";
         const alerta = `<span style="font-size:15px; color:#c0392b; font-weight:bold;">
@@ -296,7 +418,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // === MONTAGEM DO RESUMO COMPLETO ===
     function montarResumoCompleto() {
-        // ... (restante do código de montagem do resumo)
+        // NOTE: Usamos o array 'campos' que é preenchido no .then para garantir que os dados estejam carregados.
+        
         let html = `
           <div class="dados-pessoa">
             <div style="font-size:24px; font-weight:bold; color:#0044cc; text-align:center; text-transform:uppercase; margin-bottom:6px;">
@@ -315,7 +438,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </p>
         `;
 
-        // PARTE I
+        // PARTE I (EU SOU, APRENDIZADO, DONS)
         const temasParte1 = ["eu_sou", "aprendizado", "dons"];
         temasParte1.forEach(id => {
             const campo = campos.find(c => c.id === id);
@@ -327,8 +450,23 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             `;
         });
+        
+        // PARTE DE PINÁCULOS (INSERIDO AQUI PARA CONSOLIDAR NO RELATÓRIO)
+        const pinaculoCampo = campos.find(c => c.id === "potencia");
+        if (pinaculoCampo) {
+            html += `
+              <h3 style="text-align:center; color:#1abc9c; margin-top:40px;">
+                🌀 CICLOS (PINÁCULOS) 🌀<br>
+                <span style="font-size:16px; color:#666;">As experiências chave de cada fase</span>
+              </h3>
+              <div class="box-tema">
+                <h5>${getEmoji(pinaculoCampo.titulo)} ${pinaculoCampo.titulo} — <span class="valor"> ${pinaculoCampo.valor} (Primeiro Ciclo) </span></h5>
+                <p class="descricao">${destacarResumoComAlerta(pinaculoCampo.descricao)}</p>
+              </div>
+            `;
+        }
 
-        // PARTE II
+        // PARTE II (DESAFIOS)
         html += `
           <h3 style="text-align:center; color:#c0392b; margin-top:40px;">
             🔥 DESAFIOS E POTENCIAIS 🔥<br>
@@ -338,7 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
             “Todo desafio é uma oportunidade disfarçada de crescimento.”
           </p>
         `;
-        const temasParte2 = ["desafio_abertura", "desafio_liberdade", "desafio_entrega", "desafio_sabedoria", "potencia"];
+        const temasParte2 = ["desafio_abertura", "desafio_liberdade", "desafio_entrega", "desafio_sabedoria"];
         temasParte2.forEach(id => {
             const campo = campos.find(c => c.id === id);
             if (!campo) return;
@@ -350,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         });
 
-        // PARTE III
+        // PARTE III (PROPÓSITO E EXPRESSÃO)
         html += `
           <h3 style="text-align:center; color:#2c3e50; margin-top:40px;">
             🌌 PROPÓSITO E EXPRESSÃO 🌌<br>
@@ -383,34 +521,32 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         document.getElementById("resumoTexto").innerHTML = montarResumoCompleto();
-        // Assume que 'bootstrap' está carregado globalmente
         new bootstrap.Modal(document.getElementById("modalResumo")).show();
     };
 
-    window.gerarPDF = function () {
-        if (!campos.length) {
-            alert("Aguarde: os dados ainda estão carregando.");
-            return;
-        }
-        const areaPDF = document.getElementById("areaPDF");
-        areaPDF.innerHTML = montarResumoCompleto();
-        areaPDF.style.display = "block";
+//    window.gerarPDF = function () {
+//        if (!campos.length) {
+//            alert("Aguarde: os dados ainda estão carregando.");
+//            return;
+//        }
+//        const areaPDF = document.getElementById("areaPDF");
+//        areaPDF.innerHTML = montarResumoCompleto();
+//        areaPDF.style.display = "block";
 
-        const opcoes = {
-            margin: [10, 10, 10, 10],
-            filename: `relatorio-${nome}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 1.3 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
+//        const opcoes = {
+//            margin: [10, 10, 10, 10],
+//            filename: `relatorio-${nome}.pdf`,
+//            image: { type: 'jpeg', quality: 0.98 },
+//            html2canvas: { scale: 1.3 },
+//            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+//        };
 
-        // Assume que 'html2pdf' está carregado globalmente
-        setTimeout(() => {
-            html2pdf().set(opcoes).from(areaPDF).save().then(() => {
-                areaPDF.style.display = "none";
-            });
-        }, 300);
-    };
+//        setTimeout(() => {
+//            html2pdf().set(opcoes).from(areaPDF).save().then(() => {
+//                areaPDF.style.display = "none";
+//            });
+//        }, 300);
+//    };
 
     window.voltar = () => window.location.href = "index.html";
 });

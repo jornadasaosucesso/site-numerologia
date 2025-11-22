@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amostra Par Ideal (Compatibilidade)</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+    <style>
+        /* CSS adaptado do seu código original */
+        body {
+            background: radial-gradient(circle at center, #000, #0a0a0a);
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #000;
+        }
+
+        .caixa {
+            background: linear-gradient(to bottom, #fff, #fdfdfd);
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 750px;
+            width: 100%;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 85vh;
+            gap: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #d35400; /* Cor para destaque da união */
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(211, 84, 0, 0.3);
+        }
+
+        p.frase {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .bloco {
+            background: linear-gradient(145deg, #fff8e1, #fff3b0);
+            border: 2px solid #ffd700;
+            border-radius: 18px;
+            padding: 25px 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            text-align: left;
+            animation: fadeIn 0.7s forwards;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .bloco-destaque { /* Novo bloco para o Veredito */
+            background: linear-gradient(145deg, #ffe066, #ffcc00);
+            border: 3px solid #ffaa00;
+            box-shadow: 0 0 25px rgba(255, 170, 0, 0.5);
+        }
+
+        .bloco h4, .bloco-destaque h4 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0074d9;
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .valor {
+            font-size: 28px;
+            font-weight: bolder;
+            color: #d35400;
+            display: inline-block;
+        }
+
+        .descricao {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #222;
+            text-align: left;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        button {
+            /* Estilo adaptado do botão de voltar */
+            align-self: center;
+            background: linear-gradient(90deg, #0044cc, #0074d9);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 32px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+
+        .aviso {
+            font-size: 16px;
+            font-weight: bold;
+            color: #160f0f;
+            text-align: center;
+            border: 2px dashed #0d0a0a;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="caixa">
+        <h2 id="titulo">Amostra do Par Ideal</h2>
+        <p class="frase" id="subtitulo">Compatibilidade entre as datas de nascimento.</p>
+        
+        <div class="aviso">
+            ⚠️ ESTA É APENAS UMA AMOSTRA! O relatório completo possui 12 análises detalhadas, incluindo Sinais de Alerta e Regras Práticas de Comunicação.
+        </div>
+        
+        <div id="conteudo">Carregando dados de compatibilidade...</div>
+        
+        <button id="btnCompleto">Ver Opções do Relatório Completo</button>
+    </div>
+
+    <script>
+        // Nomenclatura do arquivo CSV
+        const CSV_PATH = "./dados/par_ideal_31_31.csv";
+        
+        // Função para obter o dia de nascimento
+        function getDiaNascimento(dataStr) {
+            if (!dataStr) return 0;
+            // Assumindo formato YYYY-MM-DD
+            const dia = parseInt(dataStr.split("-")[2], 10); 
+            return isNaN(dia) ? 0 : dia;
+        }
+
+        // Função para apresentar o resumo de forma limitada (MAX_CHARS)
+        function destacarResumoComAlerta(texto, maxChars = 250) {
+            if (!texto) return "Conteúdo indisponível para amostra.";
+            
+            // 1. Remove tags HTML (como <br>) para contar os caracteres puros.
+            let textoPuro = texto.replace(/<[^>]*>/g, '').trim(); 
+            
+            // 2. Limita o tamanho do texto puro.
+            let resumo = textoPuro.slice(0, maxChars);
+            
+            if (textoPuro.length > maxChars) resumo += " ...";
+            
+            // 3. Adiciona a CTA (Call to Action)
+            const alerta = `<span style="font-size:16px; color:#0074d9; font-weight:bold;">
+                <br><br>👉 Conteúdo completo revela o potencial vibracional, desafios e propósito da união.
+            </span>`;
+            
+            return `<div style="font-size: 16px;">${resumo}</div>${alerta}`;
+        }
+        
+        // Função para criar um bloco de conteúdo
+        function criarBlocoHTML(titulo, subTitulo, descricao, isDestaque = false) {
+            return `
+                <div class="${isDestaque ? 'bloco bloco-destaque' : 'bloco'}">
+                    <h4>${titulo} <span class="valor">${subTitulo}</span></h4>
+                    <div class="descricao">${descricao}</div>
+                </div>
+            `;
+        }
+        
+        // Função principal para carregar e exibir a amostra
+        async function carregarAmostra() {
+            // Pega os nomes e CONVERTE PARA MAIÚSCULAS para exibir no título
+            const nome1_original = localStorage.getItem("nome1") || "Pessoa 1";
+            const nome2_original = localStorage.getItem("nome2") || "Pessoa 2";
+            
+            // Variáveis usadas para substituição no texto do CSV (TUDO MAIÚSCULO)
+            const nome1_maiusculo = nome1_original.toUpperCase();
+            const nome2_maiusculo = nome2_original.toUpperCase();
+
+
+            const data1 = localStorage.getItem("data1");
+            const data2 = localStorage.getItem("data2");
+            const conteudo = document.getElementById("conteudo");
+            const titulo = document.getElementById("titulo");
+            
+            titulo.textContent = `Amostra da União: ${nome1_maiusculo} e ${nome2_maiusculo}`;
+
+            const dia1 = getDiaNascimento(data1);
+            const dia2 = getDiaNascimento(data2);
+            
+            if (dia1 === 0 || dia2 === 0) {
+                conteudo.innerHTML = "⚠️ **Erro:** Datas de nascimento inválidas ou não encontradas no histórico.";
+                return;
+            }
+
+            // A chave é sempre o menor dia X o maior dia (Ex: 05X28)
+            const chave = `${String(Math.min(dia1, dia2)).padStart(2, '0')}X${String(Math.max(dia1, dia2)).padStart(2, '0')}`;
+            
+            try {
+                // Use o fetch para buscar o CSV (compatível com Vercel/Render)
+                const response = await fetch(CSV_PATH);
+                const csvText = await response.text();
+                const parsed = Papa.parse(csvText, { header: true, skipEmptyLines: true, delimiter: ',' }); // Adicionando o delimitador
+
+                
+                let dadosPar = parsed.data.find(r => r.numero === chave);
+
+                if (!dadosPar) {
+                    conteudo.innerHTML = `⚠️ **Erro:** Combinação ${chave} não encontrada no CSV do Par Ideal.`;
+                    return;
+                }
+
+                // -------------------------------------------------------------
+                // 🛑 SUBSTITUIÇÃO DE PLACEHOLDERS (data1/data2 por NOME MAIÚSCULO)
+                // -------------------------------------------------------------
+                let dadosSubstituidos = {}; 
+
+                for (const key in dadosPar) {
+                    if (dadosPar.hasOwnProperty(key) && dadosPar[key]) {
+                        let valor = dadosPar[key];
+                        
+                        // Substitui 'data1' e 'data2' pelo nome em MAIÚSCULAS
+                        // Substituição é sensível à ordem para evitar 'Pessoa 1 2'
+                        const nomeMin = Math.min(dia1, dia2) === dia1 ? nome1_maiusculo : nome2_maiusculo;
+                        const nomeMax = Math.max(dia1, dia2) === dia1 ? nome1_maiusculo : nome2_maiusculo;
+
+                        if (chave === `${String(dia1).padStart(2, '0')}X${String(dia2).padStart(2, '0')}`) {
+                            // Se a ordem for dia1 X dia2
+                             valor = valor.replace(/data1/g, nome1_maiusculo).replace(/data2/g, nome2_maiusculo);
+                        } else {
+                            // Se a ordem for dia2 X dia1 (usando o min/max)
+                             valor = valor.replace(/data1/g, nomeMin).replace(/data2/g, nomeMax);
+                        }
+
+                        dadosSubstituidos[key] = valor;
+                    } else {
+                        dadosSubstituidos[key] = dadosPar[key] || "Informação não preenchida nesta linha do CSV.";
+                    }
+                }
+                // -------------------------------------------------------------
+
+
+                // 1. Extração e Preparação dos Campos (USANDO dadosSubstituidos)
+                
+                // Extração da Porcentagem e Veredito (Ex: 65% - FORTE)
+                // Usando a coluna 'vibracao_harmonica'
+                const matchVibracao = dadosSubstituidos.vibracao_harmonica ? dadosSubstituidos.vibracao_harmonica.match(/(\d+%)\s*([^\n\r]+)/i) : null;
+                const porcentagem = matchVibracao ? matchVibracao[1] : 'N/A';
+                const vereditoCurto = matchVibracao ? matchVibracao[2].replace(/<[^>]*>/g, '').trim() : 'Avaliação';
+                
+                // --- Definição dos Títulos dos Blocos ---
+                const camposParaAmostra = [
+                    { key: 'compatibilidade', titulo: '💞 Veredito do Coração', subtitulo: vereditoCurto, isDestaque: true },
+                    { key: 'motivo_pontuacao', titulo: '🏆 Motivação da Pontuação', subtitulo: 'Alquimia', isDestaque: false },
+                    { key: 'dinamica', titulo: '✨ Dinâmica Principal da União', subtitulo: 'Sinergia', isDestaque: false },
+                    { key: 'pontos_fortes', titulo: '💪 Pontos Fortes e Sinergia', subtitulo: 'Onde Acontece', isDestaque: false },
+                    { key: 'pontos_fracos', titulo: '🚧 Pontos de Atenção (Desafio)', subtitulo: 'A Aprimorar', isDestaque: false },
+                    { key: 'aspectos_emocionais', titulo: '🧠 O Universo Interior do Par', subtitulo: 'O que Sentem', isDestaque: false },
+                    { key: 'regras_praticas', titulo: '🛠️ Seu Guia para o Sucesso', subtitulo: 'Regras de Ouro', isDestaque: false },
+                    { key: 'comunicacao', titulo: '💬 A Linguagem do Par', subtitulo: 'Comunicação', isDestaque: false },
+                    { key: 'financa', titulo: '💰 Finanças e a Dupla Visionária', subtitulo: 'Dinheiro', isDestaque: false },
+                    { key: 'intimidade', titulo: '👨‍👩‍👧‍👦 Intimidade, Família e Legado', subtitulo: 'Intimidade', isDestaque: false },
+                    { key: 'crescimento_karmico', titulo: '🗺️ Crescimento Kármico da Parceria', subtitulo: 'Propósito', isDestaque: false },
+                ];
+                
+                // -------------------------------------------------------------
+                // 2. Montagem dos Blocos de Amostra (250 CARACTERES)
+                // -------------------------------------------------------------
+                let blocosHTML = [];
+                const MAX_CHARS_AMPLIADO = 250; // Conforme solicitado
+
+                camposParaAmostra.forEach(campo => {
+                    const textoCompleto = dadosSubstituidos[campo.key] || "Conteúdo não disponível.";
+                    let descricao;
+                    
+                    if (campo.key === 'compatibilidade') {
+                        // O bloco de compatibilidade usa a Porcentagem como valor principal
+                        descricao = destacarResumoComAlerta(textoCompleto, MAX_CHARS_AMPLIADO);
+                        blocosHTML.push(criarBlocoHTML(
+                            campo.titulo, 
+                            porcentagem, 
+                            descricao, 
+                            campo.isDestaque
+                        ));
+                    } else {
+                        // Os demais blocos usam o subtítulo definido
+                        descricao = destacarResumoComAlerta(textoCompleto, MAX_CHARS_AMPLIADO);
+                        blocosHTML.push(criarBlocoHTML(
+                            campo.titulo, 
+                            campo.subtitulo, 
+                            descricao, 
+                            campo.isDestaque
+                        ));
+                    }
+                });
+
+                conteudo.innerHTML = blocosHTML.join("");
+                
+            } catch(err) {
+                conteudo.innerHTML = `⚠️ Erro ao carregar o CSV. Verifique o caminho (${CSV_PATH}) e o formato do arquivo: ${err.message}`;
+                console.error("Erro ao carregar CSV:", err);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", carregarAmostra);
+        
+        // Ação do botão de retorno
+        document.getElementById("btnCompleto").addEventListener("click", () => {
+            // Redireciona para a tela de opções (compra ou amostra)
+            window.location.href = "transicao_p_ideal.html"; 
+        });
+
+    </script>
+</body>
+</html>

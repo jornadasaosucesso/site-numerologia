@@ -1,0 +1,515 @@
+/* ================== RESET / BASE ================== */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+}
+
+/* ================== VARIÁVEIS ================== */
+:root {
+    --max-width: 1200px;
+    --card-radius: 12px;
+}
+
+/* ================== ESTILOS GERAIS ================== */
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.titulo-principal {
+    font-size: 2.2em;
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+}
+
+/* ================== TELA INICIAL ================== */
+body.pagina-inicial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #f8f9fa, #eaeaea);
+    overflow-y: auto;
+}
+
+/* ================== BLOCO LUZ ✨ E REFLEXO 🌗 ================== */
+.dual-box {
+    display: flex;
+    flex-direction: row; /* blocos lado a lado */
+    gap: 30px;           /* espaço entre os blocos */
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;     /* quebra para telas pequenas */
+}
+
+.dual-box > div {
+    display: flex;
+    flex-direction: column; /* inputs empilhados verticalmente */
+    align-items: center;
+    min-width: 240px;       /* largura mínima de cada bloco */
+    padding: 20px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+    background-color: #1c1c1c; /* fundo quase preto */
+    color: #fff; /* texto branco para contraste */
+
+}
+
+/* Título dentro do bloco */
+.titulo-par {
+    font-size: 24px;
+    text-align: center;
+    font-weight: 600;
+    color: #000; 
+    margin-bottom: 12px;
+}
+
+/* Inputs dentro de cada bloco */
+.dual-box input {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    width: 100%; /* ocupa toda a largura do bloco */
+    max-width: 260px;
+    text-align: center;
+    font-size: 1em;
+    margin: 8px 0;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Result box dentro do bloco */
+.result-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+/* NOVO ESTILO: Para alinhar os botões */
+.btn-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 25px; /* Mantém o espaçamento superior */
+}
+
+button {
+    background: #ff69b4;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ff85c1;
+    transform: scale(1.05);
+}
+
+#btnSair {
+    background: linear-gradient(90deg, #444, #222);
+    color: #fff;
+}
+
+#btnSair:hover {
+    box-shadow: 0 0 25px #888;
+}
+
+.container-inicial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.container-inicial .capa {
+    width: 70%;
+    max-width: 360px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.container-inicial .botao-explorar {
+    font-size: 1.1rem;
+    padding: 10px 26px;
+    background-color: #6c5ce7;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.container-inicial .botao-explorar:hover {
+    background-color: #5a4bcf;
+    transform: scale(1.05);
+}
+
+/* ================== TELA ESCOLHA / RESULTADO ================== */
+body.pagina-escolha {
+    background: linear-gradient(to bottom, #f5f7fa, #e4e7ec);
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+.tela-escolha {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+.linha {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.linha img {
+    width: 100px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.08);
+}
+
+.linha input {
+    padding: 10px;
+    font-size: 1em;
+    width: 180px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.linha button {
+    padding: 12px 24px;
+    font-size: 1em;
+    background-color: #4a4a8a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* ================== GRADE DE RESULTADOS ================== */
+.grade-resultados {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.botao-resultado {
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    border: 3px solid #ddd;
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.2), -5px -5px 10px rgba(255,255,255,0.6);
+    transition: all 0.2s ease;
+}
+
+.botao-resultado:hover {
+    transform: translateY(-3px);
+    box-shadow: 6px 6px 12px rgba(0,0,0,0.3), -6px -6px 12px rgba(255,255,255,0.8);
+}
+
+/* ================== BOTÕES DE AÇÃO ================== */
+.acoes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.acoes button {
+    background-color: #6c5ce7;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 14px 28px;
+    cursor: pointer;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.25);
+    transition: all 0.2s ease;
+}
+
+.acoes button:hover {
+    background-color: #5849c4;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .dual-box {
+        flex-direction: column; /* empilha blocos em telas pequenas */
+        align-items: center;
+    }
+    .acoes {
+        flex-direction: column;
+        align-items: center;
+    }
+    .acoes button {
+        width: 80%;
+    }
+}
+
+/* ================== MODAL ================== */
+.modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.35) !important;
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    border-radius: 20px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* ================== TEXTO DO RESUMO ================== */
+#modalDescricao,
+#resumoTexto {
+    text-align: justify;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    font-size: 1.15rem; /* antes 1.05rem */
+    margin: 0;
+    padding-left: 10px;
+}
+
+
+#resumoTexto b {
+    color: #1e90ff;
+    font-size: 20px;
+    display: block;
+    text-align: left;
+    margin: 4px 0;
+}
+
+#resumoTexto span.numero {
+    color: gold;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255,215,0,0.7);
+    font-size: 14px;
+}
+
+#resumoTexto p {
+    margin: 0.3em 0;
+    line-height: 1.4;
+}
+
+/* ================== ÁREA PDF ================== */
+#areaPDF {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: left;
+}
+
+.conteudo-resumo {
+    margin-top: 0;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* ================== IDENTIDADE PESSOAL ================== */
+.identidade-pessoal {
+    padding: 24px;
+    background-color: #fffbea;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.identidade-pessoal h2 {
+    text-align: center;
+    color: #0044cc;
+    margin-bottom: 20px;
+}
+
+.box-tema {
+    border: 2px solid #ffb400;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+    background: linear-gradient(to bottom, #fffbea, #fff);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    position: relative;
+    page-break-inside: avoid;
+}
+
+.box-tema::before {
+    content: "✨";
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 24px;
+    opacity: 0.3;
+}
+
+.box-tema h5 {
+    color: #b8860b;
+    font-size: 22px;
+    margin-bottom: 4px; /* mais próximo do texto */
+}
+
+
+.box-tema p {
+    padding: 0px 6px;
+    margin-top: 0;
+}
+
+.valor {
+    color: #0044cc;
+    font-weight: bold;
+}
+
+.descricao {
+    font-size: 15px; /* antes 13px */
+}
+
+
+
+/* ================== IMAGENS DOS ARCANOS ================== */
+.imagem-arcano {
+    width: 80px;
+    height: auto;
+    margin: 0 auto 8px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+    display: block;
+}
+
+.botao-resultado:hover .imagem-arcano {
+    transform: scale(1.05);
+}
+
+.dados-pessoa .nome {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+}
+
+.box-tema p.descricao {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    line-height: 1.5;
+    white-space: normal;
+}
+
+.countdown-container {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 16px 24px;
+    border-radius: 10px;
+    font-size: 1.4em;
+    color: #ffd700;
+    font-weight: bold;
+    max-width: 90vw;
+    text-align: center;
+    animation: fadeIn 2s ease;
+}
+
+.countdown-message {
+    font-size: 1em;
+}
+
+.countdown-clock {
+    font-size: 1.8em; /* 20% maior */
+    margin-top: 6px;
+}
+
+.full-width-text {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+    text-align: justify;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+/* ======================================================= */
+/* ====== NOVOS ESTILOS PARA O RESUMO EM BOXES (PAR) ===== */
+/* ======================================================= */
+
+.resumo-box-container {
+    /* Define o layout em grid (uma única coluna) */
+    display: grid;
+    /* FORÇA UMA COLUNA: Cada item ocupará 100% da largura. */
+    grid-template-columns: 1fr; /* <--- NOVA CONFIGURAÇÃO */
+    gap: 20px; /* Espaço entre as caixas */
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.resumo-box {
+    /* Estilo visual da caixa individual */
+    background-color: #f7f3ff; /* Cor de fundo suave (lilás claro) */
+    border: 1px solid #c7b3e6; /* Borda leve para destacar */
+    border-radius: 15px; /* Bordas mais suaves */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+    page-break-inside: avoid; /* Importante para o PDF */
+}
+
+.resumo-box:hover {
+    transform: translateY(-3px); /* Efeito sutil ao passar o mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.resumo-box h3 {
+    /* Título dentro do box */
+    color: #4b0082; /* Roxo escuro */
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 0;
+    border-bottom: 2px solid #e6e0f0; /* Linha sob o título */
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.resumo-box p {
+    /* Estilo dos parágrafos dentro do box */
+    margin-bottom: 10px;
+    line-height: 1.6;
+    font-size: 1em;
+    text-align: justify;
+    /* Garante quebra de linha dos <br> substituídos no JS */
+    white-space: pre-wrap; 
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 768px) {
+    .resumo-box-container {
+        /* Garante que em tablets/celulares, o layout seja de uma coluna */
+        grid-template-columns: 1fr;
+    }
+}
+
+
