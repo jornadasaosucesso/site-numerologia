@@ -311,3 +311,34 @@ body, .caixa {
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
+
+/* Responsividade para telas pequenas */
+@media (max-width: 600px) {
+  .caixa {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .bloco h4, .bloco-destaque h4 {
+    font-size: 18px;
+  }
+
+  .valor {
+    font-size: 20px;
+  }
+
+  .descricao {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  button {
+    width: 100%;
+    font-size: 1em;
+    padding: 12px;
+  }
+}
