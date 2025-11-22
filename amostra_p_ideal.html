@@ -145,7 +145,6 @@
     <script>
         // Nomenclatura do arquivo CSV
         const CSV_PATH = "./dados/par_ideal_31_31.csv";
-        
         // Função para obter o dia de nascimento
         function getDiaNascimento(dataStr) {
             if (!dataStr) return 0;
@@ -192,10 +191,13 @@
             const nome1_original = localStorage.getItem("nome1") || "Pessoa 1";
             const nome2_original = localStorage.getItem("nome2") || "Pessoa 2";
             
-            // Variáveis usadas para substituição no texto do CSV (TUDO MAIÚSCULO)
-            const nome1_maiusculo = nome1_original.toUpperCase();
-            const nome2_maiusculo = nome2_original.toUpperCase();
+            // Extrai apenas o primeiro nome (até o primeiro espaço)
+            const primeiroNome1 = nome1_original.trim().split(" ")[0];
+            const primeiroNome2 = nome2_original.trim().split(" ")[0];
 
+            // Agora sim, coloca em maiúsculo
+            const nome1_maiusculo = primeiroNome1.toUpperCase();
+            const nome2_maiusculo = primeiroNome2.toUpperCase();
 
             const data1 = localStorage.getItem("data1");
             const data2 = localStorage.getItem("data2");
@@ -270,16 +272,21 @@
                 // --- Definição dos Títulos dos Blocos ---
                 const camposParaAmostra = [
                     { key: 'compatibilidade', titulo: '💞 Veredito do Coração', subtitulo: vereditoCurto, isDestaque: true },
-                    { key: 'motivo_pontuacao', titulo: '🏆 Motivação da Pontuação', subtitulo: 'Alquimia', isDestaque: false },
-                    { key: 'dinamica', titulo: '✨ Dinâmica Principal da União', subtitulo: 'Sinergia', isDestaque: false },
-                    { key: 'pontos_fortes', titulo: '💪 Pontos Fortes e Sinergia', subtitulo: 'Onde Acontece', isDestaque: false },
-                    { key: 'pontos_fracos', titulo: '🚧 Pontos de Atenção (Desafio)', subtitulo: 'A Aprimorar', isDestaque: false },
-                    { key: 'aspectos_emocionais', titulo: '🧠 O Universo Interior do Par', subtitulo: 'O que Sentem', isDestaque: false },
-                    { key: 'regras_praticas', titulo: '🛠️ Seu Guia para o Sucesso', subtitulo: 'Regras de Ouro', isDestaque: false },
-                    { key: 'comunicacao', titulo: '💬 A Linguagem do Par', subtitulo: 'Comunicação', isDestaque: false },
-                    { key: 'financa', titulo: '💰 Finanças e a Dupla Visionária', subtitulo: 'Dinheiro', isDestaque: false },
-                    { key: 'intimidade', titulo: '👨‍👩‍👧‍👦 Intimidade, Família e Legado', subtitulo: 'Intimidade', isDestaque: false },
-                    { key: 'crescimento_karmico', titulo: '🗺️ Crescimento Kármico da Parceria', subtitulo: 'Propósito', isDestaque: false },
+                    { key: 'motivo_pontuacao', titulo: '🏆 Motivação da Pontuação', subtitulo: ' ', isDestaque: false },
+                    { key: 'dinamica', titulo: '✨ Dinâmica Principal da União', subtitulo: ' ', isDestaque: false },
+                    { key: 'pontos_fortes', titulo: '💪 Pontos Fortes e Sinergia', subtitulo: ' ', isDestaque: false },
+                    { key: 'pontos_fracos', titulo: '🚧 Pontos de Atenção (Desafio)', subtitulo: ' ', isDestaque: false },
+                    { key: 'aspectos_emocionais', titulo: '🧠 O Universo Interior do Par', subtitulo: ' ', isDestaque: false },
+                    { key: 'regras_praticas', titulo: '🛠️ Seu Guia para o Sucesso', subtitulo: ' ', isDestaque: false },
+                    { key: 'comunicacao', titulo: '💬 A Linguagem do Par', subtitulo: ' ', isDestaque: false },
+                    { key: 'financa', titulo: '💰 Finanças e a Dupla Visionária', subtitulo: ' ', isDestaque: false },
+                    { key: 'intimidade', titulo: '👨‍👩‍👧‍👦 Intimidade, Família e Legado', subtitulo: ' ', isDestaque: false },
+                    { key: 'crescimento_karmico', titulo: '🗺️ Crescimento Kármico da Parceria', subtitulo: ' ', isDestaque: false },
+                    { key: 'sinal_alerta', titulo: '🚨 Sinais de Alerta ', subtitulo: ' ', isDestaque: false },
+                    { key: 'sinal_saude', titulo: '🩺 Sinais da Saúde ', subtitulo: ' ', isDestaque: false },
+                    { key: 'checklist', titulo: '- ✅ CheckList  ', subtitulo: ' ', isDestaque: false },
+                    { key: 'frase_resumo', titulo: '✍️ Frase do Par', subtitulo: ' ', isDestaque: false },
+
                 ];
                 
                 // -------------------------------------------------------------
