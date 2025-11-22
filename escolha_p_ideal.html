@@ -126,16 +126,18 @@
                 <h2 class="titulo-par">Luz ✨</h2>
                 <div class="input-group"> 
                     <input type="text" id="nome1" placeholder="Nome de Luz" />
-                    <input type="date" id="data1" />
+                    <input type="text" id="data1" placeholder="dd/mm/aaaa" />
+
                 </div>
                 <div class="result-box" id="info1"></div>
             </div>
+            
 
             <div>
                 <h2 class="titulo-par">Reflexo 🌗</h2>
                 <div class="input-group"> 
                     <input type="text" id="nome2" placeholder="Nome de Reflexo" />
-                    <input type="date" id="data2" />
+                    <input type="text" id="data2" placeholder="dd/mm/aaaa" />
                 </div>
                 <div class="result-box" id="info2"></div>
             </div>
@@ -154,7 +156,7 @@
         // Função auxiliar para calcular informações pessoais (Signo, Caminho)
         function calcularInfo(dataStr) {
             if (!dataStr) return null;
-            const data = new Date(dataStr + "T00:00:00");
+            const data = parseDataBR(dataStr);
             if (isNaN(data)) return null;
 
             const signos = [
@@ -231,21 +233,6 @@
                         
                         // Retorna ambos os valores como um objeto
                         resolve({ porcentagem: porcentagem, veredito: veredito });
-// ...
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         // Retorna ambos os valores como um objeto
                         resolve({ porcentagem: porcentagem, veredito: veredito });
                     },
@@ -255,6 +242,13 @@
                     }
                 });
             });
+        }
+        function parseDataBR(str) {
+            if (!str) return null;
+            const partes = str.split("/");
+            if (partes.length !== 3) return null;
+            const [dia, mes, ano] = partes;
+            return new Date(`${ano}-${mes}-${dia}T00:00:00`);
         }
 
         // Função principal para calcular e exibir informações comuns (Diferença de idade e Compatibilidade)
@@ -267,9 +261,9 @@
             
             comumBox.innerHTML = `<p>🔄 Buscando compatibilidade...</p>`;
 
-            const d1 = new Date(data1 + "T00:00:00");
-            const d2 = new Date(data2 + "T00:00:00");
-            
+            const d1 = parseDataBR(data1);
+            const d2 = parseDataBR(data2);
+
             // Diferença de idade
             const diff = Math.abs(d1 - d2);
             const dias = diff / (1000 * 60 * 60 * 24);
@@ -325,6 +319,7 @@
             
             // 1. **Geração do ID Único (CHAMADA ESSENCIAL)**
             const idUnico = gerarIdUnicoDatas(data1, data2); 
+
 
             // Salvando os dados de Luz (Pessoa 1)
             localStorage.setItem("nome1", nome1);

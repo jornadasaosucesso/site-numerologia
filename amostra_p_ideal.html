@@ -149,10 +149,12 @@
         // Função para obter o dia de nascimento
         function getDiaNascimento(dataStr) {
             if (!dataStr) return 0;
-            // Assumindo formato YYYY-MM-DD
-            const dia = parseInt(dataStr.split("-")[2], 10); 
+            const partes = dataStr.split("/");
+            if (partes.length !== 3) return 0;
+            const dia = parseInt(partes[0], 10);
             return isNaN(dia) ? 0 : dia;
         }
+
 
         // Função para apresentar o resumo de forma limitada (MAX_CHARS)
         function destacarResumoComAlerta(texto, maxChars = 250) {
